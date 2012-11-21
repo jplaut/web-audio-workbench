@@ -2,14 +2,45 @@
 <head>
   <meta charset=utf-8>
   <title>Sequencer</title>
-  <link rel="stylesheet" type="text/css" href="base.css">
+  <link rel="stylesheet" type="text/css" href="css/base.css">
   <script src="lib/jquery-min.js"></script>
+  <script src="lib/json2.js"></script>
   <script src="lib/underscore-min.js"></script>
   <script src="lib/backbone-min.js"></script>
+  <script src="lib/handlebars.js"></script>
 </head>
 <body>
   <div id="wrapper">
   </div>
-  <script src="main.js"></script>
+  <script src="js/helpers.js"></script>
+  <script src="js/models/trackmodel.js"></script>
+  <script src="js/views/TrackView.js"></script>
+  <script src="js/views/SequencerView.js"></script>
+
+  <script src="js/main.js"></script>
+
+  <script id="track-template" type="text/x-handlebars-template">
+    <div class="trackControls">
+      <span class="tracklabel">Track {{trackNum}}</span>
+      <span class="solo">S</span>
+      <span class="mute">M</span>
+      </div>
+      <div class="steps">
+      {{#for 8}}
+        <div class="step" step="{{num}}" on=false></div>
+      {{/for}}
+    </div>
+  </script>
+  <script id="wrapper-template" type="text/x-handlebars-template">
+    <div id="transport">
+      <button id="addtrack">Add Track</button>
+      <button id="play">Play</button>
+      <button id="stop">Stop</button>
+      <label for="tempo">Tempo: </label>
+      <input id="tempo" type="number" max="300" min="1" value="120" style="width: 40px;" />
+      <label for="numSteps">Steps: </label>
+      <input id="steps" type="number" step="4" max="64" min="4" value="8" style="width: 40px;" />
+    </div>
+  </script>
 </body>
 </html>
