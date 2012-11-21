@@ -1,0 +1,88 @@
+html {
+  background-color: #ccc;
+}
+
+div#wrapper {
+  width: 600px;
+  height: 40px;
+  margin: 100px auto 0;
+  border: 1px solid #222;
+  padding: 5px 5px 0;
+  position: relative;
+}
+
+div#transport {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  padding: 0 0 0 10px;
+}
+
+li.track {
+  height: 70px;
+}
+
+div#tracks {
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+
+div#tracks ul {
+  margin: 0;
+  padding: 0; 
+  list-style: none;
+}
+
+div.step {
+  height: 35px;
+  width: 35px;
+  background-color: #fff;
+  border: 1px solid #000;
+  float: left;
+  margin: 1px 15.88px;
+}
+
+div.step[on=true] {
+  background-color: #000;
+}
+
+div.step[on=false] {
+  background-color: #fff;
+}
+
+p.tracklabel {
+  float: left;
+  margin: 0px;
+}
+
+div.trackControls {
+  width: 50px;
+  float: left;
+  clear: right;
+}
+
+span.solo, span.mute {
+  width: 15px;
+  text-align: center;
+  cursor: hand;
+}
+
+span.solo {
+  float: left;
+  margin-left: 7px;
+  background-color: yellow;
+  width: 15px;
+  text-align: center;
+}
+
+span.mute {
+  float: right;
+  margin-right: 7px;
+  background-color: red;
+  color: #ccc;
+}
+
+div#transport button, label {
+  margin: 0 0 0 10px;
+}
