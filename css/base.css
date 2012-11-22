@@ -41,14 +41,11 @@ div.step {
   border: 1px solid #000;
   float: left;
   margin: 1px 15.88px;
-}
-
-div.step[on=true] {
-  background-color: #000;
-}
-
-div.step[on=false] {
   background-color: #fff;
+}
+
+div.step.on {
+  background-color: #000;
 }
 
 p.tracklabel {

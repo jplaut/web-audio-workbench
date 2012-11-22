@@ -2,13 +2,12 @@ var TrackView = Backbone.View.extend({
   tagName: 'li',
   className: 'track',
   events: {
-    'click div.step': 'handleStep',
+    'click div.step': 'enableStep',
     'click span.solo': 'handleSolo',
     'click span.mute': 'handleMute'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'handleStep', 'handleSolo', 'handleMute');
-    this.model.bind('change:solo', function() {console.log(model.get('solo'))});
+    _.bindAll(this, 'render', 'enableStep', 'handleSolo', 'handleMute');
     this.template = Handlebars.compile($("#track-template").html())
   },
   render: function() {
@@ -16,17 +15,17 @@ var TrackView = Backbone.View.extend({
     $(this.el).html(this.template(this.model.toJSON()));
     return this;
   },
-  handleStep: function(e) {
-    if ($(e.currentTarget).attr('on') == 'true') {
-      $(e.currentTarget).attr('on', 'false')
+  enableStep: function(e) {
+    if (!$(e.currentTarget).hasClass('on')) {
+      $(e.currentTarget).addClass('on');
     } else {
-      $(e.currentTarget).attr('on', 'true')
+      $(e.currentTarget).removeClass('on');
     }
   },
   handleSolo: function() {
-    this.model.set('solo', !(this.model.get('solo'))); //NOT RIGHT
+    this.model.set({solo: !this.model.get('solo')});
   },
   handleMute: function() {
-    this.model.set('mute', !(this.model.get('mute'))); //NOT RIGHT
+    this.model.set({mute: !this.model.get('mute')});
   }
 });
