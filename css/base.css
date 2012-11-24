@@ -3,8 +3,8 @@ html {
 }
 
 div#wrapper {
-  width: 600px;
-  height: 40px;
+  width: 800px;
+  height: 30px;
   margin: 100px auto 0;
   border: 1px solid #222;
   padding: 5px 5px 0;
@@ -34,6 +34,10 @@ div#tracks ul {
   list-style: none;
 }
 
+div.steps {
+  float: right;
+}
+
 div.step {
   height: 35px;
   width: 35px;
@@ -54,28 +58,37 @@ p.tracklabel {
 }
 
 div.trackControls {
-  width: 50px;
+  width: 249px;
   float: left;
-  clear: right;
+  clear: both;
+}
+
+.trackControls div.right {
+  float: right;
+}
+
+.trackControls div.left {
+  float: left;
+  width: 200px;
+}
+
+.trackControls div.left input {
+  width: 220px;
 }
 
 span.solo, span.mute {
   width: 15px;
   text-align: center;
   cursor: hand;
+  float: left;
+  clear: both;
 }
 
 span.solo {
-  float: left;
-  margin-left: 7px;
   background-color: yellow;
-  width: 15px;
-  text-align: center;
 }
 
 span.mute {
-  float: right;
-  margin-right: 7px;
   background-color: red;
   color: #ccc;
 }

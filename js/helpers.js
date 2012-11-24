@@ -1,4 +1,4 @@
-Handlebars.registerHelper("for", function(num, options) {
+Handlebars.registerHelper("times", function(num, options) {
   var out = "";
   for (var i = 0; i < num; i++) {
     var x = {num: i};

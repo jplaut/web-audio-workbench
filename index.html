@@ -21,15 +21,20 @@
 
   <script id="track-template" type="text/x-handlebars-template">
     <div class="trackControls">
-      <span class="tracklabel">Track {{trackNum}}</span>
-      <span class="solo">S</span>
-      <span class="mute">M</span>
+      <div class="right">
+        <span class="solo">S</span>
+        <span class="mute">M</span>
       </div>
-      <div class="steps">
-      {{#for 8}}
-        <div class="step" step="{{num}}"></div>
-      {{/for}}
+      <div class="left">
+        <span class="tracklabel">Track {{trackNum}}</span>
+        <input type="file" />
+      </div>
+
     </div>
+    <div class="steps">
+    {{#times 8}}
+      <div class="step" step="{{num}}"></div>
+    {{/times}}
   </script>
   <script id="wrapper-template" type="text/x-handlebars-template">
     <div id="transport">
@@ -39,7 +44,12 @@
       <label for="tempo">Tempo: </label>
       <input id="tempo" type="number" max="300" min="1" value="120" style="width: 40px;" />
       <label for="numSteps">Steps: </label>
-      <input id="steps" type="number" step="4" max="64" min="4" value="8" style="width: 40px;" />
+      <select id="steps">
+        <option value="4">4</option>
+        <option value="8" selected="selected">8</option>
+        <option value="16">16</option>
+        <option value="32">32</option>
+      </select>
     </div>
   </script>
 </body>

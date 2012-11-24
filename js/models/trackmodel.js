@@ -3,7 +3,8 @@ var Track = Backbone.Model.extend({
     solo: false,
     mute: false,
     trackNum: 0,
-    steps: new Array(8)
+    steps: [],
+    sample: ''
   }
 });
 
