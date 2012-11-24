@@ -7,8 +7,9 @@ var TrackView = Backbone.View.extend({
     'click span.mute': 'handleMute',
     'change .trackControls input[type=file]': 'setSample'
   },
-  initialize: function() {
+  initialize: function(options) {
     _.bindAll(this, 'render', 'enableStep', 'handleSolo', 'handleMute', 'setSample');
+    this.audioContext = this.options.audioContext;
     this.template = Handlebars.compile($("#track-template").html())
   },
   render: function() {
@@ -40,10 +41,17 @@ var TrackView = Backbone.View.extend({
       $(e.currentTarget).html($(e.currentTarget).html());
     } else {
       var objectURL = window.URL.createObjectURL(e.currentTarget.files[0]);
-      var audioElement = document.createElement('audio');
-      audioElement.setAttribute('src', objectURL);
-      audioElement.load();
-      this.model.set({sample: audioElement});
+      var self = this;
+      var request = new XMLHttpRequest();
+      request.open('GET', objectURL, true);
+      request.responseType = 'arraybuffer';
+
+      request.onload = function() {
+        self.audioContext.decodeAudioData(request.response, function(buffer) {
+          self.model.set({sample: buffer});
+        });
+      }
+      request.send();
     }
   }
 });
