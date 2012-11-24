@@ -50,6 +50,7 @@ var SequencerView = Backbone.View.extend({
 
         _(self.collection.filter(function(track) {return track.get('steps')[i] == 1})).each(
           function(track) {
+            console.log(time);
             self.playSound(track.get('sample'), time);
           });
       }
