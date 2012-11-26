@@ -13,7 +13,6 @@ var TrackView = Backbone.View.extend({
     this.template = Handlebars.compile($("#track-template").html())
   },
   render: function() {
-    var options = {trackNum: this.model.get('trackNum')};
     $(this.el).html(this.template(this.model.toJSON()));
     return this;
   },
@@ -26,7 +25,7 @@ var TrackView = Backbone.View.extend({
       $(e.currentTarget).removeClass('on');
       steps[$(e.currentTarget).attr('step')] = 0;
     }
-    this.model.set({steps: steps})
+    this.model.set({steps: steps});
   },
   handleSolo: function() {
     this.model.set({solo: !this.model.get('solo')});

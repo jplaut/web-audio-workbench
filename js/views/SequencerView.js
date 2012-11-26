@@ -11,7 +11,8 @@ var SequencerView = Backbone.View.extend({
     this.counter = 0;
     this.tempo = 120;
     this.numSteps = 8;
-    this.isPlaying = false;
+    this.loop = false;
+    this.isStopped = true;
     this.audioContext = new webkitAudioContext();
     this.collection.bind('add', this.appendTrack);
     this.template = Handlebars.compile($("#wrapper-template").html());
@@ -41,30 +42,44 @@ var SequencerView = Backbone.View.extend({
   },
   play: function() {
     var self = this;
-    var startTime = this.audioContext.currentTime + 0.100;
+    this.isStopped = false;
+    var bar = 0;
     var stepTime = (60 / this.tempo) / (this.numSteps / 4);
 
-    this.isPlaying = setInterval(function() {
-      for (var i = 0; i < self.numSteps; i++) {
-        var time = startTime + i * stepTime;
+    this.playPattern(stepTime, bar);
+    bar++;
 
-        _(self.collection.filter(function(track) {return track.get('steps')[i] == 1})).each(
-          function(track) {
-            console.log(time);
-            self.playSound(track.get('sample'), time);
-          });
-      }
+    this.loop = setInterval(function() {
+      self.playPattern(stepTime, bar);
+      bar++;
     }, stepTime * this.numSteps * 1000
   )},
-  playSound: function(buffer, time) {
-    var source = this.audioContext.createBufferSource();
-    source.buffer = buffer;
-    source.connect(this.audioContext.destination);
-    source.noteOn(time);
+  playPattern: function(stepTime, bar) {
+    var self = this;
+    var startTime = this.audioContext.currentTime + 0.100;
+
+    for (var i = 0; i < self.numSteps; i++) {
+      if (self.isStopped) {
+        if (self.loop) {
+          clearInterval(self.loop);
+          self.loop = false;
+        }
+        break;
+      } else {
+        _(self.collection.filter(function(track) {return track.get('steps')[i] == 1})).each(
+          function(track) {
+            console.log(i);
+            var time = startTime + stepTime * i + bar * stepTime * self.numSteps;
+            var source = self.audioContext.createBufferSource();
+            source.buffer = track.get('sample');
+            source.connect(self.audioContext.destination);
+            source.noteOn(time);
+        });
+      }
+    }
   },
   stop: function() {
-    clearInterval(this.isPlaying);
-    this.isPlaying = false;
+    this.isStopped = true;
   },
   changeTempo: function(e) {
     this.tempo = $(e.currentTarget).val();
