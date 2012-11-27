@@ -7,12 +7,13 @@ var SequencerView = Backbone.View.extend({
     'change input#tempo': 'changeTempo'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'createTrack','appendTrack', 'play');
-    this.counter = 0;
+    _.bindAll(this, 'render', 'createTrack','appendTrack', 'play', 'stop', 'changeTempo');
+    this.trackCount = 0;
     this.tempo = 120;
     this.numSteps = 8;
-    this.loop = false;
-    this.isStopped = true;
+    this.startTime = 0;
+    this.isPlaying = false;
+    this.beatIndex = 0;
     this.audioContext = new webkitAudioContext();
     this.collection.bind('add', this.appendTrack);
     this.template = Handlebars.compile($("#wrapper-template").html());
@@ -26,9 +27,9 @@ var SequencerView = Backbone.View.extend({
     return this;
   },
   createTrack: function() {
-    this.counter++;
+    this.trackCount++;
     var track = new Track();
-    track.set({ trackNum: this.counter });
+    track.set({ trackNum: this.trackCount });
     this.collection.add(track);
   },
   appendTrack: function(track) {
@@ -42,44 +43,33 @@ var SequencerView = Backbone.View.extend({
   },
   play: function() {
     var self = this;
-    this.isStopped = false;
-    var bar = 0;
-    var stepTime = (60 / this.tempo) / (this.numSteps / 4);
+    var currentTime = this.audioContext.currentTime;
+    this.stepTime = (60 / this.tempo) / (this.numSteps / 4);
 
-    this.playPattern(stepTime, bar);
-    bar++;
-
-    this.loop = setInterval(function() {
-      self.playPattern(stepTime, bar);
-      bar++;
-    }, stepTime * this.numSteps * 1000
-  )},
-  playPattern: function(stepTime, bar) {
-    var self = this;
-    var startTime = this.audioContext.currentTime + 0.100;
-
-    for (var i = 0; i < self.numSteps; i++) {
-      if (self.isStopped) {
-        if (self.loop) {
-          clearInterval(self.loop);
-          self.loop = false;
-        }
-        break;
-      } else {
-        _(self.collection.filter(function(track) {return track.get('steps')[i] == 1})).each(
-          function(track) {
-            console.log(i);
-            var time = startTime + stepTime * i + bar * stepTime * self.numSteps;
-            var source = self.audioContext.createBufferSource();
-            source.buffer = track.get('sample');
-            source.connect(self.audioContext.destination);
-            source.noteOn(time);
-        });
+    _(self.collection.filter(function(track) {return track.get('steps')[self.beatIndex] == 1})).each(
+      function(track) {
+        self.playBeat(track.get('sample'), currentTime + self.stepTime);
       }
+    );
+
+    if (this.beatIndex == this.numSteps - 1) {
+      this.beatIndex = 0;
+    } else {
+      this.beatIndex++;
     }
+
+   this.isPlaying = setTimeout(self.play, this.stepTime * 1000);
+  },
+  playBeat: function(buffer, time) {
+    var source = this.audioContext.createBufferSource();
+    source.buffer = buffer;
+    source.connect(this.audioContext.destination);
+    source.noteOn(time);
   },
   stop: function() {
-    this.isStopped = true;
+    clearTimeout(this.isPlaying);
+    this.isPlaying = false;
+    this.beatIndex = 0;
   },
   changeTempo: function(e) {
     this.tempo = $(e.currentTarget).val();
