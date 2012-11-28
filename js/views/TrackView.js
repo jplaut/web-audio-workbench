@@ -5,11 +5,13 @@ var TrackView = Backbone.View.extend({
     'click div.step': 'enableStep',
     'click span.solo': 'handleSolo',
     'click span.mute': 'handleMute',
-    'change .trackControls input[type=file]': 'setSample'
+    'change .trackControls input:file': 'setSample',
+    'click span.removeSample': 'removeSample'
   },
   initialize: function(options) {
-    _.bindAll(this, 'render', 'enableStep', 'handleSolo', 'handleMute', 'setSample');
+    _.bindAll(this, 'render', 'enableStep', 'handleSolo', 'handleMute', 'setSample', 'removeSample');
     this.audioContext = this.options.audioContext;
+    this.model.bind('change:numSteps', this.render, this);
     this.template = Handlebars.compile($("#track-template").html())
   },
   render: function() {
@@ -47,10 +49,20 @@ var TrackView = Backbone.View.extend({
 
       request.onload = function() {
         self.audioContext.decodeAudioData(request.response, function(buffer) {
-          self.model.set({sample: buffer});
+          var sampleName = e.currentTarget.files[0].name;
+          if (sampleName.length > 11) {
+            sampleName = sampleName.slice(0, 7) + ".." + sampleName.slice(sampleName.length - 3, sampleName.length);
+          }
+
+          self.model.set({sampleName: sampleName, sample: buffer});
+          self.render();
         });
       }
       request.send();
     }
+  },
+  removeSample: function() {
+    this.model.set({sampleName: '', sample: ''});
+    this.render();
   }
 });
