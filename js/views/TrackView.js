@@ -6,16 +6,19 @@ var TrackView = Backbone.View.extend({
     'click span.solo': 'handleSolo',
     'click span.mute': 'handleMute',
     'change .trackControls input:file': 'setSample',
-    'click span.removeSample': 'removeSample'
+    'click span.removeSample': 'removeSample',
+    'click span.removeTrack': 'removeTrack'
   },
   initialize: function(options) {
-    _.bindAll(this, 'render', 'enableStep', 'handleSolo', 'handleMute', 'setSample', 'removeSample');
+    _.bindAll(this, 'render', 'enableStep', 'handleSolo', 'handleMute', 'setSample', 'removeSample', 'removeTrack');
     this.audioContext = this.options.audioContext;
-    this.model.bind('change:numSteps', this.render, this);
     this.template = Handlebars.compile($("#track-template").html())
   },
   render: function() {
-    $(this.el).html(this.template(this.model.toJSON()));
+    var options = this.model.toJSON();
+    options.trackNum = this.collection.indexOf(this.model) + 1;
+    $(this.el).html(this.template(options));
+
     return this;
   },
   enableStep: function(e) {
@@ -31,9 +34,17 @@ var TrackView = Backbone.View.extend({
   },
   handleSolo: function() {
     this.model.set({solo: !this.model.get('solo')});
+
+    if (this.model.get('mute')) {
+      this.model.set({mute: false});
+    }
   },
   handleMute: function() {
     this.model.set({mute: !this.model.get('mute')});
+
+    if (this.model.get('solo')) {
+      this.model.set({solo: false});
+    }
   },
   setSample: function(e) {
     var supportedTypes = [".wav", ".mp3", ".aac", ".ogg"];
@@ -41,6 +52,7 @@ var TrackView = Backbone.View.extend({
       alert("File must be one of the following formats: \n" + supportedTypes.join("\n"));
       $(e.currentTarget).html($(e.currentTarget).html());
     } else {
+      $(e.currentTarget).replaceWith("<img src=img/loading.gif />");
       var objectURL = window.URL.createObjectURL(e.currentTarget.files[0]);
       var self = this;
       var request = new XMLHttpRequest();
@@ -64,5 +76,11 @@ var TrackView = Backbone.View.extend({
   removeSample: function() {
     this.model.set({sampleName: '', sample: ''});
     this.render();
+  },
+  removeTrack: function() {
+    if (this.collection.size() > 1) {
+      this.collection.remove(this.model);
+      $(this.el).remove();
+    }
   }
 });

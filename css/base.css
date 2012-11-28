@@ -43,11 +43,29 @@ div.steps {
 
 div.step {
   height: 35px;
-  width: 35px;
   background-color: #fff;
   border: 1px solid #000;
   float: left;
-  margin: 1px 15.88px;
+}
+
+#tracks[numSteps='4'] div.step {
+  width: 35px;
+  margin: 1px 77.7px;
+}
+
+#tracks[numSteps='8'] div.step {
+  width: 35px;
+  margin: 1px 29.63px;
+}
+
+#tracks[numSteps='16'] div.step {
+  width: 35px;
+  margin: 1px 5.56px;
+}
+
+#tracks[numSteps='32'] div.step {
+  width: 17.5px;
+  margin: 1px 0 1px 4.56px;
 }
 
 div.step.on {
@@ -78,7 +96,12 @@ div.trackControls {
   float: left;
 }
 
-span.removeSample {
+.trackControls div.left .sample img {
+  margin: 0 19%;
+  width: 18px;
+}
+
+span.close {
   width: 5px;
   height: 5px;
   background-color: red;
@@ -86,6 +109,7 @@ span.removeSample {
   cursor: pointer;
   margin-left: 3px;
 }
+
 .trackControls div.left .sample input {
   width: 80px;
 }

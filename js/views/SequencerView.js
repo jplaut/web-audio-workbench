@@ -8,35 +8,41 @@ var SequencerView = Backbone.View.extend({
     'change select#steps': 'changeNumSteps'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'createTrack','appendTrack', 'play', 'stop', 'changeTempo', 'changeNumSteps');
-    this.trackCount = 0;
+    _.bindAll(this, 'render', 'createTrack','appendTrack', 'play', 'stop', 'changeTempo', 'changeNumSteps', 'removeTrack');
     this.tempo = 120;
     this.numSteps = 8;
     this.startTime = 0;
     this.isPlaying = false;
+    this.notesplaying = [];
     this.beatIndex = 0;
     this.audioContext = new webkitAudioContext();
     this.collection.bind('add', this.appendTrack);
+    this.collection.bind('remove', this.removeTrack);
     this.template = Handlebars.compile($("#wrapper-template").html());
     this.render();
   },
   render: function() {
     var self = this;
-    $(this.el).append("<div id=\"tracks\"><ul></ul></div>");
-    $(this.el).append(this.template());
-    this.createTrack();
+
+    $(this.el).empty();
+    $(this.el).height(30);
+    $(this.el).append("<div id=\"tracks\" numSteps=\"" + this.numSteps + "\"><ul></ul></div>");
+    $(this.el).append(this.template({numSteps: this.numSteps}));
+    this.collection.each(function(track) {
+      self.appendTrack(track);
+    });
 
     return this;
   },
   createTrack: function() {
-    this.trackCount++;
     var track = new Track();
-    track.set({ numSteps: this.numSteps, trackNum: this.trackCount });
+    track.set({ numSteps: this.numSteps});
     this.collection.add(track);
   },
   appendTrack: function(track) {
     var trackView = new TrackView({
       model: track,
+      collection: this.collection,
       audioContext: this.audioContext
     });
 
@@ -49,7 +55,6 @@ var SequencerView = Backbone.View.extend({
     this.stepTime = (60 / this.tempo) / (this.numSteps / 4);
 
     if (!self.collection.any(function(track) {return track.get('sample')})) {
-      console.log('yes');
       return;
     }
 
@@ -83,9 +88,15 @@ var SequencerView = Backbone.View.extend({
     source.buffer = buffer;
     source.connect(this.audioContext.destination);
     source.noteOn(time);
+    this.notesplaying.push(source);
   },
   stop: function() {
     clearTimeout(this.isPlaying);
+    _(this.notesplaying).each(function(note){
+      note.noteOff(0);
+    });
+
+    this.notesplaying = [];
     this.isPlaying = false;
     this.beatIndex = 0;
   },
@@ -95,10 +106,17 @@ var SequencerView = Backbone.View.extend({
   changeNumSteps: function(e) {
     var self = this;
 
-    this.numSteps = $(e.currentTarget).val();
+    this.numSteps = parseInt($(e.currentTarget).val());
 
     this.collection.each(function(track) {
       track.convertSteps(self.numSteps);
     });
+
+
+    $(this.el).height(30);
+    this.render();
+  },
+  removeTrack: function() {
+    this.render();
   }
 });

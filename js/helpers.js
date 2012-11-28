@@ -9,3 +9,16 @@ Handlebars.registerHelper("each_step", function(num, steps, options) {
 
   return out;
 })
+
+Handlebars.registerHelper("numSteps", function(numSteps) {
+  var out = "";
+  var steps = [4, 8, 16, 32]
+
+  for (var i = 0; i < steps.length; i++) {
+    out += "<option value=" + steps[i];
+    out += (numSteps == steps[i]) ? " selected=\"selected\"" : "";
+    out += ">" + steps[i] + "</option>"
+  }
+  
+  return out;
+})

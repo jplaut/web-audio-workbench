@@ -3,7 +3,6 @@ var Track = Backbone.Model.extend({
     return {
       solo: false,
       mute: false,
-      trackNum: 0,
       numSteps: 8,
       steps: [],
       sampleName: '',
@@ -17,7 +16,7 @@ var Track = Backbone.Model.extend({
     if (self.get('numSteps') > newNum) {
       _(self.get('steps')).each(function(step, i) {
         if (i % (self.get('numSteps') / newNum) == 0) {
-          newSteps.push(step);
+          newSteps[i / (self.get('numSteps') / newNum)] = step;
         }
       });
     } else {
@@ -31,5 +30,10 @@ var Track = Backbone.Model.extend({
 });
 
 var TrackList = Backbone.Collection.extend({
-  model: Track
+  model: Track,
+  initialize: function() {
+    var track = new Track;
+    track.set({ numSteps: 8, trackNum: 1 });
+    this.add(track);
+  }
 });

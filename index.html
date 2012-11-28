@@ -26,11 +26,11 @@
         <span class="mute">M</span>
       </div>
       <div class="left">
-        <span class="tracklabel">Track {{trackNum}}</span>
+        <span class="tracklabel">Track {{trackNum}}<span class="close removeTrack">x</span></span>
         <span class="sample">
         {{#if sampleName}}
           {{sampleName}}
-          <span class="removeSample">x</span>
+          <span class="close removeSample">x</span>
         {{else}}
           <input type="file" />
         {{/if}}
@@ -52,10 +52,8 @@
       <input id="tempo" type="number" max="300" min="1" value="120" style="width: 40px;" />
       <label for="numSteps">Steps: </label>
       <select id="steps">
-        <option value=4>4</option>
-        <option value=8 selected="selected">8</option>
-        <option value=16>16</option>
-        <option value=32>32</option>
+      {{#numSteps numSteps}}
+      {{/numSteps}}
       </select>
     </div>
   </script>
