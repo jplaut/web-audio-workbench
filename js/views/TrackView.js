@@ -7,17 +7,21 @@ var TrackView = Backbone.View.extend({
     'click span.mute': 'handleMute',
     'change .trackControls input:file': 'setSample',
     'click span.removeSample': 'removeSample',
-    'click span.removeTrack': 'removeTrack'
+    'click span.removeTrack': 'removeTrack',
+    'click span.toggleEffects': 'handleEffectsToggle'
   },
   initialize: function(options) {
-    _.bindAll(this, 'render', 'enableStep', 'handleSolo', 'handleMute', 'setSample', 'removeSample', 'removeTrack');
+    _.bindAll(this, 'render', 'enableStep', 'handleSolo', 'handleMute', 'setSample', 'removeSample', 'removeTrack', 'handleEffectsToggle', 'toggleEffects');
+    this.model.on('change:effectsExpanded', this.toggleEffects);
     this.audioContext = this.options.audioContext;
+    this.effectPanel = new EffectPanelView({collection: this.model.get('effects')});
     this.template = Handlebars.compile($("#track-template").html())
   },
   render: function() {
     var options = this.model.toJSON();
     options.trackNum = this.collection.indexOf(this.model) + 1;
     $(this.el).html(this.template(options));
+    $(this.el).append(this.effectPanel.render().el);
 
     return this;
   },
@@ -82,5 +86,29 @@ var TrackView = Backbone.View.extend({
       this.collection.remove(this.model);
       $(this.el).remove();
     }
+  },
+  handleEffectsToggle: function() {
+    if (!this.model.get('effectsExpanded')) {
+      if (this.collection.any(function(track) {return track.get('effectsExpanded')}) {
+        _(this.collection.where({effectsExpanded: true})).each(function(track) {
+          track.set(effectsExpanded: false);
+        });
+      }
+
+      this.model.set({effectsExpanded: true});
+    } else {
+      this.model.set({effectsExpanded: false});
+    }
+  },
+  toggleEffects: function() {
+    $("div.effects-panel", this.el).animate({
+      height: ($("div.effects-panel", this.el).height() == 0) ? '21px' : '0px'
+    }, 1000, function() {
+      if ($('span.toggleEffects img', this.el).attr('src') == 'img/open_effects.png') {
+        $('span.toggleEffects img', this.el).attr('src', 'img/close_effects.png');
+      } else {
+        $('span.toggleEffects img', this.el).attr('src', 'img/open_effects.png');
+      }
+    });
   }
 });

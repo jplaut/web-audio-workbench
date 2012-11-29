@@ -1,7 +1,9 @@
+/* PAGE */
 html {
   background-color: #ccc;
 }
 
+/* WRAPPER/TRANSPORT */
 div#wrapper {
   width: 900px;
   height: 30px;
@@ -18,11 +20,11 @@ div#transport {
   padding: 0 0 0 10px;
 }
 
-li.track {
-  height: 70px;
-  width: 100%;
+div#transport button, label {
+  margin: 0 0 0 10px;
 }
 
+/* TRACK LIST */
 div#tracks {
   position: relative;
   top: 0px;
@@ -36,6 +38,72 @@ div#tracks ul {
   list-style: none;
 }
 
+/* INDIVIDUAL TRACK */
+li.track {
+  height: 70px;
+  width: 100%;
+}
+
+/* TRACK LABEL/CONTROLS */
+div.trackControls {
+  width: 130px;
+  float: left;
+}
+
+p.tracklabel {
+  float: left;
+  margin: 0px;
+}
+
+span.toggleEffects img {
+  width: 18px;
+  margin-bottom: -4px;
+  cursor: pointer;
+}
+
+.trackControls div.left {
+  float: left;
+  width: 115px;
+}
+
+/* SAMPLE UPLOAD */
+.trackControls div.left .sample {
+  width: 110px;
+  float: left;
+}
+
+.trackControls div.left .sample img {
+  margin: 0 19%;
+  width: 18px;
+}
+
+.trackControls div.left .sample input {
+  width: 80px;
+}
+
+/* MUTE/SOLO */
+.trackControls div.right {
+  float: right;
+}
+
+span.solo, span.mute {
+  width: 15px;
+  text-align: center;
+  cursor: hand;
+  float: left;
+  clear: both;
+}
+
+span.solo {
+  background-color: yellow;
+}
+
+span.mute {
+  background-color: red;
+  color: #fff;
+}
+
+/* STEPS */
 div.steps {
   float: right;
   width: 770px;
@@ -46,6 +114,10 @@ div.step {
   background-color: #fff;
   border: 1px solid #000;
   float: left;
+}
+
+div.step.on {
+  background-color: #000;
 }
 
 #tracks[numSteps='4'] div.step {
@@ -68,69 +140,25 @@ div.step {
   margin: 1px 0 1px 4.56px;
 }
 
-div.step.on {
-  background-color: #000;
+/* EFFECTS PANEL */
+span.addeffect {
+  background-color: #1BBFE0;
+  cursor: pointer;
 }
 
-p.tracklabel {
+div.effects-panel {
+  height: 0px;
   float: left;
-  margin: 0px;
+  width: 100%;
+  overflow: hidden;
 }
 
-div.trackControls {
-  width: 130px;
-  float: left;
-}
-
-.trackControls div.right {
-  float: right;
-}
-
-.trackControls div.left {
-  float: left;
-  width: 115px;
-}
-
-.trackControls div.left .sample {
-  width: 110px;
-  float: left;
-}
-
-.trackControls div.left .sample img {
-  margin: 0 19%;
-  width: 18px;
-}
-
+/* GENERAL */
 span.close {
   width: 5px;
   height: 5px;
   background-color: red;
   color: #000;
   cursor: pointer;
-  margin-left: 3px;
-}
-
-.trackControls div.left .sample input {
-  width: 80px;
-}
-
-span.solo, span.mute {
-  width: 15px;
-  text-align: center;
-  cursor: hand;
-  float: left;
-  clear: both;
-}
-
-span.solo {
-  background-color: yellow;
-}
-
-span.mute {
-  background-color: red;
-  color: #fff;
-}
-
-div#transport button, label {
-  margin: 0 0 0 10px;
+  margin-right: 3px;
 }

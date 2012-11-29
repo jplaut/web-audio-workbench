@@ -13,8 +13,11 @@
   <div id="wrapper">
   </div>
   <script src="js/helpers.js"></script>
+  <script src="js/models/effectsmodel.js"></script>
   <script src="js/models/trackmodel.js"></script>
   <script src="js/views/TrackView.js"></script>
+  <script src="js/views/EffectView.js"></script>
+  <script src="js/views/EffectPanelView.js"></script>
   <script src="js/views/SequencerView.js"></script>
 
   <script src="js/main.js"></script>
@@ -26,24 +29,29 @@
         <span class="mute">M</span>
       </div>
       <div class="left">
-        <span class="tracklabel">Track {{trackNum}}<span class="close removeTrack">x</span></span>
+        <span class="tracklabel"><span class="close removeTrack">x</span>Track {{trackNum}}</span>
+        <span class="toggleEffects"><img src="img/open_effects.png" /></span>
         <span class="sample">
         {{#if sampleName}}
-          {{sampleName}}
           <span class="close removeSample">x</span>
+          {{sampleName}}
         {{else}}
           <input type="file" />
         {{/if}}
         </span>
       </div>
-
     </div>
     <div class="steps">
     {{#each_step numSteps steps}}
       <div class="step{{on}}" step="{{num}}"></div>
     {{/each_step}}
+    </div>
   </script>
+
   <script id="wrapper-template" type="text/x-handlebars-template">
+    <div id="tracks" numSteps="{{numSteps}}">
+      <ul></ul>
+    </div>
     <div id="transport">
       <button id="addtrack">Add Track</button>
       <button id="play">Play</button>
@@ -52,10 +60,26 @@
       <input id="tempo" type="number" max="300" min="1" value="120" style="width: 40px;" />
       <label for="numSteps">Steps: </label>
       <select id="steps">
-      {{#numSteps numSteps}}
-      {{/numSteps}}
+        {{#numStepsOptions numSteps}}
+        {{/numStepsOptions}}
       </select>
     </div>
+  </script>
+
+  <script id="effectspanel-template" type="text/x-handlebars-template">
+    <select class="createeffect">
+      <option value="" selected = "selected">Add Effect</option>
+      {{#effectsOptions}}
+      {{/effectsOptions}}
+    </select>
+    <div class="effects">
+      <ul>
+      </ul>
+    </div>
+  </script>
+
+ <script id="effects-template" type="text/x-handlebars-template">
+    Test
   </script>
 </body>
 </html>

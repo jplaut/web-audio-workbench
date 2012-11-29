@@ -1,4 +1,5 @@
 $(function() {
   var trackList = new TrackList;
-  var sequencerView = new SequencerView({collection: trackList});
+  var audioContext = new webkitAudioContext();
+  var sequencerView = new SequencerView({collection: trackList, audioContext: audioContext});
 });

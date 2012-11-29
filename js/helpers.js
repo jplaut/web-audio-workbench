@@ -10,15 +10,51 @@ Handlebars.registerHelper("each_step", function(num, steps, options) {
   return out;
 })
 
-Handlebars.registerHelper("numSteps", function(numSteps) {
+Handlebars.registerHelper("numStepsOptions", function(numSteps) {
   var out = "";
-  var steps = [4, 8, 16, 32]
+  var steps = [4, 8, 16, 32];
 
   for (var i = 0; i < steps.length; i++) {
     out += "<option value=" + steps[i];
     out += (numSteps == steps[i]) ? " selected=\"selected\"" : "";
-    out += ">" + steps[i] + "</option>"
+    out += ">" + steps[i] + "</option>";
   }
   
+  return out;
+})
+
+Handlebars.registerHelper("effectsOptions", function() {
+  var out = "";
+  var effects = {
+    Compressor: 'compressor',
+    Panner: 'panner',
+    Delay: 'delay',
+    WaveShaper: 'waveshaper',
+    Filters: {
+      Lowpass: 'filter: 0',
+      Highpass: 'filter: 1',
+      Bandpass: 'filter: 2',
+      Lowshelf: 'filter: 3',
+      Highshelf: 'filter: 4',
+      Peaking: 'filter: 5',
+      Notch: 'filter: 6',
+      Allpass: 'filter : 7'
+    }
+  };
+
+  function processEffects(obj) {
+    _(obj).each(function(value, name) {
+      if (typeof value == "object") {
+        out += "<optgroup label=\"" + name + "\">";
+        processEffects(value);
+        out += "</optgroup>";
+      } else {
+        out += "<option value=\"" + value + "\">" + name + "</option>";
+      }
+    });
+  }
+
+  processEffects(effects);
+
   return out;
 })
