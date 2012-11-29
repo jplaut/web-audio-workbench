@@ -20,8 +20,8 @@ var TrackView = Backbone.View.extend({
   render: function() {
     var options = this.model.toJSON();
     options.trackNum = this.collection.indexOf(this.model) + 1;
-    $(this.el).html(this.template(options));
-    $(this.el).append(this.effectPanel.render().el);
+    this.$el.html(this.template(options));
+    this.$el.append(this.effectPanel.render().el);
 
     return this;
   },
@@ -84,16 +84,16 @@ var TrackView = Backbone.View.extend({
   removeTrack: function() {
     if (this.collection.size() > 1) {
       this.collection.remove(this.model);
-      $(this.el).remove();
+      this.$el.remove();
     }
   },
   handleEffectsToggle: function() {
     if (!this.model.get('effectsExpanded')) {
-      if (this.collection.any(function(track) {return track.get('effectsExpanded')}) {
+      if (this.collection.any(function(track) {return track.get('effectsExpanded')})) {
         _(this.collection.where({effectsExpanded: true})).each(function(track) {
-          track.set(effectsExpanded: false);
+          track.set({effectsExpanded: false});
         });
-      }
+      };
 
       this.model.set({effectsExpanded: true});
     } else {
@@ -101,13 +101,15 @@ var TrackView = Backbone.View.extend({
     }
   },
   toggleEffects: function() {
-    $("div.effects-panel", this.el).animate({
-      height: ($("div.effects-panel", this.el).height() == 0) ? '21px' : '0px'
+    var self = this;
+
+    this.effectPanel.$el.animate({
+      height: (this.effectPanel.$el.height() == 0) ? 21 + this.model.get('effects').size() * 20 : '0px'
     }, 1000, function() {
-      if ($('span.toggleEffects img', this.el).attr('src') == 'img/open_effects.png') {
-        $('span.toggleEffects img', this.el).attr('src', 'img/close_effects.png');
+      if (self.model.get('effectsExpanded')) {
+        self.effectPanel.$el.attr('src', 'img/close_effects.png');
       } else {
-        $('span.toggleEffects img', this.el).attr('src', 'img/open_effects.png');
+        self.effectPanel.$el.attr('src', 'img/open_effects.png');
       }
     });
   }

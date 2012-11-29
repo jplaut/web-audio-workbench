@@ -24,9 +24,9 @@ var SequencerView = Backbone.View.extend({
   render: function() {
     var self = this;
 
-    $(this.el).empty();
-    $(this.el).height(30);
-    $(this.el).append(this.template({numSteps: this.numSteps}));
+    this.$el.empty();
+    this.$el.height(30);
+    this.$el.append(this.template({numSteps: this.numSteps}));
     this.collection.each(function(track) {
       self.appendTrack(track);
     });
@@ -44,8 +44,8 @@ var SequencerView = Backbone.View.extend({
       audioContext: this.audioContext
     });
 
-    $('ul', this.el).append(trackView.render().el);
-    $(this.el).height($(this.el).height() + 70);
+    $('ul:first', this.el).append(trackView.render().el);
+    this.$el.height(this.$el.height() + 70);
   },
   play: function() {
     var self = this;
@@ -111,7 +111,7 @@ var SequencerView = Backbone.View.extend({
     });
 
 
-    $(this.el).height(30);
+    this.$el.height(30);
     this.render();
   },
   removeTrack: function() {

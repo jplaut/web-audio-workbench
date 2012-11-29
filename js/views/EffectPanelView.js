@@ -11,11 +11,10 @@ var EffectPanelView = Backbone.View.extend({
   },
   render: function() {
     var self = this;
-
-    $(this.el).append(this.template());
+    this.$el.append(this.template());
 
     this.collection.each(function(effect) {
-      $(self.el).append(effect.render().el);
+      self.$el.append(effect.render().el);
     });
 
     return this;
@@ -30,7 +29,7 @@ var EffectPanelView = Backbone.View.extend({
       collection: this.collection
     });
 
-    $('ul', this.el).append(effectView.render().el);
-    $(this.el).height($(this.el).height() + 100);
+    $('div.effects ul', this.el).append(effectView.render().el);
+    this.$el.height(this.$el.height() + 20);
   }
 });

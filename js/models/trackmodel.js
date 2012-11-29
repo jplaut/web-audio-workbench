@@ -7,9 +7,9 @@ var Track = Backbone.Model.extend({
       steps: [],
       sampleName: '',
       sample: '',
-      effects: new Effects(),
+      effects: new Effects,
       effectsExpanded: false
-    };
+    }
   },
   convertSteps: function(newNum) {
     var self = this;
