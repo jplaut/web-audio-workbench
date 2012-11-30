@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Jasmine Spec Runner</title>
+
+  <link rel="shortcut icon" type="image/png" href="src/jasmine_favicon.png">
+  <link rel="stylesheet" type="text/css" href="src/jasmine.css">
+  <script type="text/javascript" src="src/jasmine.js"></script>
+  <script type="text/javascript" src="src/jasmine-html.js"></script>
+
+  <!-- 3RD PARTY LIBRARIES -->
+  <script src="../../lib/jquery-min.js"></script>
+  <script src="../../lib/json2.js"></script>
+  <script src="../../lib/underscore-min.js"></script>
+  <script src="../../lib/backbone-min.js"></script>
+  <script src="../../lib/handlebars.js"></script>
+
+    <!-- HELPERS -->
+    <script src="../../js/helpers.js"></script>
+
+  <!-- MODELS/COLLECTIONS -->
+  <script src="../../js/models/effectsmodel.js"></script>
+  <script src="../../js/models/trackmodel.js"></script>
+
+  <!-- VIEWS -->
+  <link rel="stylesheet" type="text/css" href="../../css/base.css">
+  <script src="../../js/views/TrackView.js"></script>
+  <script src="../../js/views/EffectView.js"></script>
+  <script src="../../js/views/EffectPanelView.js"></script>
+  <script src="../../js/views/SequencerView.js"></script>
+
+  <!-- include spec files here... -->
+  <script src="../EffectPanelView_spec.js"></script>
+  <script src="../EffectView_spec.js"></script>
+  <script src="../SequencerView_spec.js"></script>
+  <script src="../TrackView_spec.js"></script>
+  <script src="../effectsmodel_spec.js"></script>
+  <script src="../trackmodel_spec.js"></script>
+
+  <script type="text/javascript">
+    (function() {
+      var jasmineEnv = jasmine.getEnv();
+      jasmineEnv.updateInterval = 1000;
+
+      var htmlReporter = new jasmine.HtmlReporter();
+
+      jasmineEnv.addReporter(htmlReporter);
+
+      jasmineEnv.specFilter = function(spec) {
+        return htmlReporter.specFilter(spec);
+      };
+
+      var currentWindowOnload = window.onload;
+
+      window.onload = function() {
+        if (currentWindowOnload) {
+          currentWindowOnload();
+        }
+        execJasmine();
+      };
+
+      function execJasmine() {
+        jasmineEnv.execute();
+      }
+
+    })();
+  </script>
+
+</head>
+
+<body>
+</body>
+</html>
