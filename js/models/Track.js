@@ -3,15 +3,16 @@ var Track = Backbone.Model.extend({
     return {
       solo: false,
       mute: false,
-      numSteps: 8,
       steps: [],
       sampleName: '',
       sample: '',
-      effects: new Effects,
       effectsExpanded: false
     }
   },
-  convertSteps: function(newNum) {
+  initialize: function() {
+    this.effects = new Effects;
+  },
+  convertSteps: function(oldNum, newNum) {
     var self = this;
     var newSteps = [];
 
@@ -28,14 +29,5 @@ var Track = Backbone.Model.extend({
     }
 
     this.set({numSteps: newNum, steps: newSteps});
-  }
-});
-
-var TrackList = Backbone.Collection.extend({
-  model: Track,
-  initialize: function() {
-    var track = new Track;
-    track.set({ numSteps: 8, trackNum: 1 });
-    this.add(track);
   }
 });

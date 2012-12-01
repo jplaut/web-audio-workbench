@@ -13,8 +13,10 @@
   <div id="wrapper">
   </div>
   <script src="js/helpers.js"></script>
-  <script src="js/models/effectsmodel.js"></script>
-  <script src="js/models/trackmodel.js"></script>
+  <script src="js/models/Track.js"></script>
+  <script src="js/collections/TrackList.js"></script>
+  <script src="js/models/Effect.js"></script>
+  <script src="js/collections/Effects.js"></script>
   <script src="js/views/TrackView.js"></script>
   <script src="js/views/EffectView.js"></script>
   <script src="js/views/EffectPanelView.js"></script>
@@ -54,8 +56,7 @@
     </div>
     <div id="transport">
       <button id="addtrack">Add Track</button>
-      <button id="play">Play</button>
-      <button id="stop">Stop</button>
+      <button id="togglePlayback">Play</button>
       <label for="tempo">Tempo: </label>
       <input id="tempo" type="number" max="300" min="1" value="120" style="width: 40px;" />
       <label for="numSteps">Steps: </label>

@@ -20,8 +20,10 @@
     <script src="../../js/helpers.js"></script>
 
   <!-- MODELS/COLLECTIONS -->
-  <script src="../../js/models/effectsmodel.js"></script>
-  <script src="../../js/models/trackmodel.js"></script>
+  <script src="../../js/models/Effect.js"></script>
+  <script src="../../js/models/Track.js"></script>
+  <script src="../../js/collections/Effects.js"></script>
+  <script src="../../js/collections/TrackList.js"></script>
 
   <!-- VIEWS -->
   <link rel="stylesheet" type="text/css" href="../../css/base.css">
@@ -65,6 +67,23 @@
       }
 
     })();
+  </script>
+
+  <script id="wrapper-template" type="text/x-handlebars-template">
+    <div id="tracks" numSteps="{{numSteps}}">
+      <ul></ul>
+    </div>
+    <div id="transport">
+      <button id="addtrack">Add Track</button>
+      <button id="togglePlayback">Play</button>
+      <label for="tempo">Tempo: </label>
+      <input id="tempo" type="number" max="300" min="1" value="120" style="width: 40px;" />
+      <label for="numSteps">Steps: </label>
+      <select id="steps">
+        {{#numStepsOptions numSteps}}
+        {{/numStepsOptions}}
+      </select>
+    </div>
   </script>
 
 </head>

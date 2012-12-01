@@ -6,7 +6,3 @@ var Effect = Backbone.Model.extend({
     }
   }
 });
-
-var Effects = Backbone.Collection.extend({
-  model: Effect
-})

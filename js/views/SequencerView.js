@@ -2,13 +2,13 @@ var SequencerView = Backbone.View.extend({
   el: $('#wrapper'),
   events: {
     'click button#addtrack': 'createTrack',
-    'click button#play': 'play',
+    'click button#togglePlayback': 'togglePlayback',
     'click button#stop': 'stop',
     'change input#tempo': 'changeTempo',
     'change select#steps': 'changeNumSteps'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'createTrack','appendTrack', 'play', 'stop', 'changeTempo', 'changeNumSteps', 'removeTrack');
+    _.bindAll(this, 'render', 'createTrack','appendTrack', 'togglePlayback', 'play', 'stop', 'changeTempo', 'changeNumSteps', 'removeTrack');
     this.tempo = 120;
     this.numSteps = 8;
     this.startTime = 0;
@@ -34,7 +34,7 @@ var SequencerView = Backbone.View.extend({
     return this;
   },
   createTrack: function() {
-    var track = new Track({numSteps: this.numSteps});
+    var track = new Track();
     this.collection.add(track);
   },
   appendTrack: function(track) {
@@ -47,14 +47,23 @@ var SequencerView = Backbone.View.extend({
     $('ul:first', this.el).append(trackView.render().el);
     this.$el.height(this.$el.height() + 70);
   },
+  togglePlayback: function() {
+    if (this.isPlaying) {
+      this.stop();
+    } else {
+      this.play();
+    }
+  },
   play: function() {
     var self = this;
     var currentTime = this.audioContext.currentTime;
     this.stepTime = (60 / this.tempo) / (this.numSteps / 4);
 
-    if (!self.collection.any(function(track) {return track.get('sample')})) {
+    if (!self.collection.any(function(track) {return track.get('sample') && track.get('steps').length > 1})) {
       return;
     }
+
+    $("button#togglePlayback").text("Stop");
 
     if (self.collection.any(function(track) {return track.get('solo')})) {
       _(self.collection
@@ -89,6 +98,7 @@ var SequencerView = Backbone.View.extend({
     this.notesplaying.push(source);
   },
   stop: function() {
+    $("button#togglePlayback").text("Play");
     clearTimeout(this.isPlaying);
     _(this.notesplaying).each(function(note){
       note.noteOff(0);
@@ -104,14 +114,13 @@ var SequencerView = Backbone.View.extend({
   changeNumSteps: function(e) {
     var self = this;
 
-    this.numSteps = parseInt($(e.currentTarget).val());
+    var newNum = parseInt($(e.currentTarget).val());
 
     this.collection.each(function(track) {
-      track.convertSteps(self.numSteps);
+      track.convertSteps(self.numSteps, newNum);
     });
 
-
-    this.$el.height(30);
+    this.numSteps = newNum;
     this.render();
   },
   removeTrack: function() {

@@ -13,8 +13,9 @@ var TrackView = Backbone.View.extend({
   initialize: function(options) {
     _.bindAll(this, 'render', 'enableStep', 'handleSolo', 'handleMute', 'setSample', 'removeSample', 'removeTrack', 'handleEffectsToggle', 'toggleEffects');
     this.model.on('change:effectsExpanded', this.toggleEffects);
+
     this.audioContext = this.options.audioContext;
-    this.effectPanel = new EffectPanelView({collection: this.model.get('effects')});
+    this.effectPanel = new EffectPanelView({collection: this.model.effects});
     this.template = Handlebars.compile($("#track-template").html())
   },
   render: function() {
@@ -104,7 +105,7 @@ var TrackView = Backbone.View.extend({
     var self = this;
 
     this.effectPanel.$el.animate({
-      height: (this.effectPanel.$el.height() == 0) ? 21 + this.model.get('effects').size() * 20 : '0px'
+      height: (this.effectPanel.$el.height() == 0) ? 21 + this.model.effects.size() * 20 : '0px'
     }, 1000, function() {
       if (self.model.get('effectsExpanded')) {
         self.effectPanel.$el.attr('src', 'img/close_effects.png');
