@@ -1,5 +1,6 @@
 var SequencerView = Backbone.View.extend({
-  el: $('#wrapper'),
+  tagName: 'div',
+  id: 'wrapper',
   events: {
     'click button#addtrack': 'createTrack',
     'click button#togglePlayback': 'togglePlayback',
@@ -19,14 +20,12 @@ var SequencerView = Backbone.View.extend({
     this.collection.on('add', this.appendTrack);
     this.collection.on('remove', this.removeTrack);
     this.template = Handlebars.compile($("#wrapper-template").html());
-    this.render();
   },
   render: function() {
     var self = this;
 
-    this.$el.empty();
     this.$el.height(30);
-    this.$el.append(this.template({numSteps: this.numSteps}));
+    this.$el.html(this.template({numSteps: this.numSteps}));
     this.collection.each(function(track) {
       self.appendTrack(track);
     });
@@ -41,7 +40,8 @@ var SequencerView = Backbone.View.extend({
     var trackView = new TrackView({
       model: track,
       collection: this.collection,
-      audioContext: this.audioContext
+      audioContext: this.audioContext,
+      numSteps: this.numSteps
     });
 
     $('ul:first', this.el).append(trackView.render().el);

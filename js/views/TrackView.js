@@ -14,13 +14,15 @@ var TrackView = Backbone.View.extend({
     _.bindAll(this, 'render', 'enableStep', 'handleSolo', 'handleMute', 'setSample', 'removeSample', 'removeTrack', 'handleEffectsToggle', 'toggleEffects');
     this.model.on('change:effectsExpanded', this.toggleEffects);
 
+    this.numSteps = this.options.numSteps;
     this.audioContext = this.options.audioContext;
     this.effectPanel = new EffectPanelView({collection: this.model.effects});
-    this.template = Handlebars.compile($("#track-template").html())
+    this.template = Handlebars.compile($("#track-template").html());
   },
   render: function() {
     var options = this.model.toJSON();
     options.trackNum = this.collection.indexOf(this.model) + 1;
+    options.numSteps = this.numSteps;
     this.$el.html(this.template(options));
     this.$el.append(this.effectPanel.render().el);
 

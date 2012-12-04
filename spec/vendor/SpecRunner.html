@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="src/jasmine.css">
   <script type="text/javascript" src="src/jasmine.js"></script>
   <script type="text/javascript" src="src/jasmine-html.js"></script>
+  <script type="text/javascript" src="src/jasmine-jquery.js"></script>
 
   <!-- 3RD PARTY LIBRARIES -->
   <script src="../../lib/jquery-min.js"></script>
@@ -15,30 +16,6 @@
   <script src="../../lib/underscore-min.js"></script>
   <script src="../../lib/backbone-min.js"></script>
   <script src="../../lib/handlebars.js"></script>
-
-    <!-- HELPERS -->
-    <script src="../../js/helpers.js"></script>
-
-  <!-- MODELS/COLLECTIONS -->
-  <script src="../../js/models/Effect.js"></script>
-  <script src="../../js/models/Track.js"></script>
-  <script src="../../js/collections/Effects.js"></script>
-  <script src="../../js/collections/TrackList.js"></script>
-
-  <!-- VIEWS -->
-  <link rel="stylesheet" type="text/css" href="../../css/base.css">
-  <script src="../../js/views/TrackView.js"></script>
-  <script src="../../js/views/EffectView.js"></script>
-  <script src="../../js/views/EffectPanelView.js"></script>
-  <script src="../../js/views/SequencerView.js"></script>
-
-  <!-- include spec files here... -->
-  <script src="../EffectPanelView_spec.js"></script>
-  <script src="../EffectView_spec.js"></script>
-  <script src="../SequencerView_spec.js"></script>
-  <script src="../TrackView_spec.js"></script>
-  <script src="../effectsmodel_spec.js"></script>
-  <script src="../trackmodel_spec.js"></script>
 
   <script type="text/javascript">
     (function() {
@@ -68,6 +45,34 @@
 
     })();
   </script>
+</head>
+
+<body>
+  <script id="track-template" type="text/x-handlebars-template">
+    <div class="trackControls">
+      <div class="right">
+        <span class="solo">S</span>
+        <span class="mute">M</span>
+      </div>
+      <div class="left">
+        <span class="tracklabel"><span class="close removeTrack">x</span><span class="trackLabelText">Track {{trackNum}}</span></span>
+        <span class="toggleEffects"><img src="img/open_effects.png" /></span>
+        <span class="sample">
+        {{#if sampleName}}
+          <span class="close removeSample">x</span>
+          {{sampleName}}
+        {{else}}
+          <input type="file" />
+        {{/if}}
+        </span>
+      </div>
+    </div>
+    <div class="steps">
+    {{#each_step numSteps steps}}
+      <div class="step{{on}}" step="{{num}}"></div>
+    {{/each_step}}
+    </div>
+  </script>
 
   <script id="wrapper-template" type="text/x-handlebars-template">
     <div id="tracks" numSteps="{{numSteps}}">
@@ -86,8 +91,39 @@
     </div>
   </script>
 
-</head>
+  <script id="effectspanel-template" type="text/x-handlebars-template">
+    <select class="createeffect">
+      <option value="" selected = "selected">Add Effect</option>
+      {{#effectsOptions}}
+      {{/effectsOptions}}
+    </select>
+    <div class="effects">
+      <ul>
+      </ul>
+    </div>
+  </script>
 
-<body>
+ <script id="effects-template" type="text/x-handlebars-template">
+    What is going on?
+  </script>
+
+    <!-- HELPERS -->
+    <script src="../../js/helpers.js"></script>
+
+  <!-- MODELS/COLLECTIONS -->
+  <script src="../../js/models/Effect.js"></script>
+  <script src="../../js/models/Track.js"></script>
+  <script src="../../js/collections/Effects.js"></script>
+  <script src="../../js/collections/TrackList.js"></script>
+
+  <!-- VIEWS -->
+  <link rel="stylesheet" type="text/css" href="../../css/base.css">
+  <script src="../../js/views/TrackView.js"></script>
+  <script src="../../js/views/EffectView.js"></script>
+  <script src="../../js/views/EffectPanelView.js"></script>
+  <script src="../../js/views/SequencerView.js"></script>
+
+  <!-- include spec files here... -->
+  <script src="../sequencer-js_spec.js"></script>
 </body>
 </html>

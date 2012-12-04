@@ -10,20 +10,6 @@
   <script src="lib/handlebars.js"></script>
 </head>
 <body>
-  <div id="wrapper">
-  </div>
-  <script src="js/helpers.js"></script>
-  <script src="js/models/Track.js"></script>
-  <script src="js/collections/TrackList.js"></script>
-  <script src="js/models/Effect.js"></script>
-  <script src="js/collections/Effects.js"></script>
-  <script src="js/views/TrackView.js"></script>
-  <script src="js/views/EffectView.js"></script>
-  <script src="js/views/EffectPanelView.js"></script>
-  <script src="js/views/SequencerView.js"></script>
-
-  <script src="js/main.js"></script>
-
   <script id="track-template" type="text/x-handlebars-template">
     <div class="trackControls">
       <div class="right">
@@ -31,7 +17,7 @@
         <span class="mute">M</span>
       </div>
       <div class="left">
-        <span class="tracklabel"><span class="close removeTrack">x</span>Track {{trackNum}}</span>
+        <span class="tracklabel"><span class="close removeTrack">x</span><span class="trackLabelText">Track {{trackNum}}</span></span>
         <span class="toggleEffects"><img src="img/open_effects.png" /></span>
         <span class="sample">
         {{#if sampleName}}
@@ -43,6 +29,7 @@
         </span>
       </div>
     </div>
+
     <div class="steps">
     {{#each_step numSteps steps}}
       <div class="step{{on}}" step="{{num}}"></div>
@@ -82,5 +69,17 @@
  <script id="effects-template" type="text/x-handlebars-template">
     What is going on?
   </script>
+
+  <script src="js/helpers.js"></script>
+  <script src="js/models/Track.js"></script>
+  <script src="js/collections/TrackList.js"></script>
+  <script src="js/models/Effect.js"></script>
+  <script src="js/collections/Effects.js"></script>
+  <script src="js/views/TrackView.js"></script>
+  <script src="js/views/EffectView.js"></script>
+  <script src="js/views/EffectPanelView.js"></script>
+  <script src="js/views/SequencerView.js"></script>
+
+  <script src="js/main.js"></script>
 </body>
 </html>
