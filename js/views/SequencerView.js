@@ -19,7 +19,7 @@ var SequencerView = Backbone.View.extend({
     this.audioContext = this.options.audioContext;
     this.collection.on('add', this.appendTrack);
     this.collection.on('remove', this.removeTrack);
-    this.template = Handlebars.compile($("#wrapper-template").html());
+    this.template = window.loadTemplate('wrapper');
   },
   render: function() {
     var self = this;

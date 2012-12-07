@@ -73,7 +73,6 @@ describe("TrackView", function() {
   });
 
   it("should remove track", function() {
-    console.log(this.track);
     spyOn(this.track, 'removeTrack');
     $(".removeTrack", this.track.el).click();
     expect(this.track.removeTrack).toHaveBeenCalled();

@@ -1,0 +1,14 @@
+<div id="tracks" numSteps="{{numSteps}}">
+  <ul></ul>
+</div>
+<div id="transport">
+  <button id="addtrack">Add Track</button>
+  <button id="togglePlayback">Play</button>
+  <label for="tempo">Tempo: </label>
+  <input id="tempo" type="number" max="300" min="1" value="120" style="width: 40px;" />
+  <label for="numSteps">Steps: </label>
+  <select id="steps">
+    {{#numStepsOptions numSteps}}
+    {{/numStepsOptions}}
+  </select>
+</div>

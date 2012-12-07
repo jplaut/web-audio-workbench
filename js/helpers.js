@@ -1,3 +1,17 @@
+window.loadTemplate = function(template) {
+  var tpl = '';
+
+  $.ajax({
+    url: 'tpl/' + template + '.html',
+    async: false,
+    success: function(data) {
+      tpl = Handlebars.compile(data);
+    }
+  });
+
+  return tpl;
+}
+
 Handlebars.registerHelper("each_step", function(num, steps, options) {
   var out = "";
 

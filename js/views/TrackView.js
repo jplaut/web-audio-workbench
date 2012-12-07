@@ -17,7 +17,7 @@ var TrackView = Backbone.View.extend({
     this.numSteps = this.options.numSteps;
     this.audioContext = this.options.audioContext;
     this.effectPanel = new EffectPanelView({collection: this.model.effects});
-    this.template = Handlebars.compile($("#track-template").html());
+    this.template = window.loadTemplate('track');
   },
   render: function() {
     var options = this.model.toJSON();

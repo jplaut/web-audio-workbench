@@ -1,0 +1,24 @@
+<div class="trackControls">
+  <div class="right">
+    <span class="solo">S</span>
+    <span class="mute">M</span>
+  </div>
+  <div class="left">
+    <span class="tracklabel"><span class="close removeTrack">x</span><span class="trackLabelText">Track {{trackNum}}</span></span>
+    <span class="toggleEffects"><img src="img/open_effects.png" /></span>
+    <span class="sample">
+      {{#if sampleName}}
+        <span class="close removeSample">x</span>
+        {{sampleName}}
+      {{else}}
+        <input type="file" />
+      {{/if}}
+    </span>
+  </div>
+</div>
+
+<div class="steps">
+  {{#each_step numSteps steps}}
+    <div class="step{{on}}" step="{{num}}"></div>
+  {{/each_step}}
+</div>
