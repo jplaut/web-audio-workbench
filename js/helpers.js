@@ -1,15 +1,19 @@
-window.loadTemplate = function(template) {
-  var tpl = '';
+window.templateLoader = {
+  directory: 'tpl/',
+  load: function(template) {
+    var tpl = '';
+    var self = this;
 
-  $.ajax({
-    url: 'tpl/' + template + '.html',
-    async: false,
-    success: function(data) {
-      tpl = Handlebars.compile(data);
-    }
-  });
+    $.ajax({
+      url: self.directory + template + '.html',
+      async: false,
+      success: function(data) {
+        tpl = Handlebars.compile(data);
+      }
+    });
 
-  return tpl;
+    return tpl;
+  }
 }
 
 Handlebars.registerHelper("each_step", function(num, steps, options) {
@@ -21,19 +25,6 @@ Handlebars.registerHelper("each_step", function(num, steps, options) {
     out += options.fn(x);
   }
 
-  return out;
-})
-
-Handlebars.registerHelper("numStepsOptions", function(numSteps) {
-  var out = "";
-  var steps = [4, 8, 16, 32];
-
-  for (var i = 0; i < steps.length; i++) {
-    out += "<option value=" + steps[i];
-    out += (numSteps == steps[i]) ? " selected=\"selected\"" : "";
-    out += ">" + steps[i] + "</option>";
-  }
-  
   return out;
 })
 

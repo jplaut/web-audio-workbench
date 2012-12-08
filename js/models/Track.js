@@ -11,23 +11,27 @@ var Track = Backbone.Model.extend({
   },
   initialize: function() {
     this.effects = new Effects;
+
+    window.globals.on('change:numSteps', this.convertSteps);
   },
   convertSteps: function(oldNum, newNum) {
     var self = this;
     var newSteps = [];
+    var oldNum = window.globals.previous("numSteps");
+    var newNum = window.globals.get("numSteps");
 
-    if (self.get('numSteps') > newNum) {
+    if (oldNum > newNum) {
       _(self.get('steps')).each(function(step, i) {
-        if (i % (self.get('numSteps') / newNum) == 0) {
-          newSteps[i / (self.get('numSteps') / newNum)] = step;
+        if (i % (oldNum / newNum) == 0) {
+          newSteps[i / (oldNum / newNum)] = step;
         }
       });
     } else {
       _(self.get('steps')).each(function(step, i) {
-        newSteps[i * (newNum / self.get('numSteps'))] = step;
+        newSteps[i * (newNum / oldNum)] = step;
       });
     }
 
-    this.set({numSteps: newNum, steps: newSteps});
+    this.set({steps: newSteps});
   }
 });

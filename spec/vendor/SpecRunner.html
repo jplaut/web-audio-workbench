@@ -53,19 +53,7 @@
   <script src="../../js/helpers.js"></script>
 
   <script type="text/javascript">
-    window.loadTemplate = function(template) {
-      var tpl = '';
-
-      $.ajax({
-        url: '../../tpl/' + template + '.html',
-        async: false,
-        success: function(data) {
-          tpl = Handlebars.compile(data);
-        }
-      });
-
-      return tpl;
-    }
+    window.templateLoader.directory = '../../tpl/';
   </script>
 
   <!-- MODELS/COLLECTIONS -->

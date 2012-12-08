@@ -6,7 +6,7 @@ html {
 /* WRAPPER/TRANSPORT */
 div#wrapper {
   width: 900px;
-  height: 30px;
+  height: 100px;
   margin: 100px auto 0;
   border: 1px solid #222;
   padding: 5px 5px 0;
@@ -20,8 +20,15 @@ div#transport {
   padding: 0 0 0 10px;
 }
 
-div#transport button, label {
+div#transport button, label, span#togglePlayback {
   margin: 0 0 0 10px;
+}
+
+span#togglePlayback img {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  margin-bottom: -5px;
 }
 
 /* TRACK LIST */
@@ -120,22 +127,22 @@ div.step.on {
   background-color: #000;
 }
 
-#tracks[numSteps='4'] div.step {
+div.steps[numsteps='4'] div.step {
   width: 35px;
   margin: 1px 77.7px;
 }
 
-#tracks[numSteps='8'] div.step {
+div.steps[numsteps='8'] div.step {
   width: 35px;
   margin: 1px 29.63px;
 }
 
-#tracks[numSteps='16'] div.step {
+div.steps[numsteps='16'] div.step {
   width: 35px;
   margin: 1px 5.56px;
 }
 
-#tracks[numSteps='32'] div.step {
+div.steps[numsteps='32'] div.step {
   width: 17.5px;
   margin: 1px 0 1px 4.56px;
 }

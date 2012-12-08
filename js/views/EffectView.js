@@ -3,7 +3,7 @@ var EffectView = Backbone.View.extend({
   className: 'effect',
   initialize: function() {
     _.bindAll(this, 'render');
-    this.template = Handlebars.compile($("#effects-template").html());
+    this.template = window.templateLoader.load('effect');
   },
   render: function() {
     var self = this;
