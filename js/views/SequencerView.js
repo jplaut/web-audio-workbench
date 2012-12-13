@@ -13,6 +13,8 @@ var SequencerView = Backbone.View.extend({
       collection: this.collection
     });
 
+    app.on('change:wrapperHeight', this.handleHeightChange, this);
+    app.on('toggle:effectsPanel', this.handleEffectsPanelToggled, this);
     this.collection.on('add', this.handleCreateTrack);
     this.collection.on('remove', this.handleRemoveTrack);
   },
@@ -29,5 +31,16 @@ var SequencerView = Backbone.View.extend({
   },
   handleRemoveTrack: function() {
     this.$el.height(this.$el.height() - 70);
+  },
+  handleEffectsPanelToggled: function(toggled, height) {
+    var height = (toggled) ? height : height * -1;
+    this.$el.animate({
+      height: this.$el.height() + height
+      }, 
+      1000
+    );
+  },
+  handleHeightChange: function(height) {
+    this.$el.height(this.$el.height() + height);
   }
 });

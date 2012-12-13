@@ -49,24 +49,30 @@
 </head>
 
 <body>
+  <script src="../../js/models/App.js"></script>
+
+  <script type="text/javascript">
+    var app = new App;
+    app.templateLoader.directory = '../../tpl/';
+  </script>
+
   <!-- HELPERS -->
   <script src="../../js/helpers.js"></script>
 
-  <script type="text/javascript">
-    window.templateLoader.directory = '../../tpl/';
-  </script>
-
   <!-- MODELS/COLLECTIONS -->
-  <script src="../../js/models/Effect.js"></script>
   <script src="../../js/models/Track.js"></script>
-  <script src="../../js/collections/Effects.js"></script>
+  <script src="../../js/models/Effect.js"></script>
   <script src="../../js/collections/TrackList.js"></script>
+  <script src="../../js/collections/Effects.js"></script>
 
   <!-- VIEWS -->
-  <link rel="stylesheet" type="text/css" href="../../css/base.css">
-  <script src="../../js/views/TrackView.js"></script>
+  <script src="../../js/views/PatternView.js"></script>
   <script src="../../js/views/EffectView.js"></script>
   <script src="../../js/views/EffectPanelView.js"></script>
+  <script src="../../js/views/TrackControlsView.js"></script>
+  <script src="../../js/views/TrackView.js"></script>
+  <script src="../../js/views/TrackListView.js"></script>
+  <script src="../../js/views/TransportView.js"></script>
   <script src="../../js/views/SequencerView.js"></script>
 
   <!-- include spec files here... -->

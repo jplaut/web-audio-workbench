@@ -2,17 +2,18 @@ var TrackControlsView = Backbone.View.extend({
   tagName: 'div',
   className: 'trackControls',
   events: {
-    'click span.solo': 'handleSolo',
-    'click span.mute': 'handleMute',
+    'click .solo': 'handleSolo',
+    'click .mute': 'handleMute',
     'change input:file': 'setSample',
-    'click span.removeSample': 'removeSample',
-    'click span.removeTrack': 'removeTrack',
-    'click span.toggleEffects': 'handleEffectsToggle'
+    'click .removeSample': 'removeSample',
+    'click .removeTrack': 'removeTrack',
+    'click .toggleEffects': 'toggleEffects',
+    'dblclk .trackLabelText': 'setTrackName'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'handleSolo', 'handleMute', 'setSample', 'removeSample', 'removeTrack', 'handleEffectsToggle', 'toggleEffects');
+    _.bindAll(this, 'render', 'handleSolo', 'handleMute', 'setSample', 'removeSample', 'removeTrack', 'toggleEffects');
 
-    this.template = window.templateLoader.load('trackcontrols');
+    this.template = app.templateLoader.load('trackcontrols');
 
     this.model.on('change:effectsExpanded', this.toggleEffects);
     this.collection.on('remove', this.render);
@@ -38,6 +39,9 @@ var TrackControlsView = Backbone.View.extend({
       this.model.set({solo: false});
     }
   },
+  setTrackName: function() {
+
+  },
   setSample: function(e) {
     var supportedTypes = [".wav", ".mp3", ".aac", ".ogg"];
     if (!e.currentTarget.files[0].name.match(new RegExp("\\" + supportedTypes.join("|\\") + "$"))) {
@@ -52,7 +56,7 @@ var TrackControlsView = Backbone.View.extend({
       request.responseType = 'arraybuffer';
 
       request.onload = function() {
-        window.globals.audioContext.decodeAudioData(request.response, function(buffer) {
+        app.audioContext.decodeAudioData(request.response, function(buffer) {
           var sampleName = e.currentTarget.files[0].name;
           if (sampleName.length > 11) {
             sampleName = sampleName.slice(0, 7) + ".." + sampleName.slice(sampleName.length - 3, sampleName.length);
@@ -74,30 +78,10 @@ var TrackControlsView = Backbone.View.extend({
       this.collection.remove(this.model);
     }
   },
-  handleEffectsToggle: function() {
-    if (!this.model.get('effectsExpanded')) {
-      if (this.collection.any(function(track) {return track.get('effectsExpanded')})) {
-        _(this.collection.where({effectsExpanded: true})).each(function(track) {
-          track.set({effectsExpanded: false});
-        });
-      };
-
-      this.model.set({effectsExpanded: true});
-    } else {
-      this.model.set({effectsExpanded: false});
-    }
-  },
   toggleEffects: function() {
-    var self = this;
+    var img = ($(".toggleEffects img", this.el).attr('src') == 'img/close_effects.png') ? 'img/open_effects.png' : 'img/close_effects.png';
+    $(".toggleEffects img", this.el).attr('src', img);
 
-    this.effectPanel.$el.animate({
-      height: (this.effectPanel.$el.height() == 0) ? 21 + this.model.effects.size() * 20 : '0px'
-    }, 1000, function() {
-      if (self.model.get('effectsExpanded')) {
-        self.effectPanel.$el.attr('src', 'img/close_effects.png');
-      } else {
-        self.effectPanel.$el.attr('src', 'img/open_effects.png');
-      }
-    });
+    this.trigger('toggle:effectsPanel');
   }
 });

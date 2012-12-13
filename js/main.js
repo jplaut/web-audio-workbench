@@ -5,7 +5,6 @@
 */
 
 $(function() {
-  window.globals = new Globals;
   var sequencerView = new SequencerView();
   $(document.body).append(sequencerView.render().el);
 });

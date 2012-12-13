@@ -1,21 +1,3 @@
-window.templateLoader = {
-  directory: 'tpl/',
-  load: function(template) {
-    var tpl = '';
-    var self = this;
-
-    $.ajax({
-      url: self.directory + template + '.html',
-      async: false,
-      success: function(data) {
-        tpl = Handlebars.compile(data);
-      }
-    });
-
-    return tpl;
-  }
-}
-
 Handlebars.registerHelper("each_step", function(num, steps, options) {
   var out = "";
 
@@ -31,10 +13,10 @@ Handlebars.registerHelper("each_step", function(num, steps, options) {
 Handlebars.registerHelper("effectsOptions", function() {
   var out = "";
   var effects = {
-    Compressor: 'compressor',
-    Panner: 'panner',
-    Delay: 'delay',
-    WaveShaper: 'waveshaper',
+    Gain: 'createGainNode',
+    Panner: 'createPanner',
+    Compressor: 'createDynamicsCompressor',
+    WaveShaper: 'createWaveShaper',
     Filters: {
       Lowpass: 'filter: 0',
       Highpass: 'filter: 1',
@@ -43,7 +25,7 @@ Handlebars.registerHelper("effectsOptions", function() {
       Highshelf: 'filter: 4',
       Peaking: 'filter: 5',
       Notch: 'filter: 6',
-      Allpass: 'filter : 7'
+      Allpass: 'filter: 7'
     }
   };
 
@@ -54,7 +36,7 @@ Handlebars.registerHelper("effectsOptions", function() {
         processEffects(value);
         out += "</optgroup>";
       } else {
-        out += "<option value=\"" + value + "\">" + name + "</option>";
+        out += "<option name =\"" + name + "\" value=\"" + value + "\">" + name + "</option>";
       }
     });
   }
@@ -63,3 +45,47 @@ Handlebars.registerHelper("effectsOptions", function() {
 
   return out;
 })
+
+Handlebars.registerHelper("effectsParamsOptions", function(type) {
+  var options, out = "";
+
+  switch(type) {
+    case 'Gain':
+      options = {
+        Level: 'gain'
+      }
+      break;
+    case 'Panner':
+      options = {
+        Position: 'x'
+      };
+      break;
+    case 'Compressor':
+      options = {
+        Threshold: 'threshold',
+        Knee: 'knee',
+        Ratio: 'ratio',
+        Reduction: 'reduction',
+        Attack: 'attack',
+        Release: 'release'
+      };
+      break;
+    case 'WaveShaper':
+      options = {
+        Curve: 'curve'
+      };
+      break;
+    default:
+      options = {
+        Frequency: 'frequency',
+        Resonance: 'Q'
+      };
+      break;
+  }
+
+  _(options).each(function(value, key) {
+    out += "<option value=\"" + value + "\">" + key + "</option>";
+  });
+
+  return out;
+});

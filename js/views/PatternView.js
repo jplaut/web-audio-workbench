@@ -6,12 +6,12 @@ var PatternView = Backbone.View.extend({
   },
   initialize: function(options) {
     _.bindAll(this, 'render', 'enableStep');
-    this.template = window.templateLoader.load('pattern');
-    window.globals.on('change:numSteps', this.render);
+    this.template = app.templateLoader.load('pattern');
+    app.on('change:numSteps', this.render);
   },
   render: function() {
-    this.$el.attr('numSteps', window.globals.get('numSteps'));
-    this.$el.html(this.template({numSteps: window.globals.get('numSteps'), steps: this.model.get('steps')}));
+    this.$el.attr('numSteps', app.get('numSteps'));
+    this.$el.html(this.template({numSteps: app.get('numSteps'), steps: this.model.get('steps')}));
 
     return this;
   },

@@ -4,7 +4,7 @@ html {
 }
 
 /* WRAPPER/TRANSPORT */
-div#wrapper {
+#wrapper {
   width: 900px;
   height: 100px;
   margin: 100px auto 0;
@@ -13,18 +13,18 @@ div#wrapper {
   position: relative;
 }
 
-div#transport {
+#transport {
   position: absolute;
   bottom: 5px;
   left: 0;
   padding: 0 0 0 10px;
 }
 
-div#transport button, label, span#togglePlayback {
+#transport button, label, #togglePlayback {
   margin: 0 0 0 10px;
 }
 
-span#togglePlayback img {
+#togglePlayback img {
   cursor: pointer;
   width: 30px;
   height: 30px;
@@ -32,27 +32,28 @@ span#togglePlayback img {
 }
 
 /* TRACK LIST */
-div#tracks {
+#tracks {
   position: relative;
   top: 0px;
   left: 0px;
   width: 100%;
 }
 
-div#tracks ul {
+#tracks ul {
   margin: 0;
   padding: 0; 
   list-style: none;
 }
 
 /* INDIVIDUAL TRACK */
-li.track {
-  height: 70px;
+.track {
+  height: 40px;
   width: 100%;
+  margin-bottom: 30px;
 }
 
 /* TRACK LABEL/CONTROLS */
-div.trackControls {
+.trackControls {
   width: 130px;
   float: left;
 }
@@ -62,38 +63,38 @@ p.tracklabel {
   margin: 0px;
 }
 
-span.toggleEffects img {
+.toggleEffects img {
   width: 18px;
   margin-bottom: -4px;
   cursor: pointer;
 }
 
-.trackControls div.left {
+.trackControls .left {
   float: left;
   width: 115px;
 }
 
 /* SAMPLE UPLOAD */
-.trackControls div.left .sample {
+.trackControls .left .sample {
   width: 110px;
   float: left;
 }
 
-.trackControls div.left .sample img {
+.trackControls .left .sample img {
   margin: 0 19%;
   width: 18px;
 }
 
-.trackControls div.left .sample input {
+.trackControls .left .sample input {
   width: 80px;
 }
 
 /* MUTE/SOLO */
-.trackControls div.right {
+.trackControls .right {
   float: right;
 }
 
-span.solo, span.mute {
+.solo, span.mute {
   width: 15px;
   text-align: center;
   cursor: hand;
@@ -101,67 +102,101 @@ span.solo, span.mute {
   clear: both;
 }
 
-span.solo {
+.solo {
   background-color: yellow;
 }
 
-span.mute {
+.mute {
   background-color: red;
   color: #fff;
 }
 
 /* STEPS */
-div.steps {
+.steps {
   float: right;
   width: 770px;
 }
 
-div.step {
+.step {
   height: 35px;
   background-color: #fff;
   border: 1px solid #000;
   float: left;
 }
 
-div.step.on {
+.step.on {
   background-color: #000;
 }
 
-div.steps[numsteps='4'] div.step {
+.steps[numsteps='4'] .step {
   width: 35px;
   margin: 1px 77.7px;
 }
 
-div.steps[numsteps='8'] div.step {
+.steps[numsteps='8'] .step {
   width: 35px;
   margin: 1px 29.63px;
 }
 
-div.steps[numsteps='16'] div.step {
+.steps[numsteps='16'] .step {
   width: 35px;
   margin: 1px 5.56px;
 }
 
-div.steps[numsteps='32'] div.step {
+.steps[numsteps='32'] .step {
   width: 17.5px;
   margin: 1px 0 1px 4.56px;
 }
 
 /* EFFECTS PANEL */
-span.addeffect {
-  background-color: #1BBFE0;
-  cursor: pointer;
-}
-
-div.effects-panel {
+.effects-panel {
   height: 0px;
   float: left;
   width: 100%;
   overflow: hidden;
 }
 
+.createeffect {
+  margin-bottom: 7px;
+}
+
+.effect {
+  border: 1px solid #222;
+  padding: 2px 3px;
+}
+
+.effectTitle {
+  font-size: 17px;
+  font-weight: bold;
+  margin: -4px 0 1px;
+}
+
+.paramsList {
+  padding-left: 10px;
+  font-size: 13px;
+}
+
+.effectParam {
+  cursor: pointer;
+  width: 80px;
+}
+
+.effectParam.on {
+  background-color: yellow;
+}
+
+.effectControls {
+  width: 100px;
+  float: left;
+}
+
+.automationCanvas {
+  float: right;
+  width: 770px;
+}
+
 /* GENERAL */
-span.close {
+.close {
   width: 5px;
   height: 5px;
   background-color: red;

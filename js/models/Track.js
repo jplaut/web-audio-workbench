@@ -12,13 +12,13 @@ var Track = Backbone.Model.extend({
   initialize: function() {
     this.effects = new Effects;
 
-    window.globals.on('change:numSteps', this.convertSteps);
+    app.on('change:numSteps', this.convertSteps);
   },
   convertSteps: function(oldNum, newNum) {
     var self = this;
     var newSteps = [];
-    var oldNum = window.globals.previous("numSteps");
-    var newNum = window.globals.get("numSteps");
+    var oldNum = app.previous("numSteps");
+    var newNum = app.get("numSteps");
 
     if (oldNum > newNum) {
       _(self.get('steps')).each(function(step, i) {

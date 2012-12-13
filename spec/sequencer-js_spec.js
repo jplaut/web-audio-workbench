@@ -50,7 +50,7 @@ describe("SequencerView", function() {
   it("should change the tempo", function() {
     $("input#tempo").val("50");
     $("input#tempo").trigger("change");
-    expect(this.sequencerView.tempo).toBe("50");
+    expect(app.get('tempo')).toBe("50");
   });
 
   it("should change number of steps", function() {
