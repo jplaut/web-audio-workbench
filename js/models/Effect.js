@@ -8,29 +8,18 @@ var Effect = Backbone.Model.extend({
   initialize: function() {
     var self = this;
 
-    var params;
-    this.params = {};
-
-    switch(this.get('name')) {
-      case 'Gain':
-        params = ['gain'];
-        break;
-      case 'Panner':
-        params = ['position'];
-        break;
-      case 'Compressor':
-        params = ['threshold', 'knee', 'ratio', 'reduction', 'attack', 'release'];
-        break;
-      case 'Waveshaper':
-        params = ['curve'];
-        break;
-      default:
-        params = ['frequency', 'q'];
-        break;
+    if (this.get('type').match(/^[0-9]?$/)) {
+      var details = app.effectsList.filters;
+      var name = _(details.type).find(function(value, key) {return value == this.get('type')}, this);
+    } else {
+      var details = app.effectsList[this.get('type')];
+      var name = details.name;
     }
+    this.set({name: name});
+    this.params = details.params;
 
-    _(params).each(function(param) {
-      self.params[param] = {};
+    _(this.params).each(function(param) {
+      param['values'] = {};
     });
   }
 });

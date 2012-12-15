@@ -15,7 +15,6 @@ var TransportView = Backbone.View.extend({
     this.isPlaying = false;
     this.notesplaying = [];
     this.beatIndex = 0;
-    this.calculateStepTime();
   },
   render: function() {
     var self = this;
@@ -29,6 +28,10 @@ var TransportView = Backbone.View.extend({
     this.collection.add(track);
   },
   togglePlayback: function() {
+    if (!this.collection.any(function(track) {return track.get('sample') && track.get('steps').length >= 1})) {
+      return;
+    }
+
     if (this.isPlaying) {
       $("span#togglePlayback img").attr("src", "img/play.png");
       this.isPlaying = false;
@@ -41,10 +44,6 @@ var TransportView = Backbone.View.extend({
   },
   play: function() {
     var self = this;
-
-    if (!this.collection.any(function(track) {return track.get('sample') && track.get('steps').length >= 1})) {
-      return;
-    }
 
     if (this.collection.any(function(track) {return track.get('solo')})) {
       _(self.collection
@@ -63,13 +62,13 @@ var TransportView = Backbone.View.extend({
         });
       }
 
-    if (this.beatIndex == app.get('numSteps') - 1) {
+    if (this.beatIndex == app.get('totalBeats') - app.get('beatsPerStep')) {
       this.beatIndex = 0;
     } else {
-      this.beatIndex++;
+      this.beatIndex += app.get('beatsPerStep');
     }
 
-   this.intervalId = setTimeout(this.play, this.stepTime * 1000);
+    this.intervalId = setTimeout(this.play, app.get('stepTime') * 1000);
   },
   playBeat: function(buffer, time) {
     this.notesplaying = _(this.notesplaying).filter(function(note) {return note.playbackState != 3});
@@ -90,12 +89,12 @@ var TransportView = Backbone.View.extend({
   },
   changeTempo: function(e) {
     app.set({tempo: $(e.currentTarget).val()});
-    this.calculateStepTime();
   },
   changeNumSteps: function(e) {
     app.set({numSteps: parseInt($(e.currentTarget).val())});
-  },
-  calculateStepTime: function() {
-    this.stepTime = (60 / app.get('tempo')) / (app.get('numSteps') / 4);
+
+    if (this.isPlaying) {
+      this.beatIndex = this.beatIndex + (this.beatIndex % app.get('beatsPerStep'));
+    }
   }
 });

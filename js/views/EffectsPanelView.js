@@ -13,7 +13,12 @@ var EffectsPanelView = Backbone.View.extend({
   },
   render: function() {
     var self = this;
-    this.$el.append(this.template());
+    var options = {};
+    _(app.effectsList).each(function(value) {
+      options[value.name] = value.type;
+    });
+
+    this.$el.append(this.template({args: options}));
 
     this.collection.each(function(effect) {
       self.$el.append(effect.render().el);
@@ -25,7 +30,7 @@ var EffectsPanelView = Backbone.View.extend({
     this.toggled = !this.toggled;
 
     var height = (this.toggled == true) ? this.height : 0;
-    app.trigger('toggle:effectsPanel', this.toggled, this.height)
+    app.trigger('toggle:effectsPanel', this.toggled, this.height);
 
     this.$el.animate({
       height: height
@@ -34,11 +39,8 @@ var EffectsPanelView = Backbone.View.extend({
     );
   },
   createEffect: function(e) {
-    var selection = $('option[value=\'' + $(e.currentTarget).val() + '\']', e.currentTarget);
-
     var effect = new Effect({
-      type: $(selection, this.el).val(),
-      name: $(selection, this.el).attr('name')
+      type: $(e.currentTarget).val()
     });
 
     this.collection.add(effect);

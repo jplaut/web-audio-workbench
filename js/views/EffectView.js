@@ -5,13 +5,19 @@ var EffectView = Backbone.View.extend({
   },
   initialize: function() {
     _.bindAll(this, 'render');
+    this.automationView = new AutomationView({model: this.model})
     this.template = app.templateLoader.load('effect');
-    this.height = 80;
+    this.height = 120;
   },
   render: function() {
     var self = this;
+    var options = {};
 
-    this.$el.append(self.template(self.model.toJSON()));
+    _(this.model.params).each(function(value, key) {
+      options[key] = value.internal;
+    });
+
+    this.$el.append(self.template({name: this.model.get('name'), args: options}));
     this.$el.height(this.height);
     this.canvas = Raphael($(".automationCanvas", this.el)[0], 770, 80);
     var background = this.canvas.rect(0, 0, 770, 80);
