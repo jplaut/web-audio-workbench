@@ -2,9 +2,9 @@ var AutomationView = Backbone.View.extend({
   tagName: 'div',
   className: 'automationContainer',
   initialize: function() {
-    _.bindAll(this, 'render', 'handleClick', 'handleNewPoint', 'handleDrag', 'setValues', 'getPathPoints', 'scaleCoord');
+    _.bindAll(this, 'render', 'handleClick', 'handleNewPoint', 'handleDrag', 'setValues', 'getPathPoints');
     this.param = this.model.params[this.options.param];
-    this.width = 755;
+    this.width = 758;
     this.height = 120;
     this.multiplier = this.height / (this.param.max - this.param.min);
     this.points = [];
@@ -21,8 +21,7 @@ var AutomationView = Backbone.View.extend({
       .attr('fill', '#fff')
       .click(this.handleClick);
 
-    console.log(this.scaleCoord(this.param.default));
-    this.automationPath = this.canvas.path("M0, " + this.scaleCoord(this.param.default) + "H" + this.width);
+    this.automationPath = this.canvas.path("M0, " + (this.multiplier * (this.param.max - this.param.default)) + "H" + this.width);
 
 
     return this;
@@ -32,9 +31,6 @@ var AutomationView = Backbone.View.extend({
   },
   hide: function() {
     this.$el.css('display', 'none');
-  },
-  scaleCoord: function(y) {
-    return this.height - Math.abs((y + this.param.min) * this.multiplier);
   },
   handleClick: function (e) {
     var self = this;
@@ -93,7 +89,6 @@ var AutomationView = Backbone.View.extend({
   },
   setValues: function() {
     var values = this.getPathPoints();
-    console.log(this.multiplier, values);
     this.param.values = values;
   },
   getPathPoints: function() {
@@ -105,7 +100,7 @@ var AutomationView = Backbone.View.extend({
       var intersection = Raphael.pathIntersection(this.automationPathStr, str)[0];
 
       try {
-        values.push(this.scaleCoord(intersection.y));
+        values.push(this.param.max - (intersection.y / this.multiplier));
       } catch(err) {
         values.push('undefined');
       }

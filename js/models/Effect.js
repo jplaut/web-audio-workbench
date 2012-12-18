@@ -7,7 +7,7 @@ var Effect = Backbone.Model.extend({
   },
   initialize: function() {
     var self = this;
-    var details = _(app.effectsList).find(function(value, key) {return key == self.get('type')});
+    var details = app.effectsList[self.get('type')];
 
     this.set({name: details.label});
     this.params = details.params;

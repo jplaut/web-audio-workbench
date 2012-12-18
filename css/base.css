@@ -114,7 +114,7 @@ p.tracklabel {
 /* STEPS */
 .steps {
   float: right;
-  width: 770px;
+  width: 760px;
 }
 
 .step {
@@ -129,23 +129,31 @@ p.tracklabel {
 }
 
 .steps[numsteps='4'] .step {
-  width: 35px;
-  margin: 1px 77.7px;
+  width: 35.04px;
+  margin: 1px 77px;
 }
 
 .steps[numsteps='8'] .step {
-  width: 35px;
-  margin: 1px 29.63px;
+  width: 35.04px;
+  margin: 1px 29.35px;
 }
 
 .steps[numsteps='16'] .step {
-  width: 35px;
-  margin: 1px 5.56px;
+  width: 35.04px;
+  margin: 1px 5.41px;
 }
 
 .steps[numsteps='32'] .step {
   width: 17.5px;
-  margin: 1px 0 1px 4.56px;
+  margin: 1px 0 1px 4.39px;
+}
+
+.step.first {
+  margin-left: 0 !important;
+}
+
+.step.last {
+  margin-right: 0 !important;
 }
 
 /* EFFECTS PANEL */
@@ -193,13 +201,13 @@ p.tracklabel {
 
 .automationContainer {
   float: right;
-  width: 768px;
+  width: 771px;
   display: none;
 }
 
 .canvas {
   float: right;
-  width: 755px;
+  width: 758px;
 }
 
 .canvasLabels {
