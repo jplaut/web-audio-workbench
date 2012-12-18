@@ -2,30 +2,40 @@ var EffectView = Backbone.View.extend({
   tagName: 'li',
   className: 'effect',
   events: {
+    'change select.paramsList': 'changeParam'
   },
   initialize: function() {
-    _.bindAll(this, 'render');
-    this.automationView = new AutomationView({model: this.model})
+    var self = this;
+
+    _.bindAll(this, 'render', 'changeParam');
+    this.params = {};
+    _(this.model.params).each(function(value, key) {
+      self.params[key] = new AutomationView({model: self.model, param: key});
+    });
+
+    this.paramVisible = _(this.params).keys()[0];
+
     this.template = app.templateLoader.load('effect');
     this.height = 120;
   },
   render: function() {
     var self = this;
-    var options = {};
 
-    _(this.model.params).each(function(value, key) {
-      options[key] = value.internal;
+    this.$el.append(self.template({name: this.model.get('name'), args: this.model.params}));
+    _(this.params).each(function(param) {
+      self.$el.append(param.render().el);
     });
 
-    this.$el.append(self.template({name: this.model.get('name'), args: options}));
+    this.params[this.paramVisible].show();
+
     this.$el.height(this.height);
-    this.canvas = Raphael($(".automationCanvas", this.el)[0], 770, 80);
-    var background = this.canvas.rect(0, 0, 770, 80);
-    background.attr('fill', '#fff');
-    var middleLine = this.canvas.path("M0 40L770 40");
-    middleLine.attr('stroke-width', '0.25');
-    middleLine.attr('stroke', '#000');
+
 
     return this;
+  },
+  changeParam: function(e) {
+    this.params[this.paramVisible].hide();
+    this.paramVisible = $(e.currentTarget).val();
+    this.params[this.paramVisible].show();
   }
 });

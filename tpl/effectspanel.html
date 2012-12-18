@@ -1,7 +1,18 @@
 <select class="createeffect">
   <option value="default" selected = "selected">Add Effect</option>
-  {{#createSelect args}}
-  {{/createSelect}}
+  <option value="gain">Gain</options>
+  <option value="panner">Panner</options>
+  <option value="compressor">Compressor</options>
+  <optgroup label="Filters">
+    <option value="lowpass">Lowpass</options>
+    <option value="highpass">Highpass</options>
+    <option value="bandpass">Bandpass</options>
+    <option value="lowshelf">Lowshelf</options>
+    <option value="highshelf">Highshelf</options>
+    <option value="peaking">Peaking</options>
+    <option value="notch">Notch</options>
+    <option value="allpass">Allpass</option>
+  </optgroup>
 </select>
 <div class="effects">
   <ul>

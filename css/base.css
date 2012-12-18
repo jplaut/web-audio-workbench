@@ -158,6 +158,7 @@ p.tracklabel {
 
 .createeffect {
   margin-bottom: 7px;
+  width: 110px;
 }
 
 .effect {
@@ -190,9 +191,29 @@ p.tracklabel {
   float: left;
 }
 
-.automationCanvas {
+.automationContainer {
   float: right;
-  width: 770px;
+  width: 768px;
+  display: none;
+}
+
+.canvas {
+  float: right;
+  width: 755px;
+}
+
+.canvasLabels {
+  font-size: 11px;
+  float: left;
+  width: 11px;
+}
+
+.canvasLabels span {
+  float: right;
+}
+
+.canvasLabels .max {
+  margin-bottom: 94px;
 }
 
 /* GENERAL */

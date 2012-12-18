@@ -13,12 +13,8 @@ var EffectsPanelView = Backbone.View.extend({
   },
   render: function() {
     var self = this;
-    var options = {};
-    _(app.effectsList).each(function(value) {
-      options[value.name] = value.type;
-    });
 
-    this.$el.append(this.template({args: options}));
+    this.$el.append(this.template({args: app.effectsList}));
 
     this.collection.each(function(effect) {
       self.$el.append(effect.render().el);

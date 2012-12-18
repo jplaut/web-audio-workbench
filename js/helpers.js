@@ -13,19 +13,9 @@ Handlebars.registerHelper("each_step", function(num, per, steps, options) {
 Handlebars.registerHelper("createSelect", function(options) {
   var out = "";
 
-  function processOptions(obj) {
-    _(obj).each(function(value, key) {
-      if (typeof value == "object") {
-        out += "<optgroup label=\"" + key + "\">";
-        processOptions(value);
-        out += "</optgroup>";
-      } else {
-        out += "<option value=\"" + value + "\">" + key + "</option>";
-      }
-    });
-  }
-
-  processOptions(options);
+  _(options).each(function(value, key) {
+    out += "<option value=\"" + key + "\">" + value.label + "</option>";
+  });
 
   return out;
 });

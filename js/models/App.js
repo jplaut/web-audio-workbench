@@ -33,74 +33,206 @@ var App = Backbone.Model.extend({
   },
   effectsList: {
     gain: {
-      type: "gain",
-      name: "Gain",
+      label: "Gain",
       params: {
-        Level: {
-          internal: 'gain'
+        level: {
+          label: "Gain",
+          internal: "gain",
+          min: 0,
+          max: 1,
+          default: 1
         }
       }
     },
     panner: {
-      type: "panner",
-      name: "Panner",
+      label: "Panner",
       params: {
-        Position: {
-          interval: 'x'
+        position: {
+          label: 'Position',
+          internal: 'position',
+          min: -1,
+          max: 1,
+          default: 0
         }
       }
     },
     compressor: {
-      type: "compressor",
-      name: "Compressor",
+      label: "Compressor",
       params: {
-        Threshold: {
-          internal: 'threshold'
+        threshold: {
+          label: 'Threshold',
+          internal: 'threshold',
+          min: -100,
+          max: 0,
+          default: -24
         },
-        Knee: {
-          internal: 'knee'
+        knee: {
+          label: 'Knee',
+          internal: 'knee',
+          min: 0,
+          max: 40,
+          default: 30
         },
-        Ratio: {
-          internal: 'ratio'
+        ratio: {
+          label: 'Ratio',
+          internal: 'ratio',
+          min: 1,
+          max: 20,
+          minDisplay: "1:1",
+          maxDisplay: "20:1",
+          default: 12
         },
-        Reduction: {
-          internal: 'reduction'
+        attack: {
+          label: 'Attack',
+          internal: 'attack',
+          min: 0,
+          max: 1,
+          default: 0.003
         },
-        Attack: {
-          internal: 'attack'
-        },
-        Release: {
-          internal: 'release'
+        release: {
+          label: 'Release',
+          internal: 'release',
+          min: 0,
+          max: 1,
+          default: 0.250
         }
       }
     },
-    waveshaper: {
-      type: "waveshaper",
-      name: "WaveShaper",
+    lowpass: {
+      label: "Lowpass",
       params: {
-        Curve: {
-          internal: 'curve'
+        frequency: {
+          label: 'Frequency',
+          internal: 'frequency',
+          min: 10,
+          max: 1000,
+          default: 350
+        },
+        q: {
+          label: 'Resonanace',
+          internal: 'Q',
+          min: 0,
+          max: 1000,
+          default: 1
         }
       }
     },
-    filters: {
-      type: {
-        Lowpass: 0,
-        Highpass: 1,
-        Bandpass: 2,
-        Lowshelf: 3,
-        Highshelf: 4,
-        Peaking: 5,
-        Notch: 6,
-        Allpass: 7
-      },
-      name: "Filters",
+    highpass: {
+      label: "Highpass",
       params: {
-        Frequency: {
-          internal: 'frequency'
+        frequency: {
+          label: 'Frequency',
+          internal: 'frequency',
+          min: 10,
+          max: 1000,
+          default: 350
         },
-        Resonance: {
-          internal: 'Q'
+        q: {
+          label: 'Resonanace',
+          internal: 'Q',
+          min: 0,
+          max: 1000,
+          default: 1
+        }
+      }
+    },
+    bandpass: {
+      label: "Bandpass",
+      params: {
+        frequency: {
+          label: 'Frequency',
+          internal: 'frequency',
+          min: 10,
+          max: 1000,
+          default: 350
+        },
+        q: {
+          label: 'Q',
+          internal: 'Q',
+          min: 0,
+          max: 1000,
+          default: 1
+        }
+      }
+    },
+    lowshelf: {
+      label: "Lowshelf",
+      params: {
+        frequency: {
+          label: 'Frequency',
+          internal: 'frequency',
+          min: 10,
+          max: 1000,
+          default: 350
+        }
+      }
+    },
+    highshelf: {
+      label: "Highshelf",
+      params: {
+        frequency: {
+          label: 'Frequency',
+          internal: 'frequency',
+          min: 10,
+          max: 1000,
+          default: 350,
+        }
+      }
+    },
+    peaking: {
+      label: "Peaking",
+      params: {
+        frequency: {
+          label: 'Frequency',
+          internal: 'frequency',
+          min: 10,
+          max: 1000,
+          default: 350
+        },
+        q: {
+          label: 'Q',
+          internal: 'Q',
+          min: 0,
+          max: 1000,
+          default: 1
+        }
+      }
+    },
+    notch: {
+      label: "Notch",
+      params: {
+        frequency: {
+          label: 'Frequency',
+          internal: 'frequency',
+          min: 10,
+          max: 1000,
+          default: 350
+        },
+        q: {
+          label: 'Q',
+          internal: 'Q',
+          min: 0,
+          max: 1000,
+          default: 1
+        }
+      }
+    },
+    allpass: {
+      label: "Allpass",
+      params: {
+        frequency: {
+          label: 'Frequency',
+          internal: 'frequency',
+          min: 10,
+          max: 1000,
+          default: 350
+        },
+        q: {
+          label: 'Q',
+          internal: 'Q',
+          min: 0,
+          max: 1000,
+          default: 1
         }
       }
     }
