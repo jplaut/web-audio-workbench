@@ -1,7 +1,9 @@
 /*
  * TO DO
- * -fix effects drawer
- * -fix playback (why do we lose context after 1 pass?)
+ * - add save/load option
+ * - add convolver effects
+ * - allow for disabling/removing effects
+ * - allow for expanding/contracting effects
 */
 
 $(function() {

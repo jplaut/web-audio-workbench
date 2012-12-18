@@ -1,6 +1,18 @@
 <div class="canvasLabels">
-  <span class="max">{{options.max}}</span>
-  <span class="min">{{options.min}}</span>
+  <span class="max">
+    {{#if options.maxDisplay}}
+      {{options.maxDisplay}}
+    {{else}}
+      {{options.max}}
+    {{/if}}
+  </span>
+  <span class="min">
+    {{#if options.minDisplay}}
+      {{options.minDisplay}}
+    {{else}}
+      {{options.min}}
+    {{/if}}
+  </span>
 </div>
 <div class="canvas">
 </div>

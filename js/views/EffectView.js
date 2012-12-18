@@ -5,31 +5,27 @@ var EffectView = Backbone.View.extend({
     'change select.paramsList': 'changeParam'
   },
   initialize: function() {
-    var self = this;
-
     _.bindAll(this, 'render', 'changeParam');
+
+    var self = this;
     this.params = {};
-    _(this.model.params).each(function(value, key) {
-      self.params[key] = new AutomationView({model: self.model, param: key});
-    });
-
-    this.paramVisible = _(this.params).keys()[0];
-
-    this.template = app.templateLoader.load('effect');
     this.height = 120;
+    this.template = app.templateLoader.load('effect');
   },
   render: function() {
     var self = this;
 
     this.$el.append(self.template({name: this.model.get('name'), args: this.model.params}));
-    _(this.params).each(function(param) {
-      self.$el.append(param.render().el);
+
+    _(this.model.params).each(function(value, key) {
+      self.params[key] = new AutomationView({model: self.model, param: key});
+      self.$el.append(self.params[key].render().el);
     });
 
+    this.paramVisible = _(this.params).keys()[0];
     this.params[this.paramVisible].show();
 
     this.$el.height(this.height);
-
 
     return this;
   },

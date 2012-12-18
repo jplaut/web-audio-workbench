@@ -50,14 +50,14 @@ var TransportView = Backbone.View.extend({
         .where({solo: true})
         .filter(function(track) {return track.get('steps')[self.beatIndex] == 1 && track.get('sample')}))
         .each(function(track) {
-          self.playBeat(track.get('sample'), 0);
+          self.playBeat(track.get('sample'), track.effects, 0);
         });
     } else {
       _(this.collection
         .filter(function(track) {return track.get('steps')[self.beatIndex] == 1 && track.get('sample')}))
         .each(function(track) {
           if (!track.get('mute')) {
-            self.playBeat(track.get('sample'), 0);
+            self.playBeat(track.get('sample'), track.effects, 0);
           }
         });
       }
@@ -70,13 +70,25 @@ var TransportView = Backbone.View.extend({
 
     this.intervalId = setTimeout(this.play, app.get('stepTime') * 1000);
   },
-  playBeat: function(buffer, time) {
+  playBeat: function(buffer, effects, time) {
     this.notesplaying = _(this.notesplaying).filter(function(note) {return note.playbackState != 3});
     var source = app.audioContext.createBufferSource();
     source.buffer = buffer;
-    source.connect(app.audioContext.destination);
+    var effectsChain = this.addEffects(source, effects);
+    effectsChain.connect(app.audioContext.destination);
     source.noteOn(time);
     this.notesplaying.push(source);
+  },
+  addEffects: function(source, effects) {
+    var self = this;
+
+    if (effects.size() > 0) {
+      effects.each(function(effect) {
+        source = effect.addEffect(app.audioContext, source, self.beatIndex);
+      })
+    }
+
+    return source;
   },
   stop: function() {
     clearTimeout(this.intervalId);

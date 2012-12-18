@@ -31,13 +31,25 @@ var App = Backbone.Model.extend({
       return tpl;
     }
   },
+  bufferLoader: {
+    load: function(url, callback) {
+      var request = new XMLHttpRequest();
+      request.open('GET', url, true);
+      request.responseType = 'arraybuffer';
+
+      request.onload = function() {
+        app.audioContext.decodeAudioData(request.response, callback);
+      }
+      
+      request.send();
+    }
+  },
   effectsList: {
     gain: {
       label: "Gain",
       params: {
-        level: {
+        gain: {
           label: "Gain",
-          internal: "gain",
           min: 0,
           max: 1,
           default: 1
@@ -49,7 +61,6 @@ var App = Backbone.Model.extend({
       params: {
         position: {
           label: 'Position',
-          internal: 'position',
           min: -1,
           max: 1,
           default: 0
@@ -61,21 +72,18 @@ var App = Backbone.Model.extend({
       params: {
         threshold: {
           label: 'Threshold',
-          internal: 'threshold',
           min: -100,
           max: 0,
           default: -24
         },
         knee: {
           label: 'Knee',
-          internal: 'knee',
           min: 0,
           max: 40,
           default: 30
         },
         ratio: {
           label: 'Ratio',
-          internal: 'ratio',
           min: 1,
           max: 20,
           minDisplay: "1:1",
@@ -84,14 +92,12 @@ var App = Backbone.Model.extend({
         },
         attack: {
           label: 'Attack',
-          internal: 'attack',
           min: 0,
           max: 1,
           default: 0.003
         },
         release: {
           label: 'Release',
-          internal: 'release',
           min: 0,
           max: 1,
           default: 0.250
@@ -100,17 +106,16 @@ var App = Backbone.Model.extend({
     },
     lowpass: {
       label: "Lowpass",
+      type: 0,
       params: {
         frequency: {
           label: 'Frequency',
-          internal: 'frequency',
           min: 10,
           max: 1000,
           default: 350
         },
-        q: {
+        Q: {
           label: 'Resonanace',
-          internal: 'Q',
           min: 0,
           max: 1000,
           default: 1
@@ -119,17 +124,16 @@ var App = Backbone.Model.extend({
     },
     highpass: {
       label: "Highpass",
+      type: 1,
       params: {
         frequency: {
           label: 'Frequency',
-          internal: 'frequency',
           min: 10,
           max: 1000,
           default: 350
         },
-        q: {
+        Q: {
           label: 'Resonanace',
-          internal: 'Q',
           min: 0,
           max: 1000,
           default: 1
@@ -138,17 +142,16 @@ var App = Backbone.Model.extend({
     },
     bandpass: {
       label: "Bandpass",
+      type: 2,
       params: {
         frequency: {
           label: 'Frequency',
-          internal: 'frequency',
           min: 10,
           max: 1000,
           default: 350
         },
-        q: {
+        Q: {
           label: 'Q',
-          internal: 'Q',
           min: 0,
           max: 1000,
           default: 1
@@ -157,10 +160,10 @@ var App = Backbone.Model.extend({
     },
     lowshelf: {
       label: "Lowshelf",
+      type: 3,
       params: {
         frequency: {
           label: 'Frequency',
-          internal: 'frequency',
           min: 10,
           max: 1000,
           default: 350
@@ -169,10 +172,10 @@ var App = Backbone.Model.extend({
     },
     highshelf: {
       label: "Highshelf",
+      type: 4,
       params: {
         frequency: {
           label: 'Frequency',
-          internal: 'frequency',
           min: 10,
           max: 1000,
           default: 350,
@@ -181,17 +184,16 @@ var App = Backbone.Model.extend({
     },
     peaking: {
       label: "Peaking",
+      type: 5,
       params: {
         frequency: {
           label: 'Frequency',
-          internal: 'frequency',
           min: 10,
           max: 1000,
           default: 350
         },
-        q: {
+        Q: {
           label: 'Q',
-          internal: 'Q',
           min: 0,
           max: 1000,
           default: 1
@@ -200,17 +202,16 @@ var App = Backbone.Model.extend({
     },
     notch: {
       label: "Notch",
+      type: 6,
       params: {
         frequency: {
           label: 'Frequency',
-          internal: 'frequency',
           min: 10,
           max: 1000,
           default: 350
         },
-        q: {
+        Q: {
           label: 'Q',
-          internal: 'Q',
           min: 0,
           max: 1000,
           default: 1
@@ -219,22 +220,48 @@ var App = Backbone.Model.extend({
     },
     allpass: {
       label: "Allpass",
+      type: 7,
       params: {
         frequency: {
           label: 'Frequency',
-          internal: 'frequency',
           min: 10,
           max: 1000,
           default: 350
         },
-        q: {
+        Q: {
           label: 'Q',
-          internal: 'Q',
           min: 0,
           max: 1000,
           default: 1
         }
       }
+    },
+    addEffect: function(effect, context, source, values) {
+      var effectObj; 
+
+      if (effect == 'panner') {
+        var effectObj = context.createPanner();
+        effectObj.setPosition(values.position, 0, 0);
+      } else {
+        switch(effect) {
+          case 'compressor':
+            effectObj = context.createDynamicsCompressor();
+            break;
+          case 'gain':
+            effectObj = context.createGainNode();
+            break;
+          default:
+            effectObj = context.createBiquadFilter();
+            effectObj.type = this[effect].type;
+            break;
+        }
+        _(this[effect].params).each(function(val, key) {
+          effectObj[key].value = values[key];
+        });
+      }
+
+      source.connect(effectObj);
+      return effectObj;
     }
   },
   handleChangeNumSteps: function() {

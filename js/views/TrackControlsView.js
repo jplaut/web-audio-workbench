@@ -49,24 +49,20 @@ var TrackControlsView = Backbone.View.extend({
       $(e.currentTarget).html($(e.currentTarget).html());
     } else {
       $(e.currentTarget).replaceWith("<img src=img/loading.gif />");
-      var objectURL = window.URL.createObjectURL(e.currentTarget.files[0]);
-      var self = this;
-      var request = new XMLHttpRequest();
-      request.open('GET', objectURL, true);
-      request.responseType = 'arraybuffer';
 
-      request.onload = function() {
-        app.audioContext.decodeAudioData(request.response, function(buffer) {
-          var sampleName = e.currentTarget.files[0].name;
-          if (sampleName.length > 11) {
-            sampleName = sampleName.slice(0, 7) + ".." + sampleName.slice(sampleName.length - 3, sampleName.length);
-          }
-
-          self.model.set({sampleName: sampleName, sample: buffer});
-          self.render();
-        });
+      var sampleName = e.currentTarget.files[0].name
+      if (sampleName.length > 11) {
+        sampleName = sampleName.slice(0, 7) + ".." + sampleName.slice(sampleName.length - 3, sampleName.length);
       }
-      request.send();
+
+      var sampleURL = window.URL.createObjectURL(e.currentTarget.files[0]);
+
+      var self = this;
+
+      app.bufferLoader.load(sampleURL, function(buffer) {
+        self.model.set({sampleName: sampleName, sample: buffer});
+        self.render();
+      });
     }
   },
   removeSample: function() {
