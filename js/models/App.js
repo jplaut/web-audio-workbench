@@ -61,8 +61,8 @@ var App = Backbone.Model.extend({
       params: {
         position: {
           label: 'Position',
-          min: -1,
-          max: 1,
+          min: -4,
+          max: 4,
           default: 0
         }
       }

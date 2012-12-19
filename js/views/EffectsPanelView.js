@@ -52,7 +52,7 @@ var EffectsPanelView = Backbone.View.extend({
 
     this.height += effectView.height + 7;
     this.$el.height(this.height);
-    app.trigger('change:wrapperHeight', effectView.height);
-    this.trigger('add:effect', effectView.height);
+    app.trigger('change:wrapperHeight', effectView.height + 7);
+    this.trigger('add:effect', effectView.height + 7);
   }
 });

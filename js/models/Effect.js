@@ -22,7 +22,7 @@ var Effect = Backbone.Model.extend({
 
     if (this.get('type') == 'panner') {
       var effectObj = context.createPanner();
-      effectObj.setPosition(values.position, 0, 0);
+      effectObj.setPosition(this.params.position.values[i], 0, -0.5);
     } else {
       switch(this.get('type')) {
         case 'compressor':

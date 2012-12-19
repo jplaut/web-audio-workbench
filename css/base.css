@@ -58,9 +58,13 @@ html {
   float: left;
 }
 
-p.tracklabel {
+.tracklabel {
   float: left;
-  margin: 0px;
+  margin-right: 5px;
+}
+
+.trackLabelText {
+  margin-left: 2px;
 }
 
 .toggleEffects img {
@@ -80,11 +84,6 @@ p.tracklabel {
   float: left;
 }
 
-.trackControls .left .sample img {
-  margin: 0 19%;
-  width: 18px;
-}
-
 .trackControls .left .sample input {
   width: 80px;
 }
@@ -94,7 +93,7 @@ p.tracklabel {
   float: right;
 }
 
-.solo, span.mute {
+.solo, .mute {
   width: 15px;
   text-align: center;
   cursor: hand;
@@ -225,11 +224,8 @@ p.tracklabel {
 }
 
 /* GENERAL */
-.close {
-  width: 5px;
-  height: 5px;
-  background-color: red;
-  color: #000;
+.close img {
   cursor: pointer;
-  margin-right: 3px;
+  margin: 0 3px -2px;
+  width: 15px;
 }
