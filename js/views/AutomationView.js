@@ -2,13 +2,14 @@ var AutomationView = Backbone.View.extend({
   tagName: 'div',
   className: 'automationContainer',
   initialize: function() {
-    _.bindAll(this, 'render', 'handleClick', 'handleNewPoint', 'handleDrag', 'setValues', 'getPathPoints');
+    _.bindAll(this, 'render', 'handleClick', 'handleNewPoint', 'handleDrag', 'setValues', 'getPathPoints', 'toggleDisplay');
     this.param = this.model.params[this.options.param];
     this.width = 758;
     this.height = 120;
     this.multiplier = this.height / (this.param.max - this.param.min);
     this.points = [];
     this.automationPathStr = "";
+    this.dragging = false;
 
     this.template = app.templateLoader.load('automation');
     this.on('drag', this.handleDrag);
@@ -17,20 +18,21 @@ var AutomationView = Backbone.View.extend({
     this.$el.html(this.template({options: this.param}));
 
     this.canvas = Raphael($('.canvas', this.el)[0], this.width, this.height);
-    this.background = this.canvas.rect(0, 0, this.width, this.height)
+    var background = this.canvas.rect(0, 0, this.width, this.height)
       .attr('fill', '#fff')
       .click(this.handleClick);
+
+    this.background = background.getBBox();
 
     this.automationPath = this.canvas.path("M0, " + (this.multiplier * (this.param.max - this.param.default)) + "H" + this.width);
 
 
     return this;
   },
-  show: function() {
-    this.$el.css('display', 'block');
-  },
-  hide: function() {
-    this.$el.css('display', 'none');
+  toggleDisplay: function() {
+    var display = (this.$el.css('display') == 'block') ? 'none' : 'block';
+
+    this.$el.css('display', display);
   },
   handleClick: function (e) {
     var self = this;
@@ -78,13 +80,16 @@ var AutomationView = Backbone.View.extend({
     }
   },
   handleDrag: function(point, dx, dy, x, y) {
-    var i = _(this.points).indexOf(point);
     x = this.normalizeX(x);
     y = this.normalizeY(y);
 
-    if (!(this.points[i-1] && x <= this.points[i-1].attr('cx')) && !(this.points[i+1] && x >= this.points[i+1].attr('cx')) && x > 0 && x < this.width) {
-      this.points[i].attr({cx: x, cy: y});
-      this.handleNewPoint('drag');
+    if (Raphael.isPointInsideBBox(this.background, x, y)) {
+      var i = _(this.points).indexOf(point);
+
+      if (!(this.points[i-1] && x <= this.points[i-1].attr('cx')) && !(this.points[i+1] && x >= this.points[i+1].attr('cx')) && x > 0 && x < this.width) {
+        this.points[i].attr({cx: x, cy: y});
+        this.handleNewPoint('drag');
+      }
     }
   },
   setValues: function() {

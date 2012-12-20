@@ -1,7 +1,17 @@
 <div class="effectControls">
-  <div class="effectTitle">{{name}}</div>
+  <div class="effectTitle">
+    <div class="close removeEffect">
+      <img src="img/x.png" />
+    </div>
+    <div class="effectTitleText">
+      {{name}}
+    </div>
+  </div>
   <select class="paramsList">
     {{#createSelect args}}
     {{/createSelect}}
   </select>
+  <div class='toggleEffect on'>
+    ON
+  </div>
 </div>

@@ -15,6 +15,8 @@ var TransportView = Backbone.View.extend({
     this.isPlaying = false;
     this.notesplaying = [];
     this.beatIndex = 0;
+    this.relativeBeatIndex = 0;
+    this.prevRelativeBeatIndex = null;
 
     $(window).on('resize', this.handleWindowResize);
   },
@@ -50,6 +52,11 @@ var TransportView = Backbone.View.extend({
   play: function() {
     var self = this;
 
+    $("#stepIndicatorBar .step[step='" + this.relativeBeatIndex + "']").addClass('on');
+    if (this.prevRelativeBeatIndex || this.prevRelativeBeatIndex == 0) {
+      $("#stepIndicatorBar .step[step='" + this.prevRelativeBeatIndex + "']").removeClass('on');
+    }
+
     if (this.collection.any(function(track) {return track.get('solo')})) {
       this.collection.chain()
         .where({solo: true})
@@ -67,10 +74,13 @@ var TransportView = Backbone.View.extend({
         });
       }
 
+      this.prevRelativeBeatIndex = this.relativeBeatIndex;
     if (this.beatIndex == app.get('totalBeats') - app.get('beatsPerStep')) {
+      this.relativeBeatIndex = 0;
       this.beatIndex = 0;
     } else {
       this.beatIndex += app.get('beatsPerStep');
+      this.relativeBeatIndex++;
     }
 
     this.intervalId = setTimeout(this.play, app.get('stepTime') * 1000);
@@ -87,10 +97,13 @@ var TransportView = Backbone.View.extend({
   addEffects: function(source, effects) {
     var self = this;
 
-    if (effects.size() > 0) {
-      effects.each(function(effect) {
-        source = effect.addEffect(app.audioContext, source, self.beatIndex);
-      })
+    if (effects.size() > 0 && effects.any(function(effect) {return effect.get('enabled')})) {
+      console.log('yes');
+      effects.chain()
+        .filter(function(effect) {return effect.get('enabled')})
+        .each(function(effect) {
+          source = effect.addEffect(app.audioContext, source, self.beatIndex);
+        });
     }
 
     return source;
@@ -102,7 +115,10 @@ var TransportView = Backbone.View.extend({
     });
 
     this.notesplaying = [];
+    $("#stepIndicatorBar .step[step='" + this.prevRelativeBeatIndex + "']").removeClass('on');
     this.beatIndex = 0;
+    this.relativeBeatIndex = 0;
+    this.prevRelativeBeatIndex = null;
   },
   changeTempo: function(e) {
     app.set({tempo: $(e.currentTarget).val()});

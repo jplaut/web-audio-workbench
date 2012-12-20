@@ -10,8 +10,6 @@ var PatternView = Backbone.View.extend({
     app.on('change:numSteps', this.render);
   },
   render: function() {
-    this.$el.attr('numSteps', app.get('numSteps'));
-    
     var options = {
       numSteps: app.get('numSteps'),
       steps: this.model.get('steps'),

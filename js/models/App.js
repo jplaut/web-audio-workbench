@@ -61,8 +61,10 @@ var App = Backbone.Model.extend({
       params: {
         position: {
           label: 'Position',
-          min: -4,
-          max: 4,
+          min: -5,
+          max: 5,
+          minDisplay: 'Left',
+          maxDisplay: 'Right',
           default: 0
         }
       }
@@ -262,6 +264,8 @@ var App = Backbone.Model.extend({
           label: 'Wet/Dry',
           min: 0,
           max: 1,
+          minDisplay: 'Dry',
+          maxDisplay: 'Wet',
           default: 1
         }
       }
@@ -274,6 +278,8 @@ var App = Backbone.Model.extend({
           label: 'Wet/Dry',
           min: 0,
           max: 1,
+          minDisplay: 'Dry',
+          maxDisplay: 'Wet',
           default: 1
         }
       }
@@ -286,6 +292,8 @@ var App = Backbone.Model.extend({
           label: 'Wet/Dry',
           min: 0,
           max: 1,
+          minDisplay: 'Dry',
+          maxDisplay: 'Wet',
           default: 1
         }
       }
@@ -298,6 +306,8 @@ var App = Backbone.Model.extend({
           label: 'Wet/Dry',
           min: 0,
           max: 1,
+          minDisplay: 'Dry',
+          maxDisplay: 'Wet',
           default: 1
         }
       }
@@ -310,6 +320,8 @@ var App = Backbone.Model.extend({
           label: 'Wet/Dry',
           min: 0,
           max: 1,
+          minDisplay: 'Dry',
+          maxDisplay: 'Wet',
           default: 1
         }
       }
@@ -322,6 +334,8 @@ var App = Backbone.Model.extend({
           label: 'Wet/Dry',
           min: 0,
           max: 1,
+          minDisplay: 'Dry',
+          maxDisplay: 'Wet',
           default: 1
         }
       }
@@ -334,6 +348,8 @@ var App = Backbone.Model.extend({
           label: 'Wet/Dry',
           min: 0,
           max: 1,
+          minDisplay: 'Dry',
+          maxDisplay: 'Wet',
           default: 1
         }
       }
@@ -346,6 +362,8 @@ var App = Backbone.Model.extend({
           label: 'Wet/Dry',
           min: 0,
           max: 1,
+          minDisplay: 'Dry',
+          maxDisplay: 'Wet',
           default: 1
         }
       }
@@ -358,6 +376,8 @@ var App = Backbone.Model.extend({
           label: 'Wet/Dry',
           min: 0,
           max: 1,
+          minDisplay: 'Dry',
+          maxDisplay: 'Wet',
           default: 1
         }
       }
@@ -370,6 +390,8 @@ var App = Backbone.Model.extend({
           label: 'Wet/Dry',
           min: 0,
           max: 1,
+          minDisplay: 'Dry',
+          maxDisplay: 'Wet',
           default: 1
         }
       }

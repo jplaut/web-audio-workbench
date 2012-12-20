@@ -3,16 +3,33 @@ html {
   background-color: #ccc;
 }
 
+#stepIndicatorBar {
+  overflow: hidden;
+  float: right;
+  width: 760px;
+  margin: 0 0 10px;
+}
+
+#stepIndicatorBar .step {
+  height: 2px;
+  background-color: black;
+  float: left;
+  border: 1px solid black;
+}
+
+#stepIndicatorBar .step.on {
+  background-color: yellow;
+}
+
 /* TRANSPORT */
 
 #transport {
   position: fixed;
   bottom: 10px;
-  padding: 0 5px;
 }
 
 #transport button, label, #togglePlayback {
-  margin: 0 0 0 10px;
+  margin: 0 5px;
 }
 
 #togglePlayback img {
@@ -26,9 +43,11 @@ html {
 
 #tracks {
   width: 900px;
+  height: 93%;
   margin: 10px auto 0;
   border: 1px solid #222;
   padding: 5px 5px 0;
+  overflow: scroll;
 }
 
 /* INDIVIDUAL TRACK */
@@ -102,33 +121,33 @@ html {
   width: 760px;
 }
 
-.step {
+.steps .step {
   height: 35px;
   background-color: #fff;
   border: 1px solid #000;
   float: left;
 }
 
-.step.on {
+.steps .step.on {
   background-color: #000;
 }
 
-.steps[numsteps='4'] .step {
+#tracks[numsteps='4'] .step {
   width: 35.04px;
   margin: 1px 77px;
 }
 
-.steps[numsteps='8'] .step {
+#tracks[numsteps='8'] .step {
   width: 35.04px;
   margin: 1px 29.35px;
 }
 
-.steps[numsteps='16'] .step {
+#tracks[numsteps='16'] .step {
   width: 35.04px;
   margin: 1px 5.41px;
 }
 
-.steps[numsteps='32'] .step {
+#tracks[numsteps='32'] .step {
   width: 17.5px;
   margin: 1px 0 1px 4.39px;
 }
@@ -156,33 +175,52 @@ html {
 
 .effect {
   border: 1px solid #222;
-  padding: 2px 3px;
+  padding: 4px 3px;
   overflow: hidden;
 }
 
 .effectTitle {
-  font-size: 17px;
-  font-weight: bold;
-  margin: -4px 0 1px;
+  margin: 1px 0;
+  overflow: hidden;
+  width: 100px;
+}
+
+.removeEffect {
+  float: left;
+}
+
+.effectTitleText {
+  float: left;
+  width: 80px;
+  margin-bottom: 3px;
 }
 
 .paramsList {
-  padding-left: 10px;
-  font-size: 13px;
-}
-
-.effectParam {
-  cursor: pointer;
-  width: 80px;
-}
-
-.effectParam.on {
-  background-color: yellow;
+  margin-left: -1px;
+  float: left;
+  width: 100px;
 }
 
 .effectControls {
-  width: 100px;
+  width: 110px;
   float: left;
+  padding-left: 2px;
+}
+
+.toggleEffect {
+  font-size: 12px;
+  float: left;
+  margin: 4px 0 0;
+  padding: 1px 2px;
+  cursor: pointer;
+}
+
+.toggleEffect.on {
+  background-color: yellow;
+}
+
+.toggleEffect.off {
+  background-color: #ccc;
 }
 
 .automationContainer {
@@ -213,6 +251,6 @@ html {
 /* GENERAL */
 .close img {
   cursor: pointer;
-  margin: 0 3px -2px;
+  margin: 0 3px -2px 0;
   width: 15px;
 }

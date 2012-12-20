@@ -2,7 +2,8 @@ var Effect = Backbone.Model.extend({
   defaults: function() {
     return {
       type: '',
-      name: ''
+      name: '',
+      enabled: true
     }
   },
   initialize: function() {
