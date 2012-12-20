@@ -1,5 +1,5 @@
 var EffectView = Backbone.View.extend({
-  tagName: 'li',
+  tagName: 'div',
   className: 'effect',
   events: {
     'change select.paramsList': 'changeParam'
@@ -7,7 +7,6 @@ var EffectView = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, 'render', 'changeParam');
 
-    this.height = 120;
     this.params = {};
     this.template = app.templateLoader.load('effect');
   },
@@ -23,8 +22,6 @@ var EffectView = Backbone.View.extend({
 
     this.paramVisible = _(this.params).keys()[0];
     this.params[this.paramVisible].show();
-
-    this.$el.height(this.height);
 
     return this;
   },

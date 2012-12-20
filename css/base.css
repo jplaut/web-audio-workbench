@@ -31,17 +31,11 @@ html {
   padding: 5px 5px 0;
 }
 
-#tracks ul {
-  margin: 0;
-  padding: 0; 
-  list-style: none;
-}
-
 /* INDIVIDUAL TRACK */
 .track {
   width: 100%;
   margin-bottom: 20px;
-  height: 40px;
+  overflow: hidden;
 }
 
 /* TRACK LABEL/CONTROLS */
@@ -149,7 +143,7 @@ html {
 
 /* EFFECTS PANEL */
 .effects-panel {
-  height: 0px;
+  display: none;
   float: left;
   width: 100%;
   overflow: hidden;
@@ -163,6 +157,7 @@ html {
 .effect {
   border: 1px solid #222;
   padding: 2px 3px;
+  overflow: hidden;
 }
 
 .effectTitle {
