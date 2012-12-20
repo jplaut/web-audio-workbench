@@ -9,12 +9,14 @@ var TransportView = Backbone.View.extend({
     'change select#steps': 'changeNumSteps'
   },
   initialize: function(options) {
-    _.bindAll(this, 'render', 'play', 'stop', 'createTrack', 'togglePlayback', 'changeTempo', 'changeNumSteps');
+    _.bindAll(this, 'render', 'play', 'stop', 'createTrack', 'togglePlayback', 'changeTempo', 'changeNumSteps', 'handleWindowResize');
     
     this.template = app.templateLoader.load('transport');
     this.isPlaying = false;
     this.notesplaying = [];
     this.beatIndex = 0;
+
+    $(window).on('resize', this.handleWindowResize);
   },
   render: function() {
     var self = this;
@@ -22,6 +24,9 @@ var TransportView = Backbone.View.extend({
     this.$el.append(self.template());
 
     return this;
+  },
+  handleWindowResize: function() {
+    this.$el.css('left', $(document).width() / 2 - this.$el.width() / 2);
   },
   createTrack: function() {
     var track = new Track();
@@ -46,15 +51,15 @@ var TransportView = Backbone.View.extend({
     var self = this;
 
     if (this.collection.any(function(track) {return track.get('solo')})) {
-      _(self.collection
+      this.collection.chain()
         .where({solo: true})
-        .filter(function(track) {return track.get('steps')[self.beatIndex] == 1 && track.get('sample')}))
+        .filter(function(track) {return track.get('steps')[self.beatIndex] == 1 && track.get('sample')})
         .each(function(track) {
           self.playBeat(track.get('sample'), track.effects, 0);
         });
     } else {
-      _(this.collection
-        .filter(function(track) {return track.get('steps')[self.beatIndex] == 1 && track.get('sample')}))
+      this.collection.chain()
+        .filter(function(track) {return track.get('steps')[self.beatIndex] == 1 && track.get('sample')})
         .each(function(track) {
           if (!track.get('mute')) {
             self.playBeat(track.get('sample'), track.effects, 0);

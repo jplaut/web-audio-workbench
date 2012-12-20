@@ -21,3 +21,24 @@ Handlebars.registerHelper("createSelect", function(options) {
 
   return out;
 });
+
+Handlebars.registerHelper("createEffectsList", function(list) {
+  var out = "";
+  var filters = "";
+  var convolver = "";
+
+  _(list).each(function(value, key) {
+    if (key.match(/^filter_/)) {
+      filters += "<option value=\"" + key + "\">" + value.label + "</option>";
+    } else if (key.match(/^convolver_/)) {
+      convolver += "<option value=\"" + key + "\">" + value.label + "</option>";
+    } else {
+      out += "<option value=\"" + key + "\">" + value.label + "</option>";
+    }
+  })
+
+  out += "<optgroup label=\"Filters\">" + filters + "</optgroup>";
+  out += "<optgroup label=\"Convolver Effects\">" + convolver + "</optgroup>";
+
+  return out;
+});

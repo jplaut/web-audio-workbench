@@ -1,12 +1,22 @@
 /*
  * TO DO
  * - add save/load option
- * - add convolver effects
  * - allow for disabling/removing effects
  * - allow for expanding/contracting effects
 */
 
 $(function() {
-  var sequencerView = new SequencerView();
-  $(document.body).append(sequencerView.render().el);
+  var trackList = new TrackList;
+
+  var trackListView = new TrackListView({
+    collection: trackList
+  });
+
+  var transport = new TransportView({
+    collection: trackList
+  });
+
+  $(document.body).append(trackListView.render().el);
+  $(document.body).append(transport.render().el);
+  transport.handleWindowResize();
 });

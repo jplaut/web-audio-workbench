@@ -3,13 +3,10 @@ var TrackListView = Backbone.View.extend({
   id: 'tracks',
   initialize: function() {
     _.bindAll(this, 'render', 'appendTrack');
-
     this.collection.on('add', this.appendTrack);
   },
   render: function() {
     var self = this;
-
-    this.$el.html("<ul></ul>");
 
     this.collection.each(function(track) {
       self.appendTrack(track);
@@ -23,6 +20,6 @@ var TrackListView = Backbone.View.extend({
       collection: this.collection
     });
 
-    $("ul:first", this.el).append(trackView.render().el);
+    this.$el.append(trackView.render().el);
   }
 });

@@ -2,8 +2,9 @@ var SequencerView = Backbone.View.extend({
   tagName: 'div',
   id: 'wrapper',
   initialize: function() {
-    _.bindAll(this, 'render', 'handleCreateTrack', 'handleRemoveTrack');
+    _.bindAll(this, 'render');
     this.collection = new TrackList;
+    this.height = 30;
 
     this.trackList = new TrackListView({
       collection: this.collection
@@ -15,8 +16,6 @@ var SequencerView = Backbone.View.extend({
 
     app.on('change:wrapperHeight', this.handleHeightChange, this);
     app.on('toggle:effectsPanel', this.handleEffectsPanelToggled, this);
-    this.collection.on('add', this.handleCreateTrack);
-    this.collection.on('remove', this.handleRemoveTrack);
   },
   render: function() {
     var self = this;
@@ -25,12 +24,6 @@ var SequencerView = Backbone.View.extend({
     this.$el.append(this.transport.render().el);
 
     return this;
-  },
-  handleCreateTrack: function() {
-    this.$el.height(this.$el.height() + 70);
-  },
-  handleRemoveTrack: function() {
-    this.$el.height(this.$el.height() - 70);
   },
   handleEffectsPanelToggled: function(toggled, height) {
     var height = (toggled) ? height : height * -1;
@@ -41,6 +34,7 @@ var SequencerView = Backbone.View.extend({
     );
   },
   handleHeightChange: function(height) {
-    this.$el.height(this.$el.height() + height);
+    this.height += height;
+    this.$el.height(this.height);
   }
 });

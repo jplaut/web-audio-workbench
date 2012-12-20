@@ -7,9 +7,8 @@ var EffectView = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, 'render', 'changeParam');
 
-    var self = this;
-    this.params = {};
     this.height = 120;
+    this.params = {};
     this.template = app.templateLoader.load('effect');
   },
   render: function() {

@@ -104,7 +104,7 @@ var App = Backbone.Model.extend({
         }
       }
     },
-    lowpass: {
+    filter_lowpass: {
       label: "Lowpass",
       type: 0,
       params: {
@@ -122,7 +122,7 @@ var App = Backbone.Model.extend({
         }
       }
     },
-    highpass: {
+    filter_highpass: {
       label: "Highpass",
       type: 1,
       params: {
@@ -140,7 +140,7 @@ var App = Backbone.Model.extend({
         }
       }
     },
-    bandpass: {
+    filter_bandpass: {
       label: "Bandpass",
       type: 2,
       params: {
@@ -158,7 +158,7 @@ var App = Backbone.Model.extend({
         }
       }
     },
-    lowshelf: {
+    filter_lowshelf: {
       label: "Lowshelf",
       type: 3,
       params: {
@@ -167,10 +167,16 @@ var App = Backbone.Model.extend({
           min: 10,
           max: 1000,
           default: 350
+        },
+        gain: {
+          label: 'Gain',
+          min: -40,
+          max: 40,
+          default: 0
         }
       }
     },
-    highshelf: {
+    filter_highshelf: {
       label: "Highshelf",
       type: 4,
       params: {
@@ -179,10 +185,16 @@ var App = Backbone.Model.extend({
           min: 10,
           max: 1000,
           default: 350,
+        },
+        gain: {
+          label: 'Gain',
+          min: -40,
+          max: 40,
+          default: 0
         }
       }
     },
-    peaking: {
+    filter_peaking: {
       label: "Peaking",
       type: 5,
       params: {
@@ -197,10 +209,16 @@ var App = Backbone.Model.extend({
           min: 0,
           max: 1000,
           default: 1
+        },
+        gain: {
+          label: 'Gain',
+          min: -40,
+          max: 40,
+          default: 0
         }
       }
     },
-    notch: {
+    filter_notch: {
       label: "Notch",
       type: 6,
       params: {
@@ -218,7 +236,7 @@ var App = Backbone.Model.extend({
         }
       }
     },
-    allpass: {
+    filter_allpass: {
       label: "Allpass",
       type: 7,
       params: {
@@ -236,32 +254,125 @@ var App = Backbone.Model.extend({
         }
       }
     },
-    addEffect: function(effect, context, source, values) {
-      var effectObj; 
-
-      if (effect == 'panner') {
-        var effectObj = context.createPanner();
-        effectObj.setPosition(values.position, 0, 0);
-      } else {
-        switch(effect) {
-          case 'compressor':
-            effectObj = context.createDynamicsCompressor();
-            break;
-          case 'gain':
-            effectObj = context.createGainNode();
-            break;
-          default:
-            effectObj = context.createBiquadFilter();
-            effectObj.type = this[effect].type;
-            break;
+    convolver_reverb_matrix_1: {
+      label: "Reverb: Matrix 1",
+      sampleName: "reverb_matrix_1.wav",
+      params: {
+        wet_dry: {
+          label: 'Wet/Dry',
+          min: 0,
+          max: 1,
+          default: 1
         }
-        _(this[effect].params).each(function(val, key) {
-          effectObj[key].value = values[key];
-        });
       }
-
-      source.connect(effectObj);
-      return effectObj;
+    },
+    convolver_reverb_matrix_2: {
+      label: "Reverb: Matrix 2",
+      sampleName: "reverb_matrix_2.wav",
+      params: {
+        wet_dry: {
+          label: 'Wet/Dry',
+          min: 0,
+          max: 1,
+          default: 1
+        }
+      }
+    },
+    convolver_reverb_matrix_3: {
+      label: "Reverb: Matrix 3",
+      sampleName: "reverb_matrix_3.wav",
+      params: {
+        wet_dry: {
+          label: 'Wet/Dry',
+          min: 0,
+          max: 1,
+          default: 1
+        }
+      }
+    },
+    convolver_reverb_spring: {
+      label: "Reverb: Spring",
+      sampleName: "reverb_spring.wav",
+      params: {
+        wet_dry: {
+          label: 'Wet/Dry',
+          min: 0,
+          max: 1,
+          default: 1
+        }
+      }
+    },
+    convolver_small_room_reverb: {
+      label: "Reverb: Small Room",
+      sampleName: "reverb_small_room.wav",
+      params: {
+        wet_dry: {
+          label: 'Wet/Dry',
+          min: 0,
+          max: 1,
+          default: 1
+        }
+      }
+    },
+    convolver_filter_telephone: {
+      label: "Filter: Telephone",
+      sampleName: "filter_telephone.wav",
+      params: {
+        wet_dry: {
+          label: 'Wet/Dry',
+          min: 0,
+          max: 1,
+          default: 1
+        }
+      }
+    },
+    convolver_filter_comb_1: {
+      label: "Filter: Comb 1",
+      sampleName: "filter_comb_1.wav",
+      params: {
+        wet_dry: {
+          label: 'Wet/Dry',
+          min: 0,
+          max: 1,
+          default: 1
+        }
+      }
+    },
+    convolver_filter_comb_2: {
+      label: "Filter: Comb 2",
+      sampleName: "filter_comb_2.wav",
+      params: {
+        wet_dry: {
+          label: 'Wet/Dry',
+          min: 0,
+          max: 1,
+          default: 1
+        }
+      }
+    },
+    convolver_echo_ping_pong: {
+      label: "Echo: Ping Pong",
+      sampleName: "echo_ping_pong.wav",
+      params: {
+        wet_dry: {
+          label: 'Wet/Dry',
+          min: 0,
+          max: 1,
+          default: 1
+        }
+      }
+    },
+    convolver_echo_wild: {
+      label: "Echo: Wild",
+      sampleName: "echo_wild.wav",
+      params: {
+        wet_dry: {
+          label: 'Wet/Dry',
+          min: 0,
+          max: 1,
+          default: 1
+        }
+      }
     }
   },
   handleChangeNumSteps: function() {
