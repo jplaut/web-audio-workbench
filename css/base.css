@@ -42,7 +42,7 @@ html {
 /* TRACK LIST */
 
 #tracks {
-  width: 900px;
+  width: 940px;
   height: 93%;
   margin: 10px auto 0;
   border: 1px solid #222;
@@ -59,7 +59,7 @@ html {
 
 /* TRACK LABEL/CONTROLS */
 .trackControls {
-  width: 130px;
+  width: 18%;
   float: left;
 }
 
@@ -70,6 +70,15 @@ html {
 
 .trackLabelText {
   margin-left: 2px;
+  display: inline;
+}
+
+.trackLabelText input {
+  width: 104px;
+}
+
+.toggleEffects {
+  float: right;
 }
 
 .toggleEffects img {
@@ -80,12 +89,12 @@ html {
 
 .trackControls .left {
   float: left;
-  width: 115px;
+  width: 88%;
 }
 
 /* SAMPLE UPLOAD */
 .trackControls .left .sample {
-  width: 110px;
+  width: 88%;
   float: left;
 }
 
@@ -185,14 +194,10 @@ html {
   width: 100px;
 }
 
-.removeEffect {
-  float: left;
-}
-
 .effectTitleText {
-  float: left;
   width: 80px;
   margin-bottom: 3px;
+  display: inline;
 }
 
 .paramsList {
@@ -202,7 +207,7 @@ html {
 }
 
 .effectControls {
-  width: 110px;
+  width: 15%;
   float: left;
   padding-left: 2px;
 }
@@ -213,6 +218,7 @@ html {
   margin: 4px 0 0;
   padding: 1px 2px;
   cursor: pointer;
+  clear: left;
 }
 
 .toggleEffect.on {
@@ -253,4 +259,8 @@ html {
   cursor: pointer;
   margin: 0 3px -2px 0;
   width: 15px;
+}
+
+.close {
+  display: inline;
 }

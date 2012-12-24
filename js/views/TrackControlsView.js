@@ -8,19 +8,23 @@ var TrackControlsView = Backbone.View.extend({
     'click .removeSample': 'removeSample',
     'click .removeTrack': 'removeTrack',
     'click .toggleEffects': 'toggleEffects',
-    'dblclk .trackLabelText': 'setTrackName'
+    'dblclick .trackLabelText': 'startEditingTrackName',
+    'keypress .trackLabelText': 'endEditingTrackName'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'handleSolo', 'handleMute', 'setSample', 'removeSample', 'removeTrack', 'toggleEffects');
+    _.bindAll(this, 'render', 'handleSolo', 'handleMute', 'setSample', 'removeSample', 'removeTrack', 'toggleEffects', 'startEditingTrackName', 'endEditingTrackName');
 
     this.template = globals.templateLoader.load('trackcontrols');
+    this.isEditingTrackName = false;
 
+    this.model.on('change:name', this.render);
     this.model.on('change:effectsExpanded', this.toggleEffects);
     this.collection.on('remove', this.render);
+    $(window).on('click', this.endEditingTrackName);
   },
   render: function() {
     var options = this.model.toJSON();
-    options.trackNum = this.collection.indexOf(this.model) + 1;
+    options.name = options.name || 'Track ' + (this.collection.indexOf(this.model) + 1);
     this.$el.html(this.template(options));
 
     return this;
@@ -39,30 +43,38 @@ var TrackControlsView = Backbone.View.extend({
       this.model.set({solo: false});
     }
   },
-  setTrackName: function() {
-
+  startEditingTrackName: function() {
+    if (!this.isEditingTrackName) {
+      this.isEditingTrackName = true;
+      $(".trackLabelText", this.el).html('<input type="text" maxlength=13 value = "' + $(".trackLabelText", this.el).text() + '" />');
+      $(".trackLabelText input", this.el).select();
+    }
+  },
+  endEditingTrackName: function(e) {
+    if (this.isEditingTrackName) {
+      if (
+        (e.type == 'click' && e.target != $(".trackLabelText input", this.el)[0]) || 
+        (e.type == 'keypress' && e.target == $(".trackLabelText input", this.el)[0] && e.keyCode == 13)
+      ) {
+        this.model.set({name: $(".trackLabelText input", this.el).val()});
+        this.isEditingTrackName = false;
+      }
+    }
   },
   setSample: function(e) {
     var supportedTypes = [".wav", ".mp3", ".aac", ".ogg"];
     if (!e.currentTarget.files[0].name.match(new RegExp("\\" + supportedTypes.join("|\\") + "$"))) {
       alert("File must be one of the following formats: \n" + supportedTypes.join("\n"));
       $(e.currentTarget).html($(e.currentTarget).html());
-    } else {
+    } else if (e.currentTarget.files.length > 0) {
       $(e.currentTarget).replaceWith("<img src=img/loading.gif />");
+      //var self = this;
 
-      var sampleName = e.currentTarget.files[0].name
-      if (sampleName.length > 11) {
-        sampleName = sampleName.slice(0, 7) + ".." + sampleName.slice(sampleName.length - 3, sampleName.length);
-      }
-
-      var sampleURL = window.URL.createObjectURL(e.currentTarget.files[0]);
-
-      var self = this;
-
-      globals.bufferLoader.load(sampleURL, globals.audioContext, function(buffer) {
-        self.model.set({sampleName: sampleName, sample: buffer});
-        self.render();
-      });
+      this.model.setSample(
+        e.currentTarget.files[0],
+        function() {this.render();},
+        this
+      );
     }
   },
   removeSample: function() {
