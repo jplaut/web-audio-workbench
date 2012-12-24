@@ -4,408 +4,111 @@ var App = Backbone.Model.extend({
       tempo: 120,
       numSteps: 8,
       totalBeats: 32,
-      beatsPerStep: '',
-      stepTime: ''
+      isPlaying: false
     }
   },
   initialize: function() {
-    this.audioContext = new webkitAudioContext();
+    _.bindAll(this, 'play', 'playBeat', 'stop', 'addEffects', 'togglePlayback', 'handleChangeTempo', 'handleChangeNumSteps');
+    this.trackList = new TrackList;
+    this.notesplaying = [];
+    this.beatIndex = 0;
+    this.relativeBeatIndex = 0;
+
     this.handleChangeNumSteps();
-    this.on('change:numSteps', this.handleChangeNumSteps, this);
-    this.on('change:tempo', this.handleChangeTempo, this);
-  },
-  templateLoader: {
-    directory: 'tpl/',
-    load: function(template) {
-      var tpl = '';
-      var self = this;
-
-      $.ajax({
-        url: self.directory + template + '.html',
-        async: false,
-        success: function(data) {
-          tpl = Handlebars.compile(data);
-        }
-      });
-
-      return tpl;
-    }
-  },
-  bufferLoader: {
-    load: function(url, callback) {
-      var request = new XMLHttpRequest();
-      request.open('GET', url, true);
-      request.responseType = 'arraybuffer';
-
-      request.onload = function() {
-        app.audioContext.decodeAudioData(request.response, callback);
-      }
-      
-      request.send();
-    }
-  },
-  effectsList: {
-    gain: {
-      label: "Gain",
-      params: {
-        gain: {
-          label: "Gain",
-          min: 0,
-          max: 1,
-          default: 1
-        }
-      }
-    },
-    panner: {
-      label: "Panner",
-      params: {
-        position: {
-          label: 'Position',
-          min: -5,
-          max: 5,
-          minDisplay: 'Left',
-          maxDisplay: 'Right',
-          default: 0
-        }
-      }
-    },
-    compressor: {
-      label: "Compressor",
-      params: {
-        threshold: {
-          label: 'Threshold',
-          min: -100,
-          max: 0,
-          default: -24
-        },
-        knee: {
-          label: 'Knee',
-          min: 0,
-          max: 40,
-          default: 30
-        },
-        ratio: {
-          label: 'Ratio',
-          min: 1,
-          max: 20,
-          minDisplay: "1:1",
-          maxDisplay: "20:1",
-          default: 12
-        },
-        attack: {
-          label: 'Attack',
-          min: 0,
-          max: 1,
-          default: 0.003
-        },
-        release: {
-          label: 'Release',
-          min: 0,
-          max: 1,
-          default: 0.250
-        }
-      }
-    },
-    filter_lowpass: {
-      label: "Lowpass",
-      type: 0,
-      params: {
-        frequency: {
-          label: 'Frequency',
-          min: 10,
-          max: 1000,
-          default: 350
-        },
-        Q: {
-          label: 'Resonanace',
-          min: 0,
-          max: 1000,
-          default: 1
-        }
-      }
-    },
-    filter_highpass: {
-      label: "Highpass",
-      type: 1,
-      params: {
-        frequency: {
-          label: 'Frequency',
-          min: 10,
-          max: 1000,
-          default: 350
-        },
-        Q: {
-          label: 'Resonanace',
-          min: 0,
-          max: 1000,
-          default: 1
-        }
-      }
-    },
-    filter_bandpass: {
-      label: "Bandpass",
-      type: 2,
-      params: {
-        frequency: {
-          label: 'Frequency',
-          min: 10,
-          max: 1000,
-          default: 350
-        },
-        Q: {
-          label: 'Q',
-          min: 0,
-          max: 1000,
-          default: 1
-        }
-      }
-    },
-    filter_lowshelf: {
-      label: "Lowshelf",
-      type: 3,
-      params: {
-        frequency: {
-          label: 'Frequency',
-          min: 10,
-          max: 1000,
-          default: 350
-        },
-        gain: {
-          label: 'Gain',
-          min: -40,
-          max: 40,
-          default: 0
-        }
-      }
-    },
-    filter_highshelf: {
-      label: "Highshelf",
-      type: 4,
-      params: {
-        frequency: {
-          label: 'Frequency',
-          min: 10,
-          max: 1000,
-          default: 350,
-        },
-        gain: {
-          label: 'Gain',
-          min: -40,
-          max: 40,
-          default: 0
-        }
-      }
-    },
-    filter_peaking: {
-      label: "Peaking",
-      type: 5,
-      params: {
-        frequency: {
-          label: 'Frequency',
-          min: 10,
-          max: 1000,
-          default: 350
-        },
-        Q: {
-          label: 'Q',
-          min: 0,
-          max: 1000,
-          default: 1
-        },
-        gain: {
-          label: 'Gain',
-          min: -40,
-          max: 40,
-          default: 0
-        }
-      }
-    },
-    filter_notch: {
-      label: "Notch",
-      type: 6,
-      params: {
-        frequency: {
-          label: 'Frequency',
-          min: 10,
-          max: 1000,
-          default: 350
-        },
-        Q: {
-          label: 'Q',
-          min: 0,
-          max: 1000,
-          default: 1
-        }
-      }
-    },
-    filter_allpass: {
-      label: "Allpass",
-      type: 7,
-      params: {
-        frequency: {
-          label: 'Frequency',
-          min: 10,
-          max: 1000,
-          default: 350
-        },
-        Q: {
-          label: 'Q',
-          min: 0,
-          max: 1000,
-          default: 1
-        }
-      }
-    },
-    convolver_reverb_matrix_1: {
-      label: "Reverb: Matrix 1",
-      sampleName: "reverb_matrix_1.wav",
-      params: {
-        wet_dry: {
-          label: 'Wet/Dry',
-          min: 0,
-          max: 1,
-          minDisplay: 'Dry',
-          maxDisplay: 'Wet',
-          default: 1
-        }
-      }
-    },
-    convolver_reverb_matrix_2: {
-      label: "Reverb: Matrix 2",
-      sampleName: "reverb_matrix_2.wav",
-      params: {
-        wet_dry: {
-          label: 'Wet/Dry',
-          min: 0,
-          max: 1,
-          minDisplay: 'Dry',
-          maxDisplay: 'Wet',
-          default: 1
-        }
-      }
-    },
-    convolver_reverb_matrix_3: {
-      label: "Reverb: Matrix 3",
-      sampleName: "reverb_matrix_3.wav",
-      params: {
-        wet_dry: {
-          label: 'Wet/Dry',
-          min: 0,
-          max: 1,
-          minDisplay: 'Dry',
-          maxDisplay: 'Wet',
-          default: 1
-        }
-      }
-    },
-    convolver_reverb_spring: {
-      label: "Reverb: Spring",
-      sampleName: "reverb_spring.wav",
-      params: {
-        wet_dry: {
-          label: 'Wet/Dry',
-          min: 0,
-          max: 1,
-          minDisplay: 'Dry',
-          maxDisplay: 'Wet',
-          default: 1
-        }
-      }
-    },
-    convolver_small_room_reverb: {
-      label: "Reverb: Small Room",
-      sampleName: "reverb_small_room.wav",
-      params: {
-        wet_dry: {
-          label: 'Wet/Dry',
-          min: 0,
-          max: 1,
-          minDisplay: 'Dry',
-          maxDisplay: 'Wet',
-          default: 1
-        }
-      }
-    },
-    convolver_filter_telephone: {
-      label: "Filter: Telephone",
-      sampleName: "filter_telephone.wav",
-      params: {
-        wet_dry: {
-          label: 'Wet/Dry',
-          min: 0,
-          max: 1,
-          minDisplay: 'Dry',
-          maxDisplay: 'Wet',
-          default: 1
-        }
-      }
-    },
-    convolver_filter_comb_1: {
-      label: "Filter: Comb 1",
-      sampleName: "filter_comb_1.wav",
-      params: {
-        wet_dry: {
-          label: 'Wet/Dry',
-          min: 0,
-          max: 1,
-          minDisplay: 'Dry',
-          maxDisplay: 'Wet',
-          default: 1
-        }
-      }
-    },
-    convolver_filter_comb_2: {
-      label: "Filter: Comb 2",
-      sampleName: "filter_comb_2.wav",
-      params: {
-        wet_dry: {
-          label: 'Wet/Dry',
-          min: 0,
-          max: 1,
-          minDisplay: 'Dry',
-          maxDisplay: 'Wet',
-          default: 1
-        }
-      }
-    },
-    convolver_echo_ping_pong: {
-      label: "Echo: Ping Pong",
-      sampleName: "echo_ping_pong.wav",
-      params: {
-        wet_dry: {
-          label: 'Wet/Dry',
-          min: 0,
-          max: 1,
-          minDisplay: 'Dry',
-          maxDisplay: 'Wet',
-          default: 1
-        }
-      }
-    },
-    convolver_echo_wild: {
-      label: "Echo: Wild",
-      sampleName: "echo_wild.wav",
-      params: {
-        wet_dry: {
-          label: 'Wet/Dry',
-          min: 0,
-          max: 1,
-          minDisplay: 'Dry',
-          maxDisplay: 'Wet',
-          default: 1
-        }
-      }
-    }
+    this.on('change:isPlaying', this.togglePlayback);
+    this.on('change:numSteps', this.handleChangeNumSteps);
+    this.on('change:tempo', this.handleChangeTempo);
   },
   handleChangeNumSteps: function() {
-    this.set({
-      beatsPerStep: this.get('totalBeats') / this.get('numSteps'),
-      stepTime: (60 / this.get('tempo')) / (this.get('numSteps') / 4)
-    });
+    this.beatsPerStep = this.get('totalBeats') / this.get('numSteps');
+    this.stepTime = (60 / this.get('tempo')) / (this.get('numSteps') / 4);
+
+    if (this.get('isPlaying')) {
+      this.beatIndex = this.beatIndex + (this.beatIndex % this.beatsPerStep);
+      this.relativeBeatIndex = this.beatIndex / this.beatsPerStep;
+      this.prevRelativeBeatIndex = this.relativeBeatIndex - 1;
+      this.trigger('change:beat', this.relativeBeatIndex, this.prevRelativeBeatIndex);
+    }
   },
   handleChangeTempo: function() {
-    this.set({
-      stepTime: (60 / this.get('tempo')) / (this.get('numSteps') / 4)
+    this.stepTime = (60 / this.get('tempo')) / (this.get('numSteps') / 4);
+  },
+  togglePlayback: function() {
+    if (!this.trackList.any(function(track) {return track.get('sample') && track.get('steps').length >= 1})) {
+      return;
+    }
+
+    if (!this.get('isPlaying')) {
+      this.stop();
+    } else {
+      this.play();
+    }
+  },
+  play: function() {
+    var self = this;
+
+    this.trigger('change:beat', this.relativeBeatIndex, this.prevRelativeBeatIndex);
+
+    if (this.trackList.any(function(track) {return track.get('solo')})) {
+      this.trackList.chain()
+        .where({solo: true})
+        .filter(function(track) {return track.get('steps')[self.beatIndex] == 1 && track.get('sample')})
+        .each(function(track) {
+          self.playBeat(track.get('sample'), track.effects, 0);
+        });
+    } else {
+      this.trackList.chain()
+        .filter(function(track) {return track.get('steps')[self.beatIndex] == 1 && track.get('sample')})
+        .each(function(track) {
+          if (!track.get('mute')) {
+            self.playBeat(track.get('sample'), track.effects, 0);
+          }
+        });
+      }
+
+      this.prevRelativeBeatIndex = this.relativeBeatIndex;
+    if (this.beatIndex == this.get('totalBeats') - this.beatsPerStep) {
+      this.relativeBeatIndex = 0;
+      this.beatIndex = 0;
+    } else {
+      this.beatIndex += this.beatsPerStep;
+      this.relativeBeatIndex++;
+    }
+
+    this.intervalId = setTimeout(this.play, this.stepTime * 1000);
+  },
+  playBeat: function(buffer, effects, time) {
+    this.notesplaying = _(this.notesplaying).filter(function(note) {return note.playbackState != 3});
+    var source = globals.audioContext.createBufferSource();
+    source.buffer = buffer;
+    var effectsChain = this.addEffects(source, effects);
+    effectsChain.connect(globals.audioContext.destination);
+    source.noteOn(time);
+    this.notesplaying.push(source);
+  },
+  addEffects: function(source, effects) {
+    var self = this;
+
+    if (effects.size() > 0 && effects.any(function(effect) {return effect.get('enabled')})) {
+      effects.chain()
+        .filter(function(effect) {return effect.get('enabled')})
+        .each(function(effect) {
+          source = effect.addEffect(globals.audioContext, source, self.beatIndex);
+        });
+    }
+
+    return source;
+  },
+  stop: function() {
+    this.trigger('clear:beat');
+    clearTimeout(this.intervalId);
+    _(this.notesplaying).each(function(note){
+        note.noteOff(0);
     });
+
+    this.notesplaying = [];
+    this.beatIndex = 0;
+    this.relativeBeatIndex = 0;
+    this.prevRelativeBeatIndex = null;
   }
 });

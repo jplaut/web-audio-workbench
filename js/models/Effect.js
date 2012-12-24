@@ -8,10 +8,10 @@ var Effect = Backbone.Model.extend({
   },
   initialize: function() {
     var self = this;
-    var details = app.effectsList[self.get('type')];
+    var details = globals.effectsList[self.get('type')];
 
     if (this.get('type').match(/convolver_/)) {
-      app.bufferLoader.load('audio/impulse_response/' + details.sampleName, function(data) {
+      globals.bufferLoader.load('audio/impulse_response/' + details.sampleName, globals.audioContext, function(data) {
         self.buffer = data;
       });
     }
@@ -52,7 +52,7 @@ var Effect = Backbone.Model.extend({
           break;
         default:
           effectObj = context.createBiquadFilter();
-          effectObj.type = app.effectsList[this.get('type')].type;
+          effectObj.type = globals.effectsList[this.get('type')].type;
           break;
       }
       _(this.params).each(function(val, key) {
@@ -62,18 +62,5 @@ var Effect = Backbone.Model.extend({
 
     source.connect(effectObj);
     return effectObj;
-  },
-  processConvolverBuffer: function(context, buffer, level) {
-    var processor = context.createJavascriptNode(256, 1, 1);
-    processor.onaudioprocess = function(e) {
-      var outBuf = e.outputBuffer.getChannelData(0);
-      var inBuf = e.inputBuffer.getChannelData(0);
-
-      for (var i=0; i < inBuf.length; i++) {
-        outBuf[i] = inBuf[i] * level;
-      }
-    }
-
-    return processor;
   }
 });

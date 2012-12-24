@@ -13,7 +13,7 @@ var TrackControlsView = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, 'render', 'handleSolo', 'handleMute', 'setSample', 'removeSample', 'removeTrack', 'toggleEffects');
 
-    this.template = app.templateLoader.load('trackcontrols');
+    this.template = globals.templateLoader.load('trackcontrols');
 
     this.model.on('change:effectsExpanded', this.toggleEffects);
     this.collection.on('remove', this.render);
@@ -59,7 +59,7 @@ var TrackControlsView = Backbone.View.extend({
 
       var self = this;
 
-      app.bufferLoader.load(sampleURL, function(buffer) {
+      globals.bufferLoader.load(sampleURL, globals.audioContext, function(buffer) {
         self.model.set({sampleName: sampleName, sample: buffer});
         self.render();
       });

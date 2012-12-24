@@ -11,7 +11,7 @@ var AutomationView = Backbone.View.extend({
     this.automationPathStr = "";
     this.dragging = false;
 
-    this.template = app.templateLoader.load('automation');
+    this.template = globals.templateLoader.load('automation');
     this.on('drag', this.handleDrag);
   },
   render: function() {

@@ -11,7 +11,7 @@ var EffectView = Backbone.View.extend({
 
     this.expanded = true;
     this.params = {};
-    this.template = app.templateLoader.load('effect');
+    this.template = globals.templateLoader.load('effect');
   },
   render: function() {
     var self = this;

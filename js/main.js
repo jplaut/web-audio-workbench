@@ -6,14 +6,12 @@
 */
 
 $(function() {
-  var trackList = new TrackList;
-
   var trackListView = new TrackListView({
-    collection: trackList
+    collection: app.trackList
   });
 
   var transport = new TransportView({
-    collection: trackList
+    collection: app.trackList
   });
 
   $(document.body).append(trackListView.render().el);

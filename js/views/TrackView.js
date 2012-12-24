@@ -4,7 +4,6 @@ var TrackView = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, 'render');
 
-    this.height = 40;
     this.trackControls = new TrackControlsView({collection: this.collection, model: this.model});
     this.pattern = new PatternView({model: this.model});
     this.effectsPanel = new EffectsPanelView({collection: this.model.effects});
