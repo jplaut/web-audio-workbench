@@ -141,24 +141,9 @@ html {
   background-color: #000;
 }
 
-#tracks[numsteps='4'] .step {
-  width: 35.04px;
-  margin: 1px 77px;
-}
-
-#tracks[numsteps='8'] .step {
-  width: 35.04px;
-  margin: 1px 29.35px;
-}
-
-#tracks[numsteps='16'] .step {
+#tracks .step {
   width: 35.04px;
   margin: 1px 5.41px;
-}
-
-#tracks[numsteps='32'] .step {
-  width: 17.5px;
-  margin: 1px 0 1px 4.39px;
 }
 
 .step.first {
@@ -238,6 +223,11 @@ html {
 .canvas {
   float: right;
   width: 758px;
+  overflow: hidden;
+}
+
+.canvas svg {
+  left: 0;
 }
 
 .canvasLabels {

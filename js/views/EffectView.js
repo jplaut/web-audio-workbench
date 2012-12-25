@@ -14,14 +14,12 @@ var EffectView = Backbone.View.extend({
     this.template = globals.templateLoader.load('effect');
   },
   render: function() {
-    var self = this;
-
-    this.$el.append(self.template({name: this.model.get('name'), args: this.model.params}));
+    this.$el.append(this.template({name: this.model.get('name'), args: this.model.params}));
 
     _(this.model.params).each(function(value, key) {
-      self.params[key] = new AutomationView({model: self.model, param: key});
-      self.$el.append(self.params[key].render().el);
-    });
+      this.params[key] = new AutomationView({model: this.model, param: key});
+      this.$el.append(this.params[key].render().el);
+    }, this);
 
     this.paramVisible = _(this.params).keys()[0];
     this.params[this.paramVisible].toggleDisplay();

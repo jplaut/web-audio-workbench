@@ -2,10 +2,21 @@
 <span id="togglePlayback"><img src="img/play.png" /></span>
 <label for="tempo">Tempo: </label>
 <input id="tempo" type="number" max="300" min="1" value="120" style="width: 40px;" />
-<label for="numSteps">Steps: </label>
-<select id="steps">
-  <option value="4">4</option>
-  <option value="8" selected="selected">8</option>
-  <option value="16">16</option>
-  <option value="32">32</option>
+<label for="patternlength">Steps: </label>
+<input id="patternlength" type="number" max="32" min="1" value="16" style="width: 40px;" />
+<label for="notetype">Length: </label>
+<select id="notetype">
+  <option value="2">1/2</option>
+  <option value="4">1/4</option>
+  <option value="8">1/8</option>
+  <option value="16" selected="selected">1/16</option>
+  <option value="32">1/32</option>
+  <option value="64">1/64</option>
+</select>
+<label for="editsteps">Edit Steps: </label>
+<select id="editsteps">
+  <option value="0" selected="selected">1-16</option>
+  <option value="1">17-32</option>
+  <option value="2">33-48</option>
+  <option value="3">49-64</option>
 </select>

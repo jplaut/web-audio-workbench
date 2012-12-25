@@ -3,15 +3,14 @@ var Track = Backbone.Model.extend({
     return {
       solo: false,
       mute: false,
-      steps: [],
       sampleName: '',
       sample: '',
-      effectsExpanded: false,
       name: ''
     }
   },
   initialize: function() {
     this.effects = new Effects;
+    this.steps = [];
   },
   setSample: function(file, callback, context) {
     var self = this;

@@ -7,29 +7,29 @@ var PatternView = Backbone.View.extend({
   initialize: function(options) {
     _.bindAll(this, 'render', 'enableStep');
     this.template = globals.templateLoader.load('pattern');
-    app.on('change:numSteps', this.render);
+    app.on('change:editingSteps', this.render);
   },
   render: function() {
+    var startIndex = app.get('totalBeats') * app.get('editingSteps');
+
     var options = {
-      numSteps: app.get('numSteps'),
-      steps: this.model.get('steps'),
-      beatsPerStep: app.beatsPerStep
+      startIndex: startIndex,
+      endIndex: startIndex + 16,
+      steps: this.model.steps
     }
     this.$el.html(this.template(options));
 
     return this;
   },
   enableStep: function(e) {
-    var steps = this.model.get('steps');
-    var stepIndex = $(e.currentTarget).attr('step') * app.beatsPerStep;
+    var stepIndex = $(e.currentTarget).attr('step');
 
     if (!$(e.currentTarget).hasClass('on')) {
       $(e.currentTarget).addClass('on');
-      steps[stepIndex] = 1;
+      this.model.steps[stepIndex] = 1;
     } else {
       $(e.currentTarget).removeClass('on');
-      steps[stepIndex] = 0;
+      this.model.steps[stepIndex] = 0;
     }
-    this.model.set({steps: steps});
   }
 });

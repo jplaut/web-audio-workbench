@@ -2,22 +2,22 @@ var TransportView = Backbone.View.extend({
   tagName: 'div',
   id: 'transport',
   events: {
-    'click button#addtrack': 'createTrack',
-    'click span#togglePlayback': 'togglePlayback',
-    'change input#tempo': 'changeTempo',
-    'change select#steps': 'changeNumSteps'
+    'click #addtrack': 'createTrack',
+    'click #togglePlayback': 'togglePlayback',
+    'change #tempo': 'changeTempo',
+    'change #patternlength': 'changePatternLength',
+    'change #notetype': 'changeNoteType',
+    'change #editsteps': 'changeEditSteps'
   },
   initialize: function(options) {
-    _.bindAll(this, 'render', 'createTrack', 'togglePlayback', 'changeTempo', 'changeNumSteps', 'handleWindowResize');
+    _.bindAll(this, 'render', 'createTrack', 'togglePlayback', 'handleWindowResize');
     
     this.template = globals.templateLoader.load('transport');
 
     $(window).on('resize', this.handleWindowResize);
   },
   render: function() {
-    var self = this;
-
-    this.$el.append(self.template());
+    this.$el.append(this.template());
 
     return this;
   },
@@ -40,7 +40,13 @@ var TransportView = Backbone.View.extend({
   changeTempo: function(e) {
     app.set({tempo: $(e.currentTarget).val()});
   },
-  changeNumSteps: function(e) {
-    app.set({numSteps: parseInt($(e.currentTarget).val())});
+  changePatternLength: function(e) {
+    app.set({patternLength: $(e.currentTarget).val()});
+  },
+  changeNoteType: function(e) {
+    app.set({noteType: $(e.currentTarget).val()});
+  },
+  changeEditSteps: function(e) {
+    app.set({editingSteps: $(e.currentTarget).val()});
   }
 });

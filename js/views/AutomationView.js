@@ -2,30 +2,32 @@ var AutomationView = Backbone.View.extend({
   tagName: 'div',
   className: 'automationContainer',
   initialize: function() {
-    _.bindAll(this, 'render', 'handleClick', 'handleNewPoint', 'handleDrag', 'setValues', 'getPathPoints', 'toggleDisplay');
+    _.bindAll(this, 'render', 'handleClick', 'drawPathFromPoints', 'handleDrag', 'setValues', 'getPathPoints', 'toggleDisplay', 'changeEditingSteps');
     this.param = this.model.params[this.options.param];
+    this.points = this.param.points;
     this.width = 758;
+    this.totalWidth = this.width * 4;
     this.height = 120;
     this.multiplier = this.height / (this.param.max - this.param.min);
-    this.points = [];
     this.automationPathStr = "";
     this.dragging = false;
 
     this.template = globals.templateLoader.load('automation');
+    app.on('change:editingSteps', this.changeEditingSteps);
     this.on('drag', this.handleDrag);
   },
   render: function() {
     this.$el.html(this.template({options: this.param}));
 
-    this.canvas = Raphael($('.canvas', this.el)[0], this.width, this.height);
-    var background = this.canvas.rect(0, 0, this.width, this.height)
+    this.canvas = Raphael($('.canvas', this.el)[0], this.totalWidth, this.height);
+    $(".canvas", this.el).css('left', 0);
+    var background = this.canvas.rect(0, 0, this.totalWidth, this.height)
       .attr('fill', '#fff')
       .click(this.handleClick);
 
     this.background = background.getBBox();
 
-    this.automationPath = this.canvas.path("M0, " + (this.multiplier * (this.param.max - this.param.default)) + "H" + this.width);
-
+    this.automationPath = this.canvas.path("M0, " + (this.multiplier * (this.param.max - this.param.default)) + "H" + this.totalWidth);
 
     return this;
   },
@@ -33,6 +35,9 @@ var AutomationView = Backbone.View.extend({
     var display = (this.$el.css('display') == 'block') ? 'none' : 'block';
 
     this.$el.css('display', display);
+  },
+  changeEditingSteps: function() {
+    $(".canvas svg", this.el).css('left', -1 * this.width * app.get('editingSteps'));
   },
   handleClick: function (e) {
     var self = this;
@@ -55,14 +60,14 @@ var AutomationView = Backbone.View.extend({
       this.points.push(point);
     }
 
-    this.handleNewPoint('click')
+    this.drawPathFromPoints(true);
   },
-  handleNewPoint: function(action) {
+  drawPathFromPoints: function(setValues) {
     var automationPathStr;
     this.automationPath.remove();
 
     if (this.points.length == 1) {
-      automationPathStr = "M0, " + this.points[0].attr('cy') + "H" + this.width;
+      automationPathStr = "M0, " + this.points[0].attr('cy') + "H" + this.totalWidth;
     } else {
       automationPathStr = "M0, " + this.points[0].attr('cy') + "H" + this.points[0].attr('cx');
 
@@ -70,12 +75,12 @@ var AutomationView = Backbone.View.extend({
         automationPathStr += "L" + point.attr('cx') + ", " + point.attr('cy');
       });
 
-      automationPathStr += "H" + this.width;
+      automationPathStr += "H" + this.totalWidth;
     }
     this.automationPathStr = automationPathStr;
     this.automationPath = this.canvas.path(this.automationPathStr);
 
-    if (action == 'click') {
+    if (setValues) {
       this.setValues();
     }
   },
@@ -88,19 +93,20 @@ var AutomationView = Backbone.View.extend({
 
       if (!(this.points[i-1] && x <= this.points[i-1].attr('cx')) && !(this.points[i+1] && x >= this.points[i+1].attr('cx')) && x > 0 && x < this.width) {
         this.points[i].attr({cx: x, cy: y});
-        this.handleNewPoint('drag');
+        this.drawPathFromPoints();
       }
     }
   },
   setValues: function() {
     var values = this.getPathPoints();
     this.param.values = values;
+    console.log(values.length);
   },
   getPathPoints: function() {
     var stepLength = this.width / app.get('totalBeats');
     var values = [];
 
-    for (var i=0; i < app.get('totalBeats'); i++) {
+    for (var i=0; i < 4 * app.get('totalBeats'); i++) {
       var str = "M" + stepLength * i + ", 0V" + this.height;
       var intersection = Raphael.pathIntersection(this.automationPathStr, str)[0];
 
@@ -120,7 +126,7 @@ var AutomationView = Backbone.View.extend({
     return values;
   },
   normalizeX: function(x) {
-    return x - $(document).scrollLeft() - this.$el.offset().left;
+    return x - $(document).scrollLeft() - this.$el.offset().left + (this.width * app.get('editingSteps'));
   },
   normalizeY: function(y) {
     return y - $(document).scrollTop() - this.$el.offset().top;

@@ -8,7 +8,7 @@ var Effect = Backbone.Model.extend({
   },
   initialize: function() {
     var self = this;
-    var details = globals.effectsList[self.get('type')];
+    var details = globals.effectsList[this.get('type')];
 
     if (this.get('type').match(/convolver_/)) {
       globals.bufferLoader.load('audio/impulse_response/' + details.sampleName, globals.audioContext, function(data) {
@@ -20,7 +20,8 @@ var Effect = Backbone.Model.extend({
     this.params = details.params;
 
     _(this.params).each(function(param) {
-      param['values'] = {};
+      param.values = [];
+      param.points = [];
     });
   },
   addEffect: function(context, source, i) {

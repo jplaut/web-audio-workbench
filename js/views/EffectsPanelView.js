@@ -11,13 +11,11 @@ var EffectsPanelView = Backbone.View.extend({
     this.toggled = false;
   },
   render: function() {
-    var self = this;
-
     this.$el.append(this.template({list: globals.effectsList}));
 
     this.collection.each(function(effect) {
-      self.$el.append(effect.render().el);
-    });
+      this.$el.append(effect.render().el);
+    }, this);
 
     return this;
   },
