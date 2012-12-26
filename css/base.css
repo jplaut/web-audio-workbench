@@ -224,10 +224,13 @@ html {
   float: right;
   width: 758px;
   overflow: hidden;
+  background-color: #fff;
+  border: 1px solid #000;
 }
 
 .canvas svg {
   left: 0;
+  z-index: 0;
 }
 
 .canvasLabels {
