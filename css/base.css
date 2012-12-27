@@ -5,9 +5,9 @@ html {
 
 #stepIndicatorBar {
   overflow: hidden;
-  float: right;
-  width: 760px;
-  margin: 0 0 10px;
+  float: left;
+  min-width: 760px;
+  margin: 0 0 10px 180px;
 }
 
 #stepIndicatorBar .step {
@@ -52,15 +52,16 @@ html {
 
 /* INDIVIDUAL TRACK */
 .track {
-  width: 100%;
+  min-width: 100%;
   margin-bottom: 20px;
   overflow: hidden;
 }
 
 /* TRACK LABEL/CONTROLS */
 .trackControls {
-  width: 18%;
+  width: 170px;
   float: left;
+  margin-right: 10px
 }
 
 .tracklabel {
@@ -126,8 +127,8 @@ html {
 
 /* STEPS */
 .steps {
-  float: right;
-  width: 760px;
+  float: left;
+  min-width: 760px;
 }
 
 .steps .step {

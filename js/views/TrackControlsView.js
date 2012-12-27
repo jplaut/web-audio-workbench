@@ -12,7 +12,7 @@ var TrackControlsView = Backbone.View.extend({
     'keypress .trackLabelText': 'endEditingTrackName'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'handleSolo', 'handleMute', 'setSample', 'removeSample', 'removeTrack', 'toggleEffects', 'startEditingTrackName', 'endEditingTrackName');
+    _.bindAll(this, 'render', 'handleSolo', 'handleMute', 'setSample', 'removeSample', 'removeTrack', 'toggleEffects', 'startEditingTrackName', 'endEditingTrackName', 'flash');
 
     this.template = globals.templateLoader.load('trackcontrols');
     this.isEditingTrackName = false;
@@ -30,17 +30,50 @@ var TrackControlsView = Backbone.View.extend({
     return this;
   },
   handleSolo: function() {
-    this.model.set({solo: !this.model.get('solo')});
-
     if (this.model.get('mute')) {
+      this.flash("off", $('.mute', this.el));
       this.model.set({mute: false});
     }
-  },
-  handleMute: function() {
-    this.model.set({mute: !this.model.get('mute')});
 
     if (this.model.get('solo')) {
       this.model.set({solo: false});
+      this.flash("off", $('.solo', this.el));
+    } else {
+      this.model.set({solo: true});
+      this.flash("on", $('.solo', this.el));
+    }
+  },
+  handleMute: function() {
+    if (this.model.get('solo')) {
+      this.flash("off", $('.solo', this.el));
+      this.model.set({solo: false});
+    }
+
+    if (this.model.get('mute')) {
+      this.model.set({mute: false});
+      this.flash("off", $('.mute', this.el));
+    } else {
+      this.model.set({mute: true});
+      this.flash("on", $('.mute', this.el));
+    }
+  },
+  flash: function(state, el) {
+    if (state == "on") {
+      if (!this.flashingColor) {
+        this.flashingColor = el.css('background-color');
+      }
+
+      if (el.css('background-color') == this.flashingColor) {
+        el.css('background-color', $('html').css('background-color'));
+      } else {
+        el.css('background-color', this.flashingColor);
+      }
+
+      this.isFlashing = setTimeout(this.flash, 500, "on", el, this.flashingColor);
+    } else {
+      el.css('background-color', this.flashingColor);
+      this.flashingColor = null;
+      clearTimeout(this.isFlashing);
     }
   },
   startEditingTrackName: function() {

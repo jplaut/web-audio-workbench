@@ -1,10 +1,10 @@
-Handlebars.registerHelper("each_step", function(start, end, steps, options) {
+Handlebars.registerHelper("each_step", function(end, steps, options) {
   var out = "";
 
-  for (var i = start; i < end; i++) {
-    var first = (i == start) ? ' first' : '';
+  for (var i = 0; i < end; i++) {
+    var first = (i == 0) ? ' first' : '';
     var last = (i == end-1) ? ' last' : '';
-    var on = (steps[i]) ? ' on' : '';
+    var on = (steps && steps[i]) ? ' on' : '';
     var x = {first: first, last: last, on: on, num: i};
     out += options.fn(x);
   }

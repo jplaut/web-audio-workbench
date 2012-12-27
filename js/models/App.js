@@ -43,9 +43,10 @@ var App = Backbone.Model.extend({
   play: function() {
     this.trigger('change:beat', this.beatIndex, this.prevBeatIndex);
 
+    _(this.trackList.where({mute: true})).each(function(track) {console.log(track)});
+
     if (this.trackList.any(function(track) {return track.get('solo')})) {
-      this.trackList.chain()
-        .where({solo: true})
+      _(this.trackList.where({solo: true})).chain()
         .filter(function(track) {return track.steps[this.beatIndex] == 1 && track.get('sample')}, this)
         .each(function(track) {
           this.playBeat(track.get('sample'), track.effects, 0);
