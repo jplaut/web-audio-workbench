@@ -6,10 +6,9 @@ var TransportView = Backbone.View.extend({
     'click #togglePlayback': 'togglePlayback',
     'change #tempo': 'changeTempo',
     'change #patternlength': 'changePatternLength',
-    'change #notetype': 'changeNoteType',
-    'change #editsteps': 'changeEditSteps'
+    'change #notetype': 'changeNoteType'
   },
-  initialize: function(options) {
+  initialize: function() {
     _.bindAll(this, 'render', 'createTrack', 'togglePlayback', 'handleWindowResize');
     
     this.template = globals.templateLoader.load('transport');
@@ -45,8 +44,5 @@ var TransportView = Backbone.View.extend({
   },
   changeNoteType: function(e) {
     app.set({noteType: $(e.currentTarget).val()});
-  },
-  changeEditSteps: function(e) {
-    app.set({editingSteps: $(e.currentTarget).val()});
   }
 });

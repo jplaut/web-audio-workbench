@@ -1,5 +1,10 @@
-<div id="stepIndicatorBar">
-  {{#each_step endIndex steps}}
-    <div class="step{{on}}{{first}}{{last}}" step="{{num}}"></div>
-  {{/each_step}}
+<div id="beatDividers">
+  {{#for beats}}
+    <div class="divider{{first}}{{last}}">
+      <div class="beatNum">{{i}}</div>
+      <div class="bracket"></div>
+    </div>
+  {{/for}}
 </div>
+
+<div id="stepIndicatorBar"></div>

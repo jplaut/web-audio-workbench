@@ -3,9 +3,22 @@ Handlebars.registerHelper("each_step", function(end, steps, options) {
 
   for (var i = 0; i < end; i++) {
     var first = (i == 0) ? ' first' : '';
-    var last = (i == end-1) ? ' last' : '';
+    var last = (i > 0 && i == end-1) ? ' last' : '';
     var on = (steps && steps[i]) ? ' on' : '';
     var x = {first: first, last: last, on: on, num: i};
+    out += options.fn(x);
+  }
+
+  return out;
+});
+
+Handlebars.registerHelper("for", function(num, options) {
+  var out = "";
+
+  for (var i = 1; i <= num; i++) {
+    var first = (i == 1) ? ' first' : '';
+    var last = (i > 1 && i == num) ? ' last' : '';
+    var x = {i: i, first: first, last: last};
     out += options.fn(x);
   }
 

@@ -14,6 +14,7 @@ var TrackView = Backbone.View.extend({
   render: function() {
     this.$el.html(this.trackControls.render().el);
     this.$el.append(this.pattern.render().el);
+    this.$el.append("<br />");
     this.$el.append(this.effectsPanel.render().el);
 
     return this;

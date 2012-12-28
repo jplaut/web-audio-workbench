@@ -17,7 +17,12 @@ var EffectView = Backbone.View.extend({
     this.$el.append(this.template({name: this.model.get('name'), args: this.model.params}));
 
     _(this.model.params).each(function(value, key) {
-      this.params[key] = new AutomationView({model: this.model, param: key});
+      this.params[key] = new AutomationView({
+        model: this.model, 
+        param: key,
+        width: this.options.automationWidth
+      });
+
       this.$el.append(this.params[key].render().el);
     }, this);
 

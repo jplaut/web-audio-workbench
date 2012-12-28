@@ -3,18 +3,42 @@ html {
   background-color: #ccc;
 }
 
+#top {
+  display: inline-block;
+  margin: 0 8px 0 0;
+}
+
+#beatDividers {
+  margin: 5px 0 4px 179px;
+  white-space: nowrap;
+}
+
+.divider {
+  display: inline-block;
+  margin: 0 5.5px;
+}
+
+.bracket {
+  height: 7px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.beatNum {
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+}
+
 #stepIndicatorBar {
-  overflow: hidden;
-  float: left;
-  min-width: 760px;
-  margin: 0 0 10px 180px;
+  margin: 0 0 4px 179px;
+  white-space: nowrap;
 }
 
 #stepIndicatorBar .step {
   height: 2px;
   background-color: black;
-  float: left;
-  border: 1px solid black;
 }
 
 #stepIndicatorBar .step.on {
@@ -42,26 +66,26 @@ html {
 /* TRACK LIST */
 
 #tracks {
-  width: 940px;
-  height: 93%;
+  width: 945px;
   margin: 10px auto 0;
   border: 1px solid #222;
-  padding: 5px 5px 0;
+  padding: 1px 0 0 5px;
   overflow: scroll;
+  font-size: 0;
 }
 
 /* INDIVIDUAL TRACK */
 .track {
-  min-width: 100%;
   margin-bottom: 20px;
-  overflow: hidden;
+  white-space: nowrap;
 }
 
 /* TRACK LABEL/CONTROLS */
 .trackControls {
   width: 170px;
-  float: left;
-  margin-right: 10px
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 16px;
 }
 
 .tracklabel {
@@ -127,40 +151,38 @@ html {
 
 /* STEPS */
 .steps {
-  float: left;
-  min-width: 760px;
+  display: inline-block;
+  padding: 0 0 2px;
+  margin-right: 8px;
 }
 
 .steps .step {
   height: 35px;
   background-color: #fff;
-  border: 1px solid #000;
-  float: left;
 }
 
 .steps .step.on {
   background-color: #000;
 }
 
-#tracks .step {
-  width: 35.04px;
-  margin: 1px 5.41px;
+.step {
+  display: inline-block;
+  width: 35px;
+  border: 1px solid black;
+  margin: 3px 5.5px;
 }
 
-.step.first {
+.first {
   margin-left: 0 !important;
 }
 
-.step.last {
+.last {
   margin-right: 0 !important;
 }
 
 /* EFFECTS PANEL */
 .effects-panel {
   display: none;
-  float: left;
-  width: 100%;
-  overflow: hidden;
 }
 
 .createeffect {
@@ -170,20 +192,23 @@ html {
 
 .effect {
   border: 1px solid #222;
-  padding: 4px 3px;
-  overflow: hidden;
+  padding: 4px 5px 4px 3px;
+}
+
+.effects {
+  margin-right: 8px;
+  display: inline-block;
 }
 
 .effectTitle {
   margin: 1px 0;
-  overflow: hidden;
-  width: 100px;
 }
 
 .effectTitleText {
-  width: 80px;
+  width: 120px;
   margin-bottom: 3px;
-  display: inline;
+  display: inline-block;
+  font-size: 16px;
 }
 
 .paramsList {
@@ -193,9 +218,11 @@ html {
 }
 
 .effectControls {
-  width: 15%;
-  float: left;
+  width: 148px;
+  display: inline-block;
+  vertical-align: top;
   padding-left: 2px;
+  margin-right: 10px;
 }
 
 .toggleEffect {
@@ -216,17 +243,14 @@ html {
 }
 
 .automationContainer {
-  float: right;
-  width: 771px;
   display: none;
 }
 
 .canvas {
-  float: right;
-  width: 758px;
-  overflow: hidden;
+  display: inline-block;
   background-color: #fff;
   border: 1px solid #000;
+  margin-left: 5px;
 }
 
 .canvas svg {
@@ -236,7 +260,7 @@ html {
 
 .canvasLabels {
   font-size: 11px;
-  float: left;
+  display: inline-block;
   width: 11px;
 }
 

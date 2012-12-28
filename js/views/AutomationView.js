@@ -5,39 +5,56 @@ var AutomationView = Backbone.View.extend({
     'click .canvas': 'handleClick'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'handleClick', 'drawPathFromPoints', 'handleDrag', 'setValues', 'getPathPoints', 'toggleDisplay', 'changeEditingSteps', 'changePatternLength');
+    _.bindAll(this, 'render', 'handleClick', 'drawPathFromPoints', 'handleDrag', 'setValues', 'getPathPoints', 'toggleDisplay', 'changePatternLength');
     this.param = this.model.params[this.options.param];
     this.points = this.param.points;
-    this.width = 758;
-    this.totalWidth = this.width * 4;
+    this.width = this.options.width - 8;
     this.height = 120;
     this.multiplier = this.height / (this.param.max - this.param.min);
     this.automationPathStr = "";
 
     this.template = globals.templateLoader.load('automation');
-    app.on('change:editingSteps', this.changeEditingSteps);
     app.on('change:patternLength', this.changePatternLength);
     this.on('drag', this.handleDrag);
   },
   render: function() {
     this.$el.html(this.template({options: this.param}));
+    this.canvas = Raphael($('.canvas', this.el)[0], this.width, this.height);
 
-    this.canvas = Raphael($('.canvas', this.el)[0], this.totalWidth, this.height);
-    $(".canvas", this.el).css('left', 0);
+    if (this.points.length == 0) {
+      this.automationPath = this.canvas.path("M0, " + (this.multiplier * (this.param.max - this.param.default)) + "H" + this.totalWidth);
+    } else {
+      this.points = _(this.points).filter(function(point) {return point.attr('cx') <= this.width}, this);
 
-    this.automationPath = this.canvas.path("M0, " + (this.multiplier * (this.param.max - this.param.default)) + "H" + this.totalWidth);
+      for (var i = 0; i < this.points.length; i++) {
+        var self = this;
+        var point = this.points.shift();
+
+        var newPoint = this.canvas.circle(point.attr('cx'), point.attr('cy'), 5)
+          .attr('fill', '#000')
+          .drag(function(dx, dy, x, y) {
+            self.trigger('drag', this, dx, dy, x, y);
+          }, 
+          null,
+          this.setValues
+        );
+
+        this.points.push(newPoint);
+      }
+
+      this.drawPathFromPoints();
+    }
 
     return this;
   },
   toggleDisplay: function() {
-    var display = (this.$el.css('display') == 'block') ? 'none' : 'block';
+    var display = (this.$el.css('display') == 'inline-block') ? 'none' : 'inline-block';
 
     this.$el.css('display', display);
   },
-  changeEditingSteps: function() {
-    $(".canvas svg", this.el).css('left', -1 * this.width * app.get('editingSteps'));
-  },
   changePatternLength: function() {
+    this.width = $('.steps', this.$el.parents('.track')).width() - 8;
+
     if (app.get('patternLength') > this.param.values.length) {
       var stepLength = this.width / app.get('totalBeats');
       var str = "M" + (stepLength * (app.get('patternLength') - 1)) + ", 0V" + this.height;
@@ -48,8 +65,11 @@ var AutomationView = Backbone.View.extend({
       } else {
         this.param.values.push(this.param.values[-1]);
       }
+
+      this.render();
     } else {
       this.param.values.pop();
+      this.render();
     }
   },
   handleClick: function (e) {
@@ -69,10 +89,8 @@ var AutomationView = Backbone.View.extend({
     if (_(this.points).any(function(point) {return x < point.attr('cx')})) {
       var i = _(this.points).indexOf(_(this.points).find(function(point) {return point.attr('cx') > x}));
       this.points.splice(i, 0, point);
-      this.activePointIndex = i;
     } else {
       this.points.push(point);
-      this.activePointIndex = this.points.length - 1;
     }
 
     this.drawPathFromPoints(true);
@@ -82,7 +100,7 @@ var AutomationView = Backbone.View.extend({
     this.automationPath.remove();
 
     if (this.points.length == 1) {
-      automationPathStr = "M0, " + this.points[0].attr('cy') + "H" + this.totalWidth;
+      automationPathStr = "M0, " + this.points[0].attr('cy') + "H" + this.width;
     } else {
       automationPathStr = "M0, " + this.points[0].attr('cy') + "H" + this.points[0].attr('cx');
 
@@ -90,7 +108,7 @@ var AutomationView = Backbone.View.extend({
         automationPathStr += "L" + point.attr('cx') + ", " + point.attr('cy');
       });
 
-      automationPathStr += "H" + this.totalWidth;
+      automationPathStr += "H" + this.width;
     }
     this.automationPathStr = automationPathStr;
     this.automationPath = this.canvas.path(this.automationPathStr);

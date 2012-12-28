@@ -14,7 +14,7 @@ var EffectsPanelView = Backbone.View.extend({
     this.$el.append(this.template({list: globals.effectsList}));
 
     this.collection.each(function(effect) {
-      this.$el.append(effect.render().el);
+      this.appendEffect(effect);
     }, this);
 
     return this;
@@ -23,8 +23,6 @@ var EffectsPanelView = Backbone.View.extend({
     this.toggled = !this.toggled;
 
     this.$el.slideToggle('slow');
-
-    this.trigger('toggle:effectsPanel', this.toggled);
   },
   createEffect: function(e) {
     var effect = new Effect({
@@ -37,7 +35,8 @@ var EffectsPanelView = Backbone.View.extend({
   appendEffect: function(effect) {
     var effectView = new EffectView({
       model: effect,
-      collection: this.collection
+      collection: this.collection,
+      automationWidth: this.$el.siblings('.steps').width()
     });
 
     $('.effects', this.el).append(effectView.render().el);

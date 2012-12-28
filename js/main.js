@@ -16,6 +16,7 @@ $(function() {
 
   $(document.body).append(trackListView.render().el);
   $(document.body).append(transport.render().el);
+  trackListView.setDividerWidth();
   trackListView.handleWindowResize();
   transport.handleWindowResize();
 });

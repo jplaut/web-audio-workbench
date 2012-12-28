@@ -25,7 +25,7 @@ var App = Backbone.Model.extend({
     this.stepTime = (60 / this.get('tempo')) / (this.get('noteType') / 4);
   },
   handleChangePatternLength: function() {
-    if (this.beatIndex > this.get('patternLength')) {
+    if (this.beatIndex >= this.get('patternLength')) {
       this.beatIndex = 0;
     }
   },
@@ -49,19 +49,20 @@ var App = Backbone.Model.extend({
       _(this.trackList.where({solo: true})).chain()
         .filter(function(track) {return track.steps[this.beatIndex] == 1 && track.get('sample')}, this)
         .each(function(track) {
-          this.playBeat(track.get('sample'), track.effects, 0);
+          this.playBeat(track.get('sample'), track.effects, 0.005);
         }, this);
     } else {
       this.trackList.chain()
         .filter(function(track) {return track.steps[this.beatIndex] == 1 && track.get('sample')}, this)
         .each(function(track) {
           if (!track.get('mute')) {
-            this.playBeat(track.get('sample'), track.effects, 0);
+            this.playBeat(track.get('sample'), track.effects, 0.005);
           }
         }, this);
       }
 
-      this.prevBeatIndex = this.beatIndex;
+    this.prevBeatIndex = (this.get('patternLength') == 1) ? null : this.beatIndex;
+
     if (this.beatIndex == this.get('patternLength') - 1) {
       this.beatIndex = 0;
     } else {
