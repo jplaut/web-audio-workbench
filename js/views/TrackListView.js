@@ -36,29 +36,33 @@ var TrackListView = Backbone.View.extend({
     this.$el.height($(document).height() - 90);
   },
   setDividerWidth: function() {
-    var stepsPerBeat = app.get('noteType') / 4;
-    var width = (stepsPerBeat * 37) + ((stepsPerBeat - 1) * 11);
+    var width = (this.stepsPerBeat * 37) + ((this.stepsPerBeat - 1) * 11);
     $(".divider", this.el).width(width);
   },
   renderTopSection: function() {
+    this.stepsPerBeat = app.get('noteType') / 4;
+    this.totalBeats = Math.ceil(app.get('patternLength') / this.stepsPerBeat);
+
     var options = {
-      beats: Math.ceil(app.get('patternLength') / (app.get('noteType') / 4))
+      totalBeats: this.totalBeats
     }
 
-    $('#top', this.el).html(this.template(options));
+    $('#top', this.el).html(this.template(options).replace(/\n|\s{2,}/g, ''));
 
     this.createStepIndicators();
     this.setDividerWidth();
   },
   createStepIndicators: function() {
-    $("#stepIndicatorBar", this.el).html("");
+    $("#stepIndicatorBar", this.el).empty();
+    var out = "";
 
     for (var i = 0; i < app.get('patternLength'); i++) {
       var first = (i == 0) ? ' first' : '';
       var last = (app.get('patternLength') > 1 && i == app.get('patternLength') - 1) ? ' last' : '';
 
-      $("#stepIndicatorBar", this.el).append("<div class=\"step" + first + last + "\" step=\"" + i + "\"></div>");
+      out += "<div class=\"step" + first + last + "\" step=\"" + i + "\"></div>";
     }
+    $("#stepIndicatorBar", this.el).append(out);
   },
   changeBeat: function(i, prev) {
     $("#stepIndicatorBar .step[step='" + i + "']").addClass('on');

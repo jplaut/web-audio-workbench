@@ -12,7 +12,7 @@ Handlebars.registerHelper("each_step", function(end, steps, options) {
   return out;
 });
 
-Handlebars.registerHelper("for", function(num, options) {
+Handlebars.registerHelper("beat_dividers", function(num, options) {
   var out = "";
 
   for (var i = 1; i <= num; i++) {

@@ -1,8 +1,8 @@
 /*
  * TO DO
  * - add save/load option
- * - put in separators for bars/beats
  * - allow for expanding/contracting effects (will require additional work to customize display when contracted)
+ * - allow for separate instances of sequencer "widget"
 */
 
 $(function() {

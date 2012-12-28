@@ -16,7 +16,7 @@ var PatternView = Backbone.View.extend({
       endIndex: app.get('patternLength'),
       steps: this.model.steps
     }
-    this.$el.html(this.template(options));
+    this.$el.html(this.template(options).replace(/\n|\s{2,}/g, ''));
 
     return this;
   },

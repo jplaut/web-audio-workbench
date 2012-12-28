@@ -14,7 +14,10 @@ var EffectView = Backbone.View.extend({
     this.template = globals.templateLoader.load('effect');
   },
   render: function() {
-    this.$el.append(this.template({name: this.model.get('name'), args: this.model.params}));
+    this.$el.append(this.template({
+      name: this.model.get('name'), 
+      args: this.model.params
+    }).replace(/\n|\s{2,}/g, ''));
 
     _(this.model.params).each(function(value, key) {
       this.params[key] = new AutomationView({

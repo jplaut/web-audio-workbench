@@ -25,7 +25,7 @@ var TrackControlsView = Backbone.View.extend({
   render: function() {
     var options = this.model.toJSON();
     options.name = options.name || 'Track ' + (this.collection.indexOf(this.model) + 1);
-    this.$el.html(this.template(options));
+    this.$el.html(this.template(options).replace(/\n|\s{2,}/g, ''));
 
     return this;
   },

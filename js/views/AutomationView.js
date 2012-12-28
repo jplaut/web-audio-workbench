@@ -18,7 +18,7 @@ var AutomationView = Backbone.View.extend({
     this.on('drag', this.handleDrag);
   },
   render: function() {
-    this.$el.html(this.template({options: this.param}));
+    this.$el.html(this.template({options: this.param}).replace(/\n|\s{2,}/g, ''));
     this.canvas = Raphael($('.canvas', this.el)[0], this.width, this.height);
 
     if (this.points.length == 0) {

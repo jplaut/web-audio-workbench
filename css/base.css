@@ -71,12 +71,11 @@ html {
   border: 1px solid #222;
   padding: 1px 0 0 5px;
   overflow: scroll;
-  font-size: 0;
 }
 
 /* INDIVIDUAL TRACK */
 .track {
-  margin-bottom: 20px;
+  margin: 5px 0 20px;
   white-space: nowrap;
 }
 
@@ -85,7 +84,7 @@ html {
   width: 170px;
   display: inline-block;
   margin-right: 10px;
-  font-size: 16px;
+  vertical-align: top;
 }
 
 .tracklabel {
@@ -95,11 +94,13 @@ html {
 
 .trackLabelText {
   margin-left: 2px;
-  display: inline;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .trackLabelText input {
   width: 104px;
+  height: 18px;
 }
 
 .toggleEffects {
@@ -152,8 +153,8 @@ html {
 /* STEPS */
 .steps {
   display: inline-block;
-  padding: 0 0 2px;
   margin-right: 8px;
+  vertical-align: top;
 }
 
 .steps .step {
@@ -169,7 +170,7 @@ html {
   display: inline-block;
   width: 35px;
   border: 1px solid black;
-  margin: 3px 5.5px;
+  margin: 0 5.5px;
 }
 
 .first {
@@ -208,7 +209,7 @@ html {
   width: 120px;
   margin-bottom: 3px;
   display: inline-block;
-  font-size: 16px;
+  vertical-align: top;
 }
 
 .paramsList {
@@ -280,5 +281,6 @@ html {
 }
 
 .close {
-  display: inline;
+  display: inline-block;
+  vertical-align: top;
 }
