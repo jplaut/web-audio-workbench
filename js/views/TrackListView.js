@@ -7,8 +7,7 @@ var TrackListView = Backbone.View.extend({
     this.template = globals.templateLoader.load('tracklist');
 
     this.collection.on('add', this.appendTrack);
-    app.on('change:patternLength', this.renderTopSection);
-    app.on('change:noteType', this.renderTopSection);
+    app.on('change:patternLength change:noteType', this.renderTopSection);
     app.on('change:beat', this.changeBeat);
     app.on('clear:beat', this.clearBeat);
     $(window).on('resize', this.handleWindowResize);

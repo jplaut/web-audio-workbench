@@ -17,9 +17,8 @@ var App = Backbone.Model.extend({
 
     this.setStepLength();
     this.on('change:isPlaying', this.togglePlayback);
-    this.on('change:noteType', this.setStepLength);
+    this.on('change:noteType change:tempo', this.setStepLength);
     this.on('change:patternLength', this.handleChangePatternLength);
-    this.on('change:tempo', this.setStepLength);
   },
   setStepLength: function() {
     this.stepTime = (60 / this.get('tempo')) / (this.get('noteType') / 4);

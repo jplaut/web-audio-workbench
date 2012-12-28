@@ -15,7 +15,6 @@ var AutomationView = Backbone.View.extend({
 
     this.template = globals.templateLoader.load('automation');
     app.on('change:patternLength', this.changePatternLength);
-    this.on('drag', this.handleDrag);
   },
   render: function() {
     this.$el.html(this.template({options: this.param}).replace(/\n|\s{2,}/g, ''));
@@ -33,7 +32,7 @@ var AutomationView = Backbone.View.extend({
         var newPoint = this.canvas.circle(point.attr('cx'), point.attr('cy'), 5)
           .attr('fill', '#000')
           .drag(function(dx, dy, x, y) {
-            self.trigger('drag', this, dx, dy, x, y);
+            self.handleDrag(this, dx, dy, x, y);
           }, 
           null,
           this.setValues
@@ -80,7 +79,7 @@ var AutomationView = Backbone.View.extend({
     var point = this.canvas.circle(x, y, 5)
       .attr('fill', '#000')
       .drag(function(dx, dy, x, y) {
-        self.trigger('drag', this, dx, dy, x, y);
+        self.handleDrag(this, dx, dy, x, y);
         }, 
         null,
         this.setValues
@@ -119,8 +118,8 @@ var AutomationView = Backbone.View.extend({
   },
   handleDrag: function(point, dx, dy, x, y) {
     var bbox = {
-      x: app.get('editingSteps') * this.width,
-      x2: app.get('editingSteps') * this.width + this.width,
+      x: 0,
+      x2: this.width,
       y: 0,
       y2: this.height
     };
@@ -131,7 +130,7 @@ var AutomationView = Backbone.View.extend({
     if (Raphael.isPointInsideBBox(bbox, x, y)) {
       var i = _(this.points).indexOf(point);
 
-      if (!(this.points[i-1] && x <= this.points[i-1].attr('cx')) && !(this.points[i+1] && x >= this.points[i+1].attr('cx')) && x > 0 && x < this.totalWidth) {
+      if (!(this.points[i-1] && x <= this.points[i-1].attr('cx')) && !(this.points[i+1] && x >= this.points[i+1].attr('cx')) && x > 0 && x < this.width) {
         this.points[i].attr({cx: x, cy: y});
         this.drawPathFromPoints();
       }
@@ -165,7 +164,7 @@ var AutomationView = Backbone.View.extend({
     return values;
   },
   normalizeX: function(x) {
-    return x - $(document).scrollLeft() - this.$el.offset().left + (this.width * app.get('editingSteps'));
+    return x - $(document).scrollLeft() - this.$el.offset().left - 18;
   },
   normalizeY: function(y) {
     return y - $(document).scrollTop() - this.$el.offset().top;
