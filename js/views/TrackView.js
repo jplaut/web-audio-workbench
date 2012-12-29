@@ -3,10 +3,10 @@ var TrackView = Backbone.View.extend({
   className: 'track',
   initialize: function() {
     _.bindAll(this, 'render');
-
+    
     this.trackControls = new TrackControlsView({collection: this.collection, model: this.model});
-    this.pattern = new PatternView({model: this.model});
-    this.effectsPanel = new EffectsPanelView({collection: this.model.effects});
+    this.pattern = new PatternView({model: this.model, instrument: this.options.instrument});
+    this.effectsPanel = new EffectsPanelView({collection: this.model.effects, instrument: this.options.instrument});
 
     this.trackControls.on('toggle:effectsPanel', this.effectsPanel.toggle, this.effectsPanel);
     this.model.on('remove', this.remove, this);

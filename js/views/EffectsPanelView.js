@@ -36,7 +36,8 @@ var EffectsPanelView = Backbone.View.extend({
     var effectView = new EffectView({
       model: effect,
       collection: this.collection,
-      automationWidth: this.$el.siblings('.steps').width()
+      automationWidth: this.$el.siblings('.steps').width(),
+      instrument: this.options.instrument
     });
 
     $('.effects', this.el).append(effectView.render().el);

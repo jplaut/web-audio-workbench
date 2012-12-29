@@ -10,21 +10,27 @@
   <script src="lib/handlebars.js"></script>
   <script src="lib/raphael-min.js"></script>
   <script src="js/globals.js"></script>
-</head>
-<body>
-  <!-- HELPERS -->
-  <script src="js/helpers.js"></script>
-
-  <!-- MODELS/COLLECTIONS -->
-  <script src="js/models/Track.js"></script>
-  <script src="js/models/Effect.js"></script>
-  <script src="js/collections/TrackList.js"></script>
-  <script src="js/collections/Effects.js"></script>
   <script src="js/models/App.js"></script>
 
   <script type="text/javascript">
     var app = new App;
   </script>
+</head>
+<body>
+  <!-- HELPERS -->
+  <script src="js/helpers.js"></script>
+
+  <!-- MODELS -->
+  <script src="js/models/Track.js"></script>
+  <script src="js/models/Effect.js"></script>
+  <script src="js/models/Sequencer.js"></script>
+  <script src="js/models/Instrument.js"></script>
+
+  <!-- COLLECTIONS -->
+  <script src="js/collections/Instruments.js"></script>
+  <script src="js/collections/Tracks.js"></script>
+  <script src="js/collections/Effects.js"></script>
+  
 
   <!-- VIEWS -->
   <script src="js/views/PatternView.js"></script>
@@ -33,8 +39,8 @@
   <script src="js/views/EffectsPanelView.js"></script>
   <script src="js/views/TrackControlsView.js"></script>
   <script src="js/views/TrackView.js"></script>
-  <script src="js/views/TrackListView.js"></script>
-  <script src="js/views/TransportView.js"></script>
+  <script src="js/views/SequencerView.js"></script>
+  <script src="js/views/AppView.js"></script>
 
   <script src="js/main.js"></script>
 </body>

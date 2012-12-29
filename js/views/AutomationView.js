@@ -5,16 +5,19 @@ var AutomationView = Backbone.View.extend({
     'click .canvas': 'handleClick'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'handleClick', 'drawPathFromPoints', 'handleDrag', 'setValues', 'getPathPoints', 'toggleDisplay', 'changePatternLength');
+    _.bindAll(this, 'render', 'handleClick', 'drawPathFromPoints', 'handleDrag', 'setValues', 'getPathPoints', 'toggleDisplay', 'changePatternLength', 'removeCanvas');
     this.param = this.model.params[this.options.param];
     this.points = this.param.points;
     this.width = this.options.width - 8;
     this.height = 120;
+    this.stepWidth = this.width / 16;
+    this.instrument = this.options.instrument;
     this.multiplier = this.height / (this.param.max - this.param.min);
     this.automationPathStr = "";
 
     this.template = globals.templateLoader.load('automation');
-    app.on('change:patternLength', this.changePatternLength);
+    this.instrument.on('change:patternLength', this.changePatternLength);
+    this.model.on('remove', this.removeCanvas);
   },
   render: function() {
     this.$el.html(this.template({options: this.param}).replace(/\n|\s{2,}/g, ''));
@@ -51,12 +54,15 @@ var AutomationView = Backbone.View.extend({
 
     this.$el.css('display', display);
   },
+  removeCanvas: function() {
+    this.instrument.off('change:patternLength', this.changePatternLength);
+    this.remove();
+  },
   changePatternLength: function() {
     this.width = $('.steps', this.$el.parents('.track')).width() - 8;
 
-    if (app.get('patternLength') > this.param.values.length) {
-      var stepLength = this.width / app.get('totalBeats');
-      var str = "M" + (stepLength * (app.get('patternLength') - 1)) + ", 0V" + this.height;
+    if (this.instrument.get('patternLength') > this.param.values.length) {
+      var str = "M" + (this.stepWidth * (this.instrument.get('patternLength') - 1)) + ", 0V" + this.height;
       var intersection = Raphael.pathIntersection(this.automationPathStr, str)[0];
 
       if (intersection) {
@@ -141,11 +147,10 @@ var AutomationView = Backbone.View.extend({
     this.param.values = values;
   },
   getPathPoints: function() {
-    var stepLength = this.width / app.get('totalBeats');
     var values = [];
 
-    for (var i = 0; i < app.get('patternLength'); i++) {
-      var str = "M" + stepLength * i + ", 0V" + this.height;
+    for (var i = 0; i < this.instrument.get('patternLength'); i++) {
+      var str = "M" + this.stepWidth * i + ", 0V" + this.height;
       var intersection = Raphael.pathIntersection(this.automationPathStr, str)[0];
 
       try {

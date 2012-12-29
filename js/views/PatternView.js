@@ -7,13 +7,13 @@ var PatternView = Backbone.View.extend({
   initialize: function(options) {
     _.bindAll(this, 'render', 'enableStep');
     this.template = globals.templateLoader.load('pattern');
-    app.on('change:patternLength', this.render);
+    this.instrument = this.options.instrument;
+
+    this.instrument.on('change:patternLength', this.render);
   },
   render: function() {
-    var startIndex = app.get('totalBeats') * app.get('editingSteps');
-
     var options = {
-      endIndex: app.get('patternLength'),
+      endIndex: this.instrument.get('patternLength'),
       steps: this.model.steps
     }
     this.$el.html(this.template(options).replace(/\n|\s{2,}/g, ''));

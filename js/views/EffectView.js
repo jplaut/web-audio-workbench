@@ -23,7 +23,8 @@ var EffectView = Backbone.View.extend({
       this.params[key] = new AutomationView({
         model: this.model, 
         param: key,
-        width: this.options.automationWidth
+        width: this.options.automationWidth,
+        instrument: this.options.instrument
       });
 
       this.$el.append(this.params[key].render().el);

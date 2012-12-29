@@ -3,13 +3,75 @@ html {
   background-color: #ccc;
 }
 
-#top {
+/* APP */
+
+#app {
+  width: 956px;
+  margin: 10px auto 0;
+  border: 1px solid #222;
+  padding: 5px;
+  overflow: scroll;
+}
+
+#transport button, label, #togglePlayback {
+  margin: 0 5px;
+}
+
+#togglePlayback img {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  margin-bottom: -5px;
+}
+
+#transport {
+  position: fixed;
+  bottom: 10px;
+  white-space: nowrap;
+}
+
+.instrument {
+  position: relative;
+}
+
+.instrumentTitle {
+  position: absolute;
+  top: 0;
+}
+
+.removeInstrument {
+  display: inline;
+  cursor: pointer;
+}
+
+.instrumentTitle h2 {
+  display: inline;
+}
+
+/* SEQUENCER */
+
+.sequencer {
+  width: 98.7%;
+  margin: 0 0 20px;
+  border: 1px solid #222;
+  padding: 5px;
+  overflow: scroll;
+}
+
+.sequencerControls {
+  position: relative;
+  left: 328px;
+  width: 300px;
+  bottom: 3px;
+}
+
+.top {
   display: inline-block;
   margin: 0 8px 0 0;
 }
 
-#beatDividers {
-  margin: 5px 0 4px 179px;
+.beatDividers {
+  margin: 0 0 4px 179px;
   white-space: nowrap;
 }
 
@@ -31,46 +93,18 @@ html {
   font-size: 13px;
 }
 
-#stepIndicatorBar {
+.stepIndicatorBar {
   margin: 0 0 4px 179px;
   white-space: nowrap;
 }
 
-#stepIndicatorBar .step {
+.stepIndicatorBar .step {
   height: 2px;
   background-color: black;
 }
 
-#stepIndicatorBar .step.on {
+.stepIndicatorBar .step.on {
   background-color: yellow;
-}
-
-/* TRANSPORT */
-
-#transport {
-  position: fixed;
-  bottom: 10px;
-}
-
-#transport button, label, #togglePlayback {
-  margin: 0 5px;
-}
-
-#togglePlayback img {
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  margin-bottom: -5px;
-}
-
-/* TRACK LIST */
-
-#tracks {
-  width: 945px;
-  margin: 10px auto 0;
-  border: 1px solid #222;
-  padding: 1px 0 0 5px;
-  overflow: scroll;
 }
 
 /* INDIVIDUAL TRACK */
