@@ -40,12 +40,14 @@ var AppView = Backbone.View.extend({
     instrument.view.$el.css('max-height', this.$el.height() - 50);
   },
   togglePlayback: function() {
-    this.model.set({isPlaying: !this.model.get('isPlaying')});
+    if (this.collection.size() > 0) {
+      this.model.set({isPlaying: !this.model.get('isPlaying')});
 
-    if (this.model.get('isPlaying')) {
-      $("#togglePlayback img").attr("src", "img/stop.png");
-    } else {
-      $("#togglePlayback img").attr("src", "img/play.png");
+      if (this.model.get('isPlaying')) {
+        $("#togglePlayback img").attr("src", "img/stop.png");
+      } else {
+        $("#togglePlayback img").attr("src", "img/play.png");
+      }
     }
   },
   changeTempo: function(e) {

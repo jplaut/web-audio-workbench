@@ -6,19 +6,37 @@ var App = Backbone.Model.extend({
     }
   },
   initialize:function() {
-    _.bindAll(this, 'toggleBeatClock');
+    _.bindAll(this, 'togglePlayback', 'toggleBeatClock', 'setStepTime');
 
-    this.beatClock = -1;
-    this.on('change:isPlaying', this.toggleBeatClock);
+    this.beatIndex = 0;
+    this.noteTime = 0;
+    this.setStepTime();
+
+    this.on('change:isPlaying', this.togglePlayback);
+    this.on('change:tempo', this.changeStepTime);
   },
-  toggleBeatClock: function(stepTime) {
+  setStepTime: function() {
+    this.stepTime = 60 / this.get('tempo') / 16;
+  },
+  togglePlayback: function() {
     if (this.get('isPlaying')) {
-      stepTime = (typeof stepTime != "number") ? 60 / this.get('tempo') / 4 : stepTime;
-      this.beatClock = (this.beatClock == 15) ? 0 : this.beatClock + 1;
-      this.interval = setTimeout(this.toggleBeatClock, stepTime * 1000, stepTime);
+      this.startTime = globals.audioContext.currentTime;
+      this.toggleBeatClock();
     } else {
       clearTimeout(this.interval);
-      this.beatClock = -1;
+      this.beatIndex = 0;
+      this.noteTime = 0;
     }
+  },
+  toggleBeatClock: function() {
+    var elapsedTime = globals.audioContext.currentTime - this.startTime;
+
+    if (this.noteTime < elapsedTime) {
+      this.trigger('beat', this.beatIndex);
+      this.beatIndex = (this.beatIndex == 63) ? 0: this.beatIndex + 1;
+      this.noteTime += this.stepTime;
+    }
+
+    this.interval = setTimeout(this.toggleBeatClock, 0);
   }
 });
