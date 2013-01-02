@@ -1,7 +1,6 @@
 var Sequencer = Backbone.Model.extend({
   defaults: function() {
     return {
-      totalBeats: 16,
       patternLength: 16,
       noteType: 16
     }
@@ -10,6 +9,10 @@ var Sequencer = Backbone.Model.extend({
     _.bindAll(this, 'play', 'playBeat', 'addEffects', 'togglePlayback', 'handleChangePatternLength');
     this.notesplaying = [];
     this.collection = new Tracks;
+    this.view = new SequencerView({
+      model: this,
+      collection: this.collection
+    });
 
     this.relativeBeatIndex = Math.ceil(app.beatIndex / (64 / this.get('noteType')));
 
@@ -57,7 +60,7 @@ var Sequencer = Backbone.Model.extend({
     var source = globals.audioContext.createBufferSource();
     source.buffer = buffer;
     var effectsChain = this.addEffects(source, effects);
-    effectsChain.connect(globals.audioContext.destination);
+    effectsChain.connect(app.audioOut);
     source.noteOn(time);
     this.notesplaying.push(source);
   },

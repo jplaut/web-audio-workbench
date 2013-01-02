@@ -20,7 +20,7 @@ var SequencerView = Backbone.View.extend({
     this.model.on('clear:beat', this.clearBeat);
   },
   render: function() {
-    this.$el.html(this.template({type: this.options.type}));
+    this.$el.html(this.template());
 
     this.renderTopSection();
 
@@ -36,8 +36,7 @@ var SequencerView = Backbone.View.extend({
     $(".sequencerControls", this.el).css('left', this.$el.scrollLeft() + 328);
   },
   createTrack: function() {
-    var track = new Track;
-    this.collection.add(track);
+    this.collection.add();
   },
   appendTrack: function(track) {
     var trackView = new TrackView({

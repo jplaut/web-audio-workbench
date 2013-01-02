@@ -25,11 +25,7 @@ var EffectsPanelView = Backbone.View.extend({
     this.$el.slideToggle('slow');
   },
   createEffect: function(e) {
-    var effect = new Effect({
-      type: $(e.currentTarget).val()
-    });
-
-    this.collection.add(effect);
+    this.collection.add({type: $(e.currentTarget).val()});
     $(e.currentTarget).val('default');
   },
   appendEffect: function(effect) {

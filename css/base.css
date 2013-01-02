@@ -54,14 +54,14 @@ html {
   width: 98.7%;
   margin: 0 0 20px;
   border: 1px solid #222;
-  padding: 5px;
+  padding: 5px 5px 10px;
   overflow: scroll;
 }
 
 .sequencerControls {
   position: relative;
   left: 328px;
-  width: 300px;
+  width: 301px;
   bottom: 3px;
 }
 
@@ -170,7 +170,7 @@ html {
 .solo, .mute {
   width: 15px;
   text-align: center;
-  cursor: hand;
+  cursor: pointer;
   float: left;
   clear: both;
 }
@@ -290,7 +290,10 @@ html {
 
 .canvas svg {
   left: 0;
-  z-index: 0;
+}
+
+.canvas circle {
+  cursor: move;
 }
 
 .canvasLabels {

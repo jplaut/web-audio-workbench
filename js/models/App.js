@@ -10,6 +10,8 @@ var App = Backbone.Model.extend({
 
     this.beatIndex = 0;
     this.noteTime = 0;
+    this.audioOut = globals.audioContext.createGainNode();
+    this.audioOut.connect(globals.audioContext.destination);
     this.setStepTime();
 
     this.on('change:isPlaying', this.togglePlayback);
@@ -38,5 +40,8 @@ var App = Backbone.Model.extend({
     }
 
     this.interval = setTimeout(this.toggleBeatClock, 0);
+  },
+  exportAudio: function() {
+    var rec = new Recorder(this.audioOut, {workerPath: "lib/recorderWorker.js"});
   }
 });
