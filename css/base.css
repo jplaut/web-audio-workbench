@@ -68,6 +68,19 @@ body {
   margin:  12px 17px 0 0;
 }
 
+#transport {
+  position: fixed;
+  bottom: 15px;
+  white-space: nowrap;
+  padding: 5px 8px 8px 5px;
+  border-radius: 5px;
+  background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+  background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%); /* W3C */
+  box-shadow: 2px 2px 7px #333;
+}
+
 #transportIcons, #transportIcons div {
   display: inline-block;
   vertical-align: top;
@@ -106,19 +119,6 @@ body {
 #playpause {
   width: 29px;
   height: 37px;
-}
-
-#transport {
-  position: fixed;
-  bottom: 15px;
-  white-space: nowrap;
-  padding: 5px 8px 6px 5px;
-  border-radius: 5px;
-  background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
-  background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%); /* W3C */
-  box-shadow: 2px 2px 7px #333;
 }
 
 .instrument {

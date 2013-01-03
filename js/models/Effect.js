@@ -31,8 +31,10 @@ var Effect = Backbone.Model.extend({
       var effectObj = context.createPanner();
       effectObj.setPosition(this.params.position.values[i], 0, -0.5);
     } else if (this.get('type').match(/convolver_/)) {
-      var dry_source, wet_source, effectObj, convolver = context.createConvolver();
-      dry_source = wet_source = effectObj = context.createGainNode();
+      var dry_source = context.createGainNode(),
+          wet_source = context.createGainNode(),
+          effectObj = context.createGainNode(),
+          convolver = context.createConvolver();
 
       convolver.buffer = this.buffer;
       dry_source.gain.value = 1 - this.params.wet_dry.values[i];

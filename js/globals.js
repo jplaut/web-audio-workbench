@@ -392,4 +392,3 @@ var globals = {
 }
 
 globals.audioContext = new webkitAudioContext();
-globals.audioContext.createGainNode();
