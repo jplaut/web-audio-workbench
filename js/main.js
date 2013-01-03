@@ -2,6 +2,7 @@
  * TO DO
  * - add save/load option
  * - allow for expanding/contracting effects (will require additional work to customize display when contracted)
+ * - cache loaded templates/buffers so they don't need to be loaded again
 */
 
 $(function() {

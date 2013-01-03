@@ -1,6 +1,12 @@
 /* PAGE */
 html {
-  background-color: #ccc;
+  font-family: Monda, sans-serif;
+  line-height: 1em;
+  background: #e2e2e2; /* Old browsers */
+  background: -moz-linear-gradient(-45deg, #e2e2e2 0%, #dbdbdb 18%, #d1d1d1 67%, #fefefe 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#e2e2e2), color-stop(18%,#dbdbdb), color-stop(67%,#d1d1d1), color-stop(100%,#fefefe)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(-45deg, #e2e2e2 0%,#dbdbdb 18%,#d1d1d1 67%,#fefefe 100%); /* Chrome10+,Safari5.1+ */
+  background: linear-gradient(135deg, #e2e2e2 0%,#dbdbdb 18%,#d1d1d1 67%,#fefefe 100%); /* W3C */
 }
 
 /* APP */
@@ -13,25 +19,55 @@ html {
   overflow: scroll;
 }
 
-#transport button, label, #togglePlayback {
-  margin: 0 5px;
+#createInstrument {
+  margin-right: 17px;
 }
 
-#togglePlayback img {
+#transportIcons, #transportIcons div {
+  display: inline-block;
+}
+
+#transportIcons div {
+  margin: 0 17px;
+  width: 26px;
+  height: 39px;
   cursor: pointer;
-  width: 30px;
-  height: 30px;
   margin-bottom: -5px;
+}
+
+#transport label {
+  margin: 0 5px 0 17px;
+}
+
+#transport div img {
+  height: 100%;
+  width: 100%;
+}
+
+#playpause {
+  width: 29px !important;
+  height: 37px !important;
 }
 
 #transport {
   position: fixed;
   bottom: 10px;
   white-space: nowrap;
+  padding: 5px 8px 5px 5px;
+  border-radius: 5px;
+  background: rgb(76,76,76); /* Old browsers */
+  background: -moz-linear-gradient(-45deg, rgba(76,76,76,1) 0%, rgba(89,89,89,1) 12%, rgba(102,102,102,1) 25%, rgba(71,71,71,1) 39%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(17,17,17,1) 60%, rgba(43,43,43,1) 76%, rgba(28,28,28,1) 91%, rgba(19,19,19,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(76,76,76,1)), color-stop(12%,rgba(89,89,89,1)), color-stop(25%,rgba(102,102,102,1)), color-stop(39%,rgba(71,71,71,1)), color-stop(50%,rgba(44,44,44,1)), color-stop(51%,rgba(0,0,0,1)), color-stop(60%,rgba(17,17,17,1)), color-stop(76%,rgba(43,43,43,1)), color-stop(91%,rgba(28,28,28,1)), color-stop(100%,rgba(19,19,19,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(-45deg, rgba(76,76,76,1) 0%,rgba(89,89,89,1) 12%,rgba(102,102,102,1) 25%,rgba(71,71,71,1) 39%,rgba(44,44,44,1) 50%,rgba(0,0,0,1) 51%,rgba(17,17,17,1) 60%,rgba(43,43,43,1) 76%,rgba(28,28,28,1) 91%,rgba(19,19,19,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: linear-gradient(135deg, rgba(76,76,76,1) 0%,rgba(89,89,89,1) 12%,rgba(102,102,102,1) 25%,rgba(71,71,71,1) 39%,rgba(44,44,44,1) 50%,rgba(0,0,0,1) 51%,rgba(17,17,17,1) 60%,rgba(43,43,43,1) 76%,rgba(28,28,28,1) 91%,rgba(19,19,19,1) 100%); /* W3C */
+  box-shadow: 2px 2px 7px #888;
+  color: white;
 }
 
 .instrument {
   position: relative;
+  border-radius: 5px;
+  box-shadow: 2px 2px 7px #888;
 }
 
 .instrumentTitle {
@@ -46,6 +82,9 @@ html {
 
 .instrumentTitle h2 {
   display: inline;
+  font-family: Monda, sans-serif;
+  line-height: 1.3em;
+  font-weight: bold;
 }
 
 /* SEQUENCER */
@@ -56,6 +95,11 @@ html {
   border: 1px solid #222;
   padding: 5px 5px 10px;
   overflow: scroll;
+  background: rgb(234,234,234); /* Old browsers */
+  background: -moz-linear-gradient(-45deg, rgba(234,234,234,1) 0%, rgba(220,220,220,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(234,234,234,1)), color-stop(100%,rgba(220,220,220,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(-45deg, rgba(234,234,234,1) 0%,rgba(220,220,220,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: linear-gradient(135deg, rgba(234,234,234,1) 0%,rgba(220,220,220,1) 100%); /* W3C */
 }
 
 .sequencerControls {
@@ -63,6 +107,7 @@ html {
   left: 328px;
   width: 301px;
   bottom: 3px;
+  font-size: 13px;
 }
 
 .top {

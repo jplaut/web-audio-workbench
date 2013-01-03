@@ -101,7 +101,6 @@ var TrackControlsView = Backbone.View.extend({
       $(e.currentTarget).html($(e.currentTarget).html());
     } else if (e.currentTarget.files.length > 0) {
       $(e.currentTarget).replaceWith("<img src=img/loading.gif />");
-      //var self = this;
 
       this.model.setSample(
         e.currentTarget.files[0],

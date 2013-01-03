@@ -3,11 +3,13 @@ var AppView = Backbone.View.extend({
   id: 'app',
   events: {
     'change #createInstrument': 'createInstrument',
-    'click #togglePlayback': 'togglePlayback',
+    'click #playpause': 'togglePlayback',
+    'click #stop': 'stop',
+    'click #rec': 'toggleRecording',
     'change #tempo': 'changeTempo'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'createInstrument', 'appendInstrument', 'togglePlayback', 'handleWindowResize', 'changeTempo', 'removeInstrument');
+    _.bindAll(this, 'render', 'createInstrument', 'appendInstrument', 'togglePlayback', 'toggleRecording', 'handleWindowResize', 'changeTempo', 'removeInstrument', 'flash');
 
     this.template = globals.templateLoader.load('app');
     this.collection = new Instruments;
@@ -17,7 +19,7 @@ var AppView = Backbone.View.extend({
     $(window).on('resize', this.handleWindowResize);
   },
   render: function() {
-    this.$el.html(this.template());
+    this.$el.html(this.template().replace(/\n|\s{2,}/g, ''));
 
     this.collection.each(function(instrument) {
       this.appendInstrument(instrument);
@@ -26,7 +28,7 @@ var AppView = Backbone.View.extend({
     return this;
   },
   handleWindowResize: function() {
-    this.$el.height($(document).height() - 90);
+    this.$el.height($(document).height() - 100);
     $("#transport", this.el).css('left', $(document).width() / 2 - $("#transport", this.el).width() / 2);
     $(".instrument").css('max-height', this.$el.height());
   },
@@ -46,14 +48,49 @@ var AppView = Backbone.View.extend({
     instrument.view.$el.css('max-height', this.$el.height() - 50);
   },
   togglePlayback: function() {
-    if (this.collection.size() > 0) {
-      this.model.set({isPlaying: !this.model.get('isPlaying')});
-
-      if (this.model.get('isPlaying')) {
-        $("#togglePlayback img").attr("src", "img/stop.png");
+    if (this.model.get('isPlaying')) {
+      if (this.model.get('isPaused')) {
+        this.model.set({isPaused: false});
+        this.flash("off", $("#playpause img"));
       } else {
-        $("#togglePlayback img").attr("src", "img/play.png");
+        this.model.set({isPaused: true});
+        this.flash("on", $("#playpause img"));
       }
+    } else {
+      if (this.collection.size() > 0) {
+        this.model.set({isPlaying: true});
+        $("#playpause img").attr("src", "img/pause.png");
+      }
+    }
+  },
+  toggleRecording: function() {
+    this.model.set({isRecording: !this.model.get('isRecording')});
+
+    if (this.model.get('isRecording')) {
+      this.flash("on", $("#rec img"));
+    } else {
+      this.flash("off", $("#rec img"));
+    }
+  },
+  stop: function() {
+    if (this.model.get('isPlaying')) {
+      this.model.set({'isPlaying': false});
+      if (this.isFlashing) clearTimeout(this.isFlashing);
+      $("#playpause img").attr("src", "img/play.png");
+    }
+  },
+  flash: function(state, el) {
+    if (state == "on") {
+      if (el.css('display') == "none") {
+        el.css('display', "inline-block");
+      } else {
+        el.css('display', "none");
+      }
+
+      this.isFlashing = setTimeout(this.flash, 500, "on", el);
+    } else {
+      el.css('display', "inline-block");
+      clearTimeout(this.isFlashing);
     }
   },
   changeTempo: function(e) {
