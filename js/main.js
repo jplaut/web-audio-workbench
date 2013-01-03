@@ -6,10 +6,13 @@
 */
 
 $(function() {
-  var appView = new AppView({
-    model: app
-  });
+  if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+    $("#overlay").css("display", "none");
+    var appView = new AppView({
+      model: app
+    });
 
-  $(document.body).append(appView.render().el);
-  appView.handleWindowResize();
+    $(document.body).append(appView.render().el);
+    appView.handleWindowResize();
+  }
 });
