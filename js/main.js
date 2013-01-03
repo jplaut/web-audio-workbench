@@ -7,7 +7,6 @@
 
 $(function() {
   if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
-    $("#overlay").css("display", "none");
     var appView = new AppView({
       model: app
     });

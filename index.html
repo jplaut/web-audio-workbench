@@ -2,8 +2,6 @@
 <head>
   <meta charset=utf-8>
   <title>Sequencer</title>
-  <link href='http://fonts.googleapis.com/css?family=Monda:700' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Monda' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="css/base.css">
   <script src="lib/jquery-min.js"></script>
   <script src="lib/json2.js"></script>
@@ -14,10 +12,6 @@
   <script src="lib/recorder.js"></script>
   <script src="js/globals.js"></script>
   <script src="js/models/App.js"></script>
-
-  <script type="text/javascript">
-    var app = new App;
-  </script>
 </head>
 <body>
   <div id="overlay">
@@ -26,6 +20,15 @@
     </div>
   </div>
 
+  <script type="text/javascript">
+    if (navigator.userAgent.toLowerCase().indexOf('chrome') == -1) {
+      $("#overlay").css("display", "block");
+    } else {
+      var app = new App;
+    }
+  </script>
+
+  
   <!-- HELPERS -->
   <script src="js/helpers.js"></script>
 

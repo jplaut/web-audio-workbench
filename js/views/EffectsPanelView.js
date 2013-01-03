@@ -8,7 +8,6 @@ var EffectsPanelView = Backbone.View.extend({
     _.bindAll(this, 'render', 'createEffect', 'appendEffect');
     this.collection.on('add', this.appendEffect);
     this.template = globals.templateLoader.load('effectspanel');
-    this.toggled = false;
   },
   render: function() {
     this.$el.append(this.template({list: globals.effectsList}));
@@ -20,8 +19,6 @@ var EffectsPanelView = Backbone.View.extend({
     return this;
   },
   toggle: function() {
-    this.toggled = !this.toggled;
-
     this.$el.slideToggle('slow');
   },
   createEffect: function(e) {
