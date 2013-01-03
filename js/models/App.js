@@ -19,7 +19,7 @@ var App = Backbone.Model.extend({
     this.on('change:isRecording', this.toggleRecording);
     this.on('change:isPaused', this.togglePlaybackPause);
     this.on('change:isPlaying', this.togglePlayback);
-    this.on('change:tempo', this.changeStepTime);
+    this.on('change:tempo', this.setStepTime);
   },
   setStepTime: function() {
     this.stepTime = 60 / this.get('tempo') / 16;
@@ -60,7 +60,9 @@ var App = Backbone.Model.extend({
     } else {
       this.rec.stop();
       this.set({isPlaying: false});
-      this.rec.exportWAV(Recorder.forceDownload);
+
+      var c = confirm("Export recording to WAV?");
+      if (c == true) this.rec.exportWAV(Recorder.forceDownload);
     }
   }
 });

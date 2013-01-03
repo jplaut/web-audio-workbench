@@ -31,34 +31,34 @@ var TrackControlsView = Backbone.View.extend({
   },
   handleSolo: function() {
     if (this.model.get('mute')) {
-      this.flash("off", $('.mute', this.el));
+      this.flash(false, $('.mute', this.el));
       this.model.set({mute: false});
     }
 
     if (this.model.get('solo')) {
       this.model.set({solo: false});
-      this.flash("off", $('.solo', this.el));
+      this.flash(false, $('.solo', this.el));
     } else {
       this.model.set({solo: true});
-      this.flash("on", $('.solo', this.el));
+      this.flash(true, $('.solo', this.el));
     }
   },
   handleMute: function() {
     if (this.model.get('solo')) {
-      this.flash("off", $('.solo', this.el));
+      this.flash(false, $('.solo', this.el));
       this.model.set({solo: false});
     }
 
     if (this.model.get('mute')) {
       this.model.set({mute: false});
-      this.flash("off", $('.mute', this.el));
+      this.flash(false, $('.mute', this.el));
     } else {
       this.model.set({mute: true});
-      this.flash("on", $('.mute', this.el));
+      this.flash(true, $('.mute', this.el));
     }
   },
-  flash: function(state, el) {
-    if (state == "on") {
+  flash: function(enabled, el) {
+    if (enabled) {
       if (!this.flashingColor) {
         this.flashingColor = el.css('background-color');
       }
@@ -69,7 +69,7 @@ var TrackControlsView = Backbone.View.extend({
         el.css('background-color', this.flashingColor);
       }
 
-      this.isFlashing = setTimeout(this.flash, 500, "on", el, this.flashingColor);
+      this.isFlashing = setTimeout(this.flash, 500, true, el, this.flashingColor);
     } else {
       el.css('background-color', this.flashingColor);
       this.flashingColor = null;

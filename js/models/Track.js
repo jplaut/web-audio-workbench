@@ -16,8 +16,8 @@ var Track = Backbone.Model.extend({
     var self = this;
     var sampleName = file.name;
 
-    if (sampleName.length > 16) {
-      sampleName = sampleName.slice(0, 11) + ".." + sampleName.slice(sampleName.length - 3, sampleName.length);
+    if (sampleName.length > 15) {
+      sampleName = sampleName.slice(0, 10) + ".." + sampleName.slice(sampleName.length - 3, sampleName.length);
     }
 
     var sampleURL = window.URL.createObjectURL(file);

@@ -31,18 +31,18 @@ var Effect = Backbone.Model.extend({
       var effectObj = context.createPanner();
       effectObj.setPosition(this.params.position.values[i], 0, -0.5);
     } else if (this.get('type').match(/convolver_/)) {
-      var dry_source = context.createGainNode();
-      dry_source.gain.value = 1 - this.params.wet_dry.values[i];
-      source.connect(dry_source);
-      var convolver = context.createConvolver();
+      var dry_source, wet_source, effectObj, convolver = context.createConvolver();
+      dry_source = wet_source = effectObj = context.createGainNode();
+
       convolver.buffer = this.buffer;
-      source.connect(convolver);
-      var wet_source = context.createGainNode();
+      dry_source.gain.value = 1 - this.params.wet_dry.values[i];
       wet_source.gain.value = this.params.wet_dry.values[i];
+      
+      source.connect(convolver);
       convolver.connect(wet_source);
-      var effectObj = context.createGainNode();
-      wet_source.connect(effectObj);
+      source.connect(dry_source);
       dry_source.connect(effectObj);
+      wet_source.connect(effectObj);
     } else {
       switch(this.get('type')) {
         case 'compressor':

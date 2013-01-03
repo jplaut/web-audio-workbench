@@ -51,10 +51,10 @@ var AppView = Backbone.View.extend({
     if (this.model.get('isPlaying')) {
       if (this.model.get('isPaused')) {
         this.model.set({isPaused: false});
-        this.flash("off", $("#playpause img"));
+        this.flash(false, $("#playpause img"));
       } else {
         this.model.set({isPaused: true});
-        this.flash("on", $("#playpause img"));
+        this.flash(true, $("#playpause img"));
       }
     } else {
       if (this.collection.size() > 0) {
@@ -67,9 +67,9 @@ var AppView = Backbone.View.extend({
     this.model.set({isRecording: !this.model.get('isRecording')});
 
     if (this.model.get('isRecording')) {
-      this.flash("on", $("#rec img"));
+      this.flash(true, $("#rec img"));
     } else {
-      this.flash("off", $("#rec img"));
+      this.flash(false, $("#rec img"));
     }
   },
   stop: function() {
@@ -79,22 +79,22 @@ var AppView = Backbone.View.extend({
       $("#playpause img").attr("src", "img/play.png");
     }
   },
-  flash: function(state, el) {
-    if (state == "on") {
+  flash: function(enabled, el) {
+    if (enabled) {
       if (el.css('display') == "none") {
         el.css('display', "inline-block");
       } else {
         el.css('display', "none");
       }
 
-      this.isFlashing = setTimeout(this.flash, 500, "on", el);
+      this.isFlashing = setTimeout(this.flash, 500, true, el);
     } else {
       el.css('display', "inline-block");
       clearTimeout(this.isFlashing);
     }
   },
   changeTempo: function(e) {
-    this.model.set({tempo: $(e.currentTarget).val()});
+    this.model.set({tempo: e.currentTarget.value});
   },
   removeInstrument: function(model) {
     var instrument = this.collection.find(function(instrument) {return instrument.model === model});

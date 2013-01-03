@@ -14,8 +14,8 @@ var AutomationView = Backbone.View.extend({
     this.instrument = this.options.instrument;
     this.multiplier = this.height / (this.param.max - this.param.min);
     this.automationPathStr = "";
-
     this.template = globals.templateLoader.load('automation');
+    
     this.instrument.on('change:patternLength', this.changePatternLength);
     this.model.on('remove', this.removeCanvas);
   },
@@ -24,7 +24,7 @@ var AutomationView = Backbone.View.extend({
     this.canvas = Raphael($('.canvas', this.el)[0], this.width, this.height);
 
     if (this.points.length == 0) {
-      this.automationPath = this.canvas.path("M0, " + (this.multiplier * (this.param.max - this.param.default)) + "H" + this.totalWidth);
+      this.automationPath = this.canvas.path("M0, " + (this.multiplier * (this.param.max - this.param.default)) + "H" + this.width);
     } else {
       this.points = _(this.points).filter(function(point) {return point.attr('cx') <= this.width}, this);
 
