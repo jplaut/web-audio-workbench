@@ -2,19 +2,26 @@ var globals = {
   templateLoader: {
     directory: 'tpl/',
     load: function(template) {
-      var tpl = '';
-      var self = this;
+      var tpl;
 
-      $.ajax({
-        url: self.directory + template + '.html',
-        async: false,
-        success: function(data) {
-          tpl = Handlebars.compile(data);
-        }
-      });
+      if (this.templates[template]) {
+        tpl = this.templates[template];
+      } else {
+        var self = this;
+
+        $.ajax({
+          url: self.directory + template + '.html',
+          async: false,
+          success: function(data) {
+            tpl = Handlebars.compile(data);
+            self.templates[template] = tpl;
+          }
+        });
+      }
 
       return tpl;
-    }
+    },
+    templates: {}
   },
   bufferLoader: {
     load: function(url, context, callback) {
