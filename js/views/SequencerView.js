@@ -4,7 +4,7 @@ var SequencerView = Backbone.View.extend({
   events: {
     'change .patternlength': 'changePatternLength',
     'change .notetype': 'changeNoteType',
-    'click .addTrack': 'createTrack',
+    'click .addtrack': 'createTrack',
     'scroll': 'handleScroll',
     'click .removeInstrument': 'removeInstrument'
   },
@@ -90,6 +90,7 @@ var SequencerView = Backbone.View.extend({
     $(".stepIndicatorBar .step", this.el).removeClass('on');
   },
   removeInstrument: function() {
+    this.remove();
     app.trigger('remove:instrument', this.model);
   }
 });
