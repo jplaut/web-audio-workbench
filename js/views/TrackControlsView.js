@@ -12,7 +12,7 @@ var TrackControlsView = Backbone.View.extend({
     'keypress .trackLabelText': 'endEditingTrackName'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'handleSolo', 'handleMute', 'setSample', 'removeSample', 'removeTrack', 'toggleEffects', 'startEditingTrackName', 'endEditingTrackName', 'flash');
+    _.bindAll(this);
 
     this.template = globals.templateLoader.load('trackcontrols');
     this.isEditingTrackName = false;

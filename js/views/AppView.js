@@ -9,7 +9,7 @@ var AppView = Backbone.View.extend({
     'change #tempo': 'changeTempo'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'createInstrument', 'appendInstrument', 'togglePlayback', 'toggleRecording', 'handleWindowResize', 'changeTempo', 'removeInstrument', 'flash');
+    _.bindAll(this);
 
     this.template = globals.templateLoader.load('app');
     this.collection = new Instruments;

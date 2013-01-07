@@ -9,18 +9,22 @@ var Track = Backbone.Model.extend({
     }
   },
   initialize: function() {
+    _.bindAll(this);
+
     this.effects = new Effects;
     this.steps = [];
+    this.notesplaying = [];
+
+    app.on('change:isPlaying', this.stopPlayback);
   },
   setSample: function(file, callback, context) {
-    var self = this;
-    var sampleName = file.name;
+    var self = this,
+        sampleName = file.name,
+        sampleURL = window.URL.createObjectURL(file);
 
     if (sampleName.length > 15) {
       sampleName = sampleName.slice(0, 10) + ".." + sampleName.slice(sampleName.length - 3, sampleName.length);
     }
-
-    var sampleURL = window.URL.createObjectURL(file);
 
     globals.bufferLoader.load(sampleURL, globals.audioContext, function(buffer) {
       self.set({sampleName: sampleName, sample: buffer});
@@ -37,5 +41,8 @@ var Track = Backbone.Model.extend({
       source.noteOn(0.005);
       this.notesplaying.push(source);
     }
+  },
+  stopPlayback: function(app, isPlaying) {
+
   }
 });

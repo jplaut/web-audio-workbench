@@ -6,30 +6,25 @@ var Sequencer = Backbone.Model.extend({
     }
   },
   initialize: function() {
-    _.bindAll(this, 'play', 'togglePlayback', 'handleChangePatternLength');
+    _.bindAll(this);
+
     this.collection = new Tracks;
     this.view = new SequencerView({model: this, collection: this.collection});
-
-    this.notesplaying = [];
     this.relativeBeatIndex = Math.ceil(app.beatIndex / (64 / this.get('noteType')));
 
     this.on('change:patternLength', this.handleChangePatternLength);
     app.on('change:isPlaying', this.togglePlayback);
     app.on('beat', this.play);
   },
-  handleChangePatternLength: function() {
-    if (this.relativeBeatIndex >= this.get('patternLength')) {
+  handleChangePatternLength: function(model, patternLength) {
+    if (this.relativeBeatIndex >= patternLength) {
       this.relativeBeatIndex = 0;
     }
   },
-  togglePlayback: function() {
-    if (!app.get('isPlaying')) {
+  togglePlayback: function(app, isPlaying) {
+    if (!isPlaying) {
       this.trigger('clear:beat');
       this.relativeBeatIndex = 0;
-      for (var i = 0; i < this.notesplaying.length; i++) {
-        var note = this.notesplaying.pop();
-        note.noteOff(0);
-      }
     }
   },
   play: function(beatIndex) {

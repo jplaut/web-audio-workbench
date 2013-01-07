@@ -9,7 +9,7 @@ var SequencerView = Backbone.View.extend({
     'click .removeInstrument': 'removeInstrument'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'handleScroll', 'createTrack', 'appendTrack', 'changeBeat', 'createStepIndicators', 'renderTopSection', 'setDividerWidth', 'removeInstrument');
+    _.bindAll(this);
 
     this.template = globals.templateLoader.load('sequencer');
     this.topTemplate = globals.templateLoader.load('sequencer-top');
@@ -75,11 +75,12 @@ var SequencerView = Backbone.View.extend({
     var out = "";
 
     for (var i = 0; i < this.model.get('patternLength'); i++) {
-      var first = (i == 0) ? ' first' : '';
-      var last = (this.model.get('patternLength') > 1 && i == this.model.get('patternLength') - 1) ? ' last' : '';
+      var first = (i == 0) ? ' first' : '',
+          last = (this.model.get('patternLength') > 1 && i == this.model.get('patternLength') - 1) ? ' last' : '';
 
       out += "<div class=\"step" + first + last + "\" step=\"" + i + "\"></div>";
     }
+    
     $(".stepIndicatorBar", this.el).append(out);
   },
   changeBeat: function(i) {

@@ -7,8 +7,8 @@ var Effect = Backbone.Model.extend({
     }
   },
   initialize: function() {
-    var self = this;
-    var details = globals.effectsList[this.get('type')];
+    var self = this,
+        details = globals.effectsList[this.get('type')];
 
     if (this.get('type').match(/convolver_/)) {
       globals.bufferLoader.load('audio/impulse_response/' + details.sampleName, globals.audioContext, function(data) {
@@ -25,49 +25,47 @@ var Effect = Backbone.Model.extend({
     });
   },
   addEffect: function(source, i) {
-    if (this.get('enabled')) {
-      var effectObj; 
+    if (!this.get('enabled')) return source;
 
-      if (this.get('type') == 'panner') {
-        var effectObj = globals.audioContext.createPanner();
-        effectObj.setPosition(this.params.position.values[i], 0, -0.5);
-      } else if (this.get('type').match(/convolver_/)) {
-        var convolver = globals.audioContext.createConvolver(),
-        dry_source = globals.audioContext.createGainNode(),
-        wet_source = globals.audioContext.createGainNode(),
-        effectObj = globals.audioContext.createGainNode();
+    var effectObj; 
 
-        convolver.buffer = this.buffer;
-        dry_source.gain.value = 1 - this.params.wet_dry.values[i];
-        wet_source.gain.value = this.params.wet_dry.values[i];
-        
-        source.connect(convolver);
-        convolver.connect(wet_source);
-        source.connect(dry_source);
-        dry_source.connect(effectObj);
-        wet_source.connect(effectObj);
-      } else {
-        switch(this.get('type')) {
-          case 'compressor':
-            effectObj = globals.audioContext.createDynamicsCompressor();
-            break;
-          case 'gain':
-            effectObj = globals.audioContext.createGainNode();
-            break;
-          default:
-            effectObj = globals.audioContext.createBiquadFilter();
-            effectObj.type = globals.effectsList[this.get('type')].type;
-            break;
-        }
-        _(this.params).each(function(val, key) {
-          effectObj[key].value = val.values[i];
-        });
-      }
+    if (this.get('type') == 'panner') {
+      var effectObj = globals.audioContext.createPanner();
+      effectObj.setPosition(this.params.position.values[i], 0, -0.5);
+    } else if (this.get('type').match(/convolver_/)) {
+      var convolver = globals.audioContext.createConvolver(),
+      dry_source = globals.audioContext.createGainNode(),
+      wet_source = globals.audioContext.createGainNode(),
+      effectObj = globals.audioContext.createGainNode();
 
-      source.connect(effectObj);
-      return effectObj;
+      convolver.buffer = this.buffer;
+      dry_source.gain.value = 1 - this.params.wet_dry.values[i];
+      wet_source.gain.value = this.params.wet_dry.values[i];
+      
+      source.connect(convolver);
+      convolver.connect(wet_source);
+      source.connect(dry_source);
+      dry_source.connect(effectObj);
+      wet_source.connect(effectObj);
     } else {
-      return source;
+      switch(this.get('type')) {
+        case 'compressor':
+          effectObj = globals.audioContext.createDynamicsCompressor();
+          break;
+        case 'gain':
+          effectObj = globals.audioContext.createGainNode();
+          break;
+        default:
+          effectObj = globals.audioContext.createBiquadFilter();
+          effectObj.type = globals.effectsList[this.get('type')].type;
+          break;
+      }
+      _(this.params).each(function(val, key) {
+        effectObj[key].value = val.values[i];
+      });
     }
+
+    source.connect(effectObj);
+    return effectObj;
   }
 });

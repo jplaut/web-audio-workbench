@@ -229,7 +229,6 @@ body {
 
 .tracklabel {
   float: left;
-  margin-right: 5px;
 }
 
 .trackLabelText {
@@ -239,7 +238,7 @@ body {
 
 .trackLabelText input {
   width: 104px;
-  height: 18px;
+  height: 11px;
 }
 
 .toggleEffects {

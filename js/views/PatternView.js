@@ -5,7 +5,7 @@ var PatternView = Backbone.View.extend({
     'click div.step': 'enableStep'
   },
   initialize: function(options) {
-    _.bindAll(this, 'render', 'enableStep');
+    _.bindAll(this);
     this.template = globals.templateLoader.load('pattern');
     this.instrument = this.options.instrument;
 
