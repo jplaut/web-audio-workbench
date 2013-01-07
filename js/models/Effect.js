@@ -33,10 +33,10 @@ var Effect = Backbone.Model.extend({
       var effectObj = globals.audioContext.createPanner();
       effectObj.setPosition(this.params.position.values[i], 0, -0.5);
     } else if (this.get('type').match(/convolver_/)) {
-      var convolver = globals.audioContext.createConvolver(),
-      dry_source = globals.audioContext.createGainNode(),
-      wet_source = globals.audioContext.createGainNode(),
-      effectObj = globals.audioContext.createGainNode();
+      var dry_source = context.createGainNode(),
+          wet_source = context.createGainNode(),
+          effectObj = context.createGainNode(),
+          convolver = context.createConvolver();
 
       convolver.buffer = this.buffer;
       dry_source.gain.value = 1 - this.params.wet_dry.values[i];
