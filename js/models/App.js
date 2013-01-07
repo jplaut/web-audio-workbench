@@ -38,7 +38,7 @@ var App = Backbone.Model.extend({
     if (isPaused) {
       clearTimeout(this.interval);
     } else {
-      this.togglePlayback();
+      this.togglePlayback(m, true);
     }
   },
   toggleBeatClock: function() {

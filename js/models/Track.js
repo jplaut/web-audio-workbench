@@ -33,7 +33,7 @@ var Track = Backbone.Model.extend({
   },
   playBeat: function(i) {
     this.notesplaying = _(this.notesplaying).filter(function(note) {return note.playbackState != 3});
-    if (!this.get('mute') && this.steps[i]) {
+    if (!this.get('mute') && this.get('sample') && this.steps[i]) {
       var source = globals.audioContext.createBufferSource();
       source.buffer = this.get('sample');
       var effectsChain = this.effects.addEffects(source, i);

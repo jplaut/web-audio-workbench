@@ -76,7 +76,9 @@ var AppView = Backbone.View.extend({
     if (this.model.get('isPlaying')) {
       this.model.set({'isPlaying': false});
       if (this.isFlashing) clearTimeout(this.isFlashing);
+      if (this.model.get('isRecording')) this.model.set({isRecording: false});
       $("#playpause img").attr("src", "img/play.png");
+      $("#playpause").css("display", "inline-block");
     }
   },
   flash: function(enabled, el) {
