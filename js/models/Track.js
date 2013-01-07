@@ -26,5 +26,16 @@ var Track = Backbone.Model.extend({
       self.set({sampleName: sampleName, sample: buffer});
       callback.call(context || this);
     });
+  },
+  playBeat: function(i) {
+    this.notesplaying = _(this.notesplaying).filter(function(note) {return note.playbackState != 3});
+    if (!this.get('mute') && this.steps[i]) {
+      var source = globals.audioContext.createBufferSource();
+      source.buffer = this.get('sample');
+      var effectsChain = this.effects.addEffects(source, i);
+      effectsChain.connect(app.audioOut);
+      source.noteOn(0.005);
+      this.notesplaying.push(source);
+    }
   }
 });

@@ -119,9 +119,12 @@ var TrackControlsView = Backbone.View.extend({
     }
   },
   toggleEffects: function() {
-    var img = ($(".toggleEffects img", this.el).attr('src') == 'img/close_effects.png') ? 'img/open_effects.png' : 'img/close_effects.png';
-    $(".toggleEffects img", this.el).attr('src', img);
-
+    if ($(".toggleEffects", this.el).hasClass('enabled')) {
+      $(".toggleEffects", this.el).removeClass('enabled');
+    } else {
+      $(".toggleEffects", this.el).addClass('enabled');
+    }
+    
     this.trigger('toggle:effectsPanel');
   }
 });

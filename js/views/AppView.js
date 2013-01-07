@@ -97,8 +97,6 @@ var AppView = Backbone.View.extend({
     this.model.set({tempo: e.currentTarget.value});
   },
   removeInstrument: function(model) {
-    var instrument = this.collection.find(function(instrument) {return instrument.model === model});
-    instrument.view.remove();
-    this.collection.remove(instrument);
+    this.collection.remove(model);
   }
 });

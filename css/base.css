@@ -1,5 +1,18 @@
 /* PAGE */
+@font-face {
+  font-family: Monda;
+  src: url('fonts/Monda-Regular.ttf');
+}
+
+@font-face {
+  font-family: Monda;
+  font-weight: bold;
+  src: url('fonts/Monda-Bold.ttf');
+}
+
 html {
+  width: 100%;
+  height: 100%;
   font-family: Monda, sans-serif;
   line-height: 1em;
   background: -moz-linear-gradient(top, #7d7e7d 0%, #494949 100%); /* FF3.6+ */
@@ -8,17 +21,66 @@ html {
   background: linear-gradient(to bottom, #7d7e7d 0%,#494949 100%); /* W3C */
 }
 
+body {
+  margin: 0;
+}
+
+#overlay {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: -moz-linear-gradient(top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.65)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+  background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+}
+
+#overlaytext {
+  width: 500px;
+  height: auto;
+  text-align: center;
+  margin: 300px auto;
+  padding: 15px 5px;
+  background: rgb(255,255,255); /* Old browsers */
+  background: -moz-linear-gradient(-45deg, rgba(255,255,255,1) 0%, rgba(229,229,229,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(229,229,229,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(-45deg, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(-45deg, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(-45deg, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* IE10+ */
+  background: linear-gradient(135deg, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */ 
+  border-radius: 5px;
+}
 /* APP */
 
 #app {
   width: 956px;
   margin: 10px auto 0;
   padding: 5px;
-  overflow: scroll;
+  overflow: auto;
 }
 
 #createInstrument {
   margin:  12px 17px 0 0;
+}
+
+#transport {
+  position: fixed;
+  bottom: 15px;
+  white-space: nowrap;
+  padding: 5px 8px 8px 5px;
+  border-radius: 5px;
+  background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+  background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%); /* W3C */
+  box-shadow: 2px 2px 7px #333;
 }
 
 #transportIcons, #transportIcons div {
@@ -42,6 +104,10 @@ html {
   width: 100%;
 }
 
+#tempo {
+  width: 46px;
+}
+
 #stop {
   width: 27px;
   height: 38px
@@ -57,19 +123,6 @@ html {
   height: 37px;
 }
 
-#transport {
-  position: fixed;
-  bottom: 15px;
-  white-space: nowrap;
-  padding: 5px 8px 6px 5px;
-  border-radius: 5px;
-  background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
-  background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%); /* W3C */
-  box-shadow: 2px 2px 7px #333;
-}
-
 .instrument {
   position: relative;
   border-radius: 5px;
@@ -81,9 +134,11 @@ html {
   top: 0;
 }
 
-.removeInstrument {
-  display: inline;
-  cursor: pointer;
+.instrumentTitle .removeInstrument {
+  margin-bottom: 6px;
+  background-size: 16px;
+  width: 16px;
+  height: 16px;
 }
 
 .instrumentTitle h2 {
@@ -100,7 +155,7 @@ html {
   margin: 0 0 20px;
   border: 1px solid #222;
   padding: 5px 5px 10px;
-  overflow: scroll;
+  overflow: auto;
   background: rgb(234,234,234); /* Old browsers */
   background: -moz-linear-gradient(-45deg, rgba(234,234,234,1) 0%, rgba(220,220,220,1) 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(234,234,234,1)), color-stop(100%,rgba(220,220,220,1))); /* Chrome,Safari4+ */
@@ -178,7 +233,6 @@ html {
 }
 
 .trackLabelText {
-  margin-left: 2px;
   display: inline-block;
   vertical-align: top;
 }
@@ -190,12 +244,15 @@ html {
 
 .toggleEffects {
   float: right;
-}
-
-.toggleEffects img {
-  width: 18px;
+  width: 21px;
+  height: 20px;
   margin-bottom: -4px;
   cursor: pointer;
+  background: url("../img/open_effects.png") no-repeat;
+}
+
+.toggleEffects.enabled {
+  background: url("../img/close_effects.png") no-repeat;
 }
 
 .trackControls .left {
@@ -210,7 +267,8 @@ html {
 }
 
 .trackControls .left .sample input {
-  width: 80px;
+  width: 82px;
+  font-size: 12px;
 }
 
 /* MUTE/SOLO */
@@ -362,13 +420,13 @@ html {
 }
 
 /* GENERAL */
-.close img {
-  cursor: pointer;
-  margin: 0 3px -2px 0;
-  width: 15px;
-}
-
 .close {
   display: inline-block;
-  vertical-align: top;
+  vertical-align: bottom;
+  background: url("../img/x.png") no-repeat;
+  background-size: 14px;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  margin: 0 3px 1px 0;
 }

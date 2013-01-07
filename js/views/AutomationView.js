@@ -29,17 +29,16 @@ var AutomationView = Backbone.View.extend({
       this.points = _(this.points).filter(function(point) {return point.attr('cx') <= this.width}, this);
 
       for (var i = 0; i < this.points.length; i++) {
-        var self = this;
-        var point = this.points.shift();
-
-        var newPoint = this.canvas.circle(point.attr('cx'), point.attr('cy'), 5)
-          .attr('fill', '#000')
-          .drag(function(dx, dy, x, y) {
-            self.handleDrag(this, dx, dy, x, y);
-          }, 
-          null,
-          this.setValues
-        );
+        var self = this,
+            point = this.points.shift(),
+            newPoint = this.canvas.circle(point.attr('cx'), point.attr('cy'), 5)
+              .attr('fill', '#000')
+              .drag(function(dx, dy, x, y) {
+                self.handleDrag(this, dx, dy, x, y);
+                }, 
+                null,
+                this.setValues
+              );
 
         this.points.push(newPoint);
       }
@@ -78,18 +77,17 @@ var AutomationView = Backbone.View.extend({
     }
   },
   handleClick: function (e) {
-    var self = this;
-
-    var x = this.normalizeX(e.pageX);
-    var y = this.normalizeY(e.pageY);
-    var point = this.canvas.circle(x, y, 5)
-      .attr('fill', '#000')
-      .drag(function(dx, dy, x, y) {
-        self.handleDrag(this, dx, dy, x, y);
-        }, 
-        null,
-        this.setValues
-      );
+    var self = this,
+        x = this.normalizeX(e.pageX),
+        y = this.normalizeY(e.pageY);
+        point = this.canvas.circle(x, y, 5)
+          .attr('fill', '#000')
+          .drag(function(dx, dy, x, y) {
+              self.handleDrag(this, dx, dy, x, y);
+            }, 
+            null,
+            this.setValues
+          );
       
     if (_(this.points).any(function(point) {return x < point.attr('cx')})) {
       var i = _(this.points).indexOf(_(this.points).find(function(point) {return point.attr('cx') > x}));

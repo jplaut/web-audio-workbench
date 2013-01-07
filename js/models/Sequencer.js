@@ -6,7 +6,7 @@ var Sequencer = Backbone.Model.extend({
     }
   },
   initialize: function() {
-    _.bindAll(this, 'play', 'playBeat', 'addEffects', 'togglePlayback', 'handleChangePatternLength');
+    _.bindAll(this, 'play', 'togglePlayback', 'handleChangePatternLength');
     this.collection = new Tracks;
     this.view = new SequencerView({model: this, collection: this.collection});
 
@@ -37,42 +37,14 @@ var Sequencer = Backbone.Model.extend({
       this.trigger('change:beat', this.relativeBeatIndex);
 
       if (this.collection.any(function(track) {return track.get('solo')})) {
-        _(this.collection.where({solo: true})).chain()
-          .filter(function(track) {return track.steps[this.relativeBeatIndex] == 1 && track.get('sample')}, this)
-          .each(function(track) {
-            this.playBeat(track.get('sample'), track.effects, 0);
-          }, this);
+        this.collection.where({solo: true})[0].playBeat(this.relativeBeatIndex);
       } else {
-        this.collection.chain()
-          .filter(function(track) {return track.steps[this.relativeBeatIndex] == 1 && track.get('sample')}, this)
-          .each(function(track) {
-            if (!track.get('mute')) {
-              this.playBeat(track.get('sample'), track.effects, 0);
-            }
-          }, this);
-        }
+        this.collection.each(function(track) {
+          track.playBeat(this.relativeBeatIndex);
+        }, this);
+      }
 
       this.relativeBeatIndex = (this.relativeBeatIndex == this.get('patternLength') - 1) ? 0 : this.relativeBeatIndex + 1;
     }
-  },
-  playBeat: function(buffer, effects, time) {
-    this.notesplaying = _(this.notesplaying).filter(function(note) {return note.playbackState != 3});
-    var source = globals.audioContext.createBufferSource();
-    source.buffer = buffer;
-    var effectsChain = this.addEffects(source, effects);
-    effectsChain.connect(app.audioOut);
-    source.noteOn(time);
-    this.notesplaying.push(source);
-  },
-  addEffects: function(source, effects) {
-    if (effects.size() > 0 && effects.any(function(effect) {return effect.get('enabled')})) {
-      effects.chain()
-        .filter(function(effect) {return effect.get('enabled')})
-        .each(function(effect) {
-          source = effect.addEffect(globals.audioContext, source, this.relativeBeatIndex);
-        }, this);
-    }
-
-    return source;
   }
 });
