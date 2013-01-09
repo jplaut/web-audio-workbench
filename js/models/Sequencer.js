@@ -17,13 +17,13 @@ var Sequencer = Backbone.Model.extend({
     app.on('change:isPlaying', this.togglePlayback);
     app.on('beat', this.play);
   },
-  handleChangePatternLength: function() {
-    if (this.relativeBeatIndex >= this.get('patternLength')) {
+  handleChangePatternLength: function(model, value) {
+    if (this.relativeBeatIndex >= value) {
       this.relativeBeatIndex = 0;
     }
   },
-  togglePlayback: function() {
-    if (!app.get('isPlaying')) {
+  togglePlayback: function(model, isPlaying) {
+    if (!isPlaying) {
       this.trigger('clear:beat');
       this.relativeBeatIndex = 0;
       for (var i = 0; i < this.notesplaying.length; i++) {

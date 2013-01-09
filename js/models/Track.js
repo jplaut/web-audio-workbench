@@ -4,7 +4,7 @@ var Track = Backbone.Model.extend({
       solo: false,
       mute: false,
       sampleName: '',
-      sample: '',
+      sample: null,
       name: ''
     }
   },
