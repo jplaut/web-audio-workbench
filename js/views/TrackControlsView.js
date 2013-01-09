@@ -13,11 +13,7 @@ var TrackControlsView = Backbone.View.extend({
     'click .editSample': 'toggleSampleEditor'
   },
   initialize: function() {
-<<<<<<< HEAD
-    _.bindAll(this, 'render', 'handleSolo', 'handleMute', 'setSample', 'removeSample', 'removeTrack', 'toggleEffects', 'startEditingTrackName', 'endEditingTrackName', 'flash', 'toggleSampleEditor');
-=======
     _.bindAll(this);
->>>>>>> fae58e704c495c0329ba502ca1b6860897c64bbb
 
     this.template = globals.templateLoader.load('trackcontrols');
     this.isEditingTrackName = false;
