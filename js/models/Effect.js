@@ -7,8 +7,8 @@ var Effect = Backbone.Model.extend({
     }
   },
   initialize: function() {
-    var self = this;
-    var details = globals.effectsList[this.get('type')];
+    var self = this,
+        details = globals.effectsList[this.get('type')];
 
     if (this.get('type').match(/convolver_/)) {
       globals.bufferLoader.load('audio/impulse_response/' + details.sampleName, globals.audioContext, function(data) {
@@ -24,17 +24,19 @@ var Effect = Backbone.Model.extend({
       param.points = [];
     });
   },
-  addEffect: function(context, source, i) {
+  addEffect: function(source, i) {
+    if (!this.get('enabled')) return source;
+
     var effectObj; 
 
     if (this.get('type') == 'panner') {
-      var effectObj = context.createPanner();
+      var effectObj = globals.audioContext.createPanner();
       effectObj.setPosition(this.params.position.values[i], 0, -0.5);
     } else if (this.get('type').match(/convolver_/)) {
-      var dry_source = context.createGainNode(),
-          wet_source = context.createGainNode(),
-          effectObj = context.createGainNode(),
-          convolver = context.createConvolver();
+      var dry_source = globals.audioContext.createGainNode(),
+          wet_source = globals.audioContext.createGainNode(),
+          effectObj = globals.audioContext.createGainNode(),
+          convolver = globals.audioContext.createConvolver();
 
       convolver.buffer = this.buffer;
       dry_source.gain.value = 1 - this.params.wet_dry.values[i];
@@ -48,13 +50,13 @@ var Effect = Backbone.Model.extend({
     } else {
       switch(this.get('type')) {
         case 'compressor':
-          effectObj = context.createDynamicsCompressor();
+          effectObj = globals.audioContext.createDynamicsCompressor();
           break;
         case 'gain':
-          effectObj = context.createGainNode();
+          effectObj = globals.audioContext.createGainNode();
           break;
         default:
-          effectObj = context.createBiquadFilter();
+          effectObj = globals.audioContext.createBiquadFilter();
           effectObj.type = globals.effectsList[this.get('type')].type;
           break;
       }

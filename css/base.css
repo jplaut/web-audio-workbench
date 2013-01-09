@@ -57,6 +57,7 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */ 
   border-radius: 5px;
 }
+
 /* APP */
 
 #app {
@@ -229,7 +230,6 @@ body {
 
 .tracklabel {
   float: left;
-  margin-right: 5px;
 }
 
 .trackLabelText {
@@ -239,7 +239,7 @@ body {
 
 .trackLabelText input {
   width: 104px;
-  height: 18px;
+  height: 11px;
 }
 
 .toggleEffects {

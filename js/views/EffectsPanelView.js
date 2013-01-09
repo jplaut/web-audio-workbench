@@ -5,7 +5,7 @@ var EffectsPanelView = Backbone.View.extend({
     'change select.createeffect': 'createEffect'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'createEffect', 'appendEffect');
+    _.bindAll(this);
     this.collection.on('add', this.appendEffect);
     this.template = globals.templateLoader.load('effectspanel');
   },

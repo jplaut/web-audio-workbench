@@ -5,7 +5,7 @@ var AutomationView = Backbone.View.extend({
     'click .canvas': 'handleClick'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'handleClick', 'drawPathFromPoints', 'handleDrag', 'setValues', 'getPathPoints', 'toggleDisplay', 'changePatternLength', 'removeCanvas');
+    _.bindAll(this);
     this.param = this.model.params[this.options.param];
     this.points = this.param.points;
     this.width = this.options.width - 8;
@@ -24,7 +24,7 @@ var AutomationView = Backbone.View.extend({
     this.canvas = Raphael($('.canvas', this.el)[0], this.width, this.height);
 
     if (this.points.length == 0) {
-      this.automationPath = this.canvas.path("M0, " + (this.multiplier * (this.param.max - this.param.default)) + "H" + this.width);
+      this.automationPath = this.canvas.path("M0, " + (this.multiplier * (this.param.max - this.param.defaultValue)) + "H" + this.width);
     } else {
       this.points = _(this.points).filter(function(point) {return point.attr('cx') <= this.width}, this);
 

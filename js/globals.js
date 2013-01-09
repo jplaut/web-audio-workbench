@@ -44,7 +44,7 @@ var globals = {
           label: "Gain",
           min: 0,
           max: 1,
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -57,7 +57,7 @@ var globals = {
           max: 5,
           minDisplay: 'Left',
           maxDisplay: 'Right',
-          default: 0
+          defaultValue: 0
         }
       }
     },
@@ -68,13 +68,13 @@ var globals = {
           label: 'Threshold',
           min: -100,
           max: 0,
-          default: -24
+          defaultValue: -24
         },
         knee: {
           label: 'Knee',
           min: 0,
           max: 40,
-          default: 30
+          defaultValue: 30
         },
         ratio: {
           label: 'Ratio',
@@ -82,19 +82,19 @@ var globals = {
           max: 20,
           minDisplay: "1:1",
           maxDisplay: "20:1",
-          default: 12
+          defaultValue: 12
         },
         attack: {
           label: 'Attack',
           min: 0,
           max: 1,
-          default: 0.003
+          defaultValue: 0.003
         },
         release: {
           label: 'Release',
           min: 0,
           max: 1,
-          default: 0.250
+          defaultValue: 0.250
         }
       }
     },
@@ -106,13 +106,13 @@ var globals = {
           label: 'Frequency',
           min: 10,
           max: 1000,
-          default: 350
+          defaultValue: 350
         },
         Q: {
           label: 'Resonanace',
           min: 0,
           max: 1000,
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -124,13 +124,13 @@ var globals = {
           label: 'Frequency',
           min: 10,
           max: 1000,
-          default: 350
+          defaultValue: 350
         },
         Q: {
           label: 'Resonanace',
           min: 0,
           max: 1000,
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -142,13 +142,13 @@ var globals = {
           label: 'Frequency',
           min: 10,
           max: 1000,
-          default: 350
+          defaultValue: 350
         },
         Q: {
           label: 'Q',
           min: 0,
           max: 1000,
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -160,13 +160,13 @@ var globals = {
           label: 'Frequency',
           min: 10,
           max: 1000,
-          default: 350
+          defaultValue: 350
         },
         gain: {
           label: 'Gain',
           min: -40,
           max: 40,
-          default: 0
+          defaultValue: 0
         }
       }
     },
@@ -178,13 +178,13 @@ var globals = {
           label: 'Frequency',
           min: 10,
           max: 1000,
-          default: 350,
+          defaultValue: 350,
         },
         gain: {
           label: 'Gain',
           min: -40,
           max: 40,
-          default: 0
+          defaultValue: 0
         }
       }
     },
@@ -196,19 +196,19 @@ var globals = {
           label: 'Frequency',
           min: 10,
           max: 1000,
-          default: 350
+          defaultValue: 350
         },
         Q: {
           label: 'Q',
           min: 0,
           max: 1000,
-          default: 1
+          defaultValue: 1
         },
         gain: {
           label: 'Gain',
           min: -40,
           max: 40,
-          default: 0
+          defaultValue: 0
         }
       }
     },
@@ -220,13 +220,13 @@ var globals = {
           label: 'Frequency',
           min: 10,
           max: 1000,
-          default: 350
+          defaultValue: 350
         },
         Q: {
           label: 'Q',
           min: 0,
           max: 1000,
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -238,13 +238,13 @@ var globals = {
           label: 'Frequency',
           min: 10,
           max: 1000,
-          default: 350
+          defaultValue: 350
         },
         Q: {
           label: 'Q',
           min: 0,
           max: 1000,
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -258,7 +258,7 @@ var globals = {
           max: 1,
           minDisplay: 'Dry',
           maxDisplay: 'Wet',
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -272,7 +272,7 @@ var globals = {
           max: 1,
           minDisplay: 'Dry',
           maxDisplay: 'Wet',
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -286,7 +286,7 @@ var globals = {
           max: 1,
           minDisplay: 'Dry',
           maxDisplay: 'Wet',
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -300,7 +300,7 @@ var globals = {
           max: 1,
           minDisplay: 'Dry',
           maxDisplay: 'Wet',
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -314,7 +314,7 @@ var globals = {
           max: 1,
           minDisplay: 'Dry',
           maxDisplay: 'Wet',
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -328,7 +328,7 @@ var globals = {
           max: 1,
           minDisplay: 'Dry',
           maxDisplay: 'Wet',
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -342,7 +342,7 @@ var globals = {
           max: 1,
           minDisplay: 'Dry',
           maxDisplay: 'Wet',
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -356,7 +356,7 @@ var globals = {
           max: 1,
           minDisplay: 'Dry',
           maxDisplay: 'Wet',
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -370,7 +370,7 @@ var globals = {
           max: 1,
           minDisplay: 'Dry',
           maxDisplay: 'Wet',
-          default: 1
+          defaultValue: 1
         }
       }
     },
@@ -384,7 +384,7 @@ var globals = {
           max: 1,
           minDisplay: 'Dry',
           maxDisplay: 'Wet',
-          default: 1
+          defaultValue: 1
         }
       }
     }

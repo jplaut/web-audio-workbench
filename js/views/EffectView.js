@@ -7,7 +7,7 @@ var EffectView = Backbone.View.extend({
     'click .toggleEffect': 'toggleEffect'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'changeParam', 'toggleEffect', 'removeEffect');
+    _.bindAll(this);
 
     this.expanded = true;
     this.params = {};

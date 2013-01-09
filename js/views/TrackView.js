@@ -2,7 +2,7 @@ var TrackView = Backbone.View.extend({
   tagName: 'div',
   className: 'track',
   initialize: function() {
-    _.bindAll(this, 'render');
+    _.bindAll(this);
     
     this.trackControls = new TrackControlsView({collection: this.collection, model: this.model});
     this.pattern = new PatternView({model: this.model, instrument: this.options.instrument});
