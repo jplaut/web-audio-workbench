@@ -244,11 +244,12 @@ body {
 
 .toggleEffects {
   float: right;
-  width: 18px;
-  height: 15px;
+  width: 20px;
+  height: 17px;
   cursor: pointer;
   background: url("../img/open_effects.png") no-repeat;
-  background-size: 18px 15px;
+  background-size: 20px 17px;
+  margin-top: -1px;
 }
 
 .toggleEffects.enabled {
@@ -262,7 +263,6 @@ body {
 
 /* SAMPLE UPLOAD */
 .sample {
-  width: 100%;
   float: left;
 }
 
@@ -433,15 +433,4 @@ body {
   height: 14px;
   cursor: pointer;
   margin: 0 3px 1px 0;
-}
-
-.edit {
-  display: inline-block;
-  vertical-align: bottom;
-  background: url("../img/edit.png") no-repeat;
-  background-size: 19px 17px;
-  cursor: pointer;
-  width: 19px;
-  height: 17px;
-  float: right;
 }
