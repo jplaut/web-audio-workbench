@@ -8,7 +8,8 @@
   <div class="sample">
     {{#if sampleName}}
       <div class="close removeSample"></div>
-      {{sampleName}}
+      <div class="sampleLabelText">{{sampleName}}</div>
+      <div class="edit editSample"></div>
     {{else}}
       <input type="file" size="5" />
     {{/if}}

@@ -9,7 +9,8 @@ var TrackControlsView = Backbone.View.extend({
     'click .removeTrack': 'removeTrack',
     'click .toggleEffects': 'toggleEffects',
     'dblclick .trackLabelText': 'startEditingTrackName',
-    'keypress .trackLabelText': 'endEditingTrackName'
+    'keypress .trackLabelText': 'endEditingTrackName',
+    'click .editSample': 'toggleSampleEditor'
   },
   initialize: function() {
     _.bindAll(this);
@@ -18,7 +19,6 @@ var TrackControlsView = Backbone.View.extend({
     this.isEditingTrackName = false;
 
     this.model.on('change:name', this.render);
-    this.model.on('change:effectsExpanded', this.toggleEffects);
     this.collection.on('remove', this.render);
     $(window).on('click', this.endEditingTrackName);
   },
@@ -110,7 +110,7 @@ var TrackControlsView = Backbone.View.extend({
     }
   },
   removeSample: function() {
-    this.model.set({sampleName: '', sample: ''});
+    this.model.set({sampleName: '', sample: null});
     this.render();
   },
   removeTrack: function() {
@@ -124,7 +124,10 @@ var TrackControlsView = Backbone.View.extend({
     } else {
       $(".toggleEffects", this.el).addClass('enabled');
     }
-    
+
     this.trigger('toggle:effectsPanel');
+  },
+  toggleSampleEditor: function() {
+
   }
 });
