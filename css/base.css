@@ -254,6 +254,7 @@ body {
 
 .toggleEffects.enabled {
   background: url("../img/close_effects.png") no-repeat;
+  background-size: 20px 17px;
 }
 
 .trackControls .left {
