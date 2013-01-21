@@ -8,8 +8,8 @@ var Sequencer = Backbone.Model.extend({
   initialize: function() {
     _.bindAll(this);
 
-    this.collection = new Tracks;
-    this.view = new SequencerView({model: this, collection: this.collection});
+    this.tracks = new Tracks;
+    this.view = new SequencerView({model: this, collection: this.tracks});
     this.relativeBeatIndex = Math.ceil(app.beatIndex / (64 / this.get('noteType')));
 
     this.on('change:patternLength', this.handleChangePatternLength);
