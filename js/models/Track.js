@@ -5,14 +5,14 @@ var Track = Backbone.Model.extend({
       mute: false,
       sampleName: '',
       sample: null,
-      name: ''
+      name: '',
+      steps: []
     }
   },
   initialize: function() {
     _.bindAll(this);
 
     this.effects = new Effects;
-    this.steps = [];
     this.notesplaying = [];
 
     app.on('change:isPlaying', this.stopPlayback);
@@ -33,7 +33,7 @@ var Track = Backbone.Model.extend({
   },
   playBeat: function(i) {
     this.notesplaying = _(this.notesplaying).filter(function(note) {return note.playbackState != 3});
-    if (!this.get('mute') && this.get('sample') && this.steps[i]) {
+    if (!this.get('mute') && this.get('sample') && this.get('steps')[i]) {
       var source = globals.audioContext.createBufferSource();
       source.buffer = this.get('sample');
       var effectsChain = this.effects.addEffects(source, i);
@@ -43,6 +43,12 @@ var Track = Backbone.Model.extend({
     }
   },
   stopPlayback: function(app, isPlaying) {
+    if (!isPlaying) {
+      _(this.notesplaying).each(function(note) {
+        note.noteOff();
+      });
 
+      this.notesplaying = [];
+    }
   }
 });

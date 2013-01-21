@@ -3,7 +3,8 @@ var Effect = Backbone.Model.extend({
     return {
       type: '',
       name: '',
-      enabled: true
+      enabled: true,
+      buffer: null
     }
   },
   initialize: function() {
@@ -12,7 +13,7 @@ var Effect = Backbone.Model.extend({
 
     if (this.get('type').match(/convolver_/)) {
       globals.bufferLoader.load('audio/impulse_response/' + details.sampleName, globals.audioContext, function(data) {
-        self.buffer = data;
+        self.set("buffer", data);
       });
     }
 

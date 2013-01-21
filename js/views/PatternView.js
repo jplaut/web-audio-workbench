@@ -14,21 +14,25 @@ var PatternView = Backbone.View.extend({
   render: function() {
     var options = {
       endIndex: this.instrument.get('patternLength'),
-      steps: this.model.steps
+      steps: this.model.get('steps')
     }
     this.$el.html(this.template(options).replace(/\n|\s{2,}/g, ''));
 
     return this;
   },
   enableStep: function(e) {
-    var stepIndex = $(e.currentTarget).attr('step');
+    var steps, stepIndex = $(e.currentTarget).attr('step');
 
     if (!$(e.currentTarget).hasClass('on')) {
+      steps = _(this.model.get('steps')).clone();
+      steps[stepIndex] = 1;
       $(e.currentTarget).addClass('on');
-      this.model.steps[stepIndex] = 1;
     } else {
+      steps = _(this.model.get('steps')).clone();
+      steps[stepIndex] = 0;
       $(e.currentTarget).removeClass('on');
-      this.model.steps[stepIndex] = 0;
     }
+
+    this.model.set('steps', steps);
   }
 });
