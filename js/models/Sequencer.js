@@ -31,10 +31,10 @@ var Sequencer = Backbone.Model.extend({
     if (beatIndex % (64 / this.get('noteType')) == 0) {
       this.trigger('change:beat', this.relativeBeatIndex);
 
-      if (this.collection.any(function(track) {return track.get('solo')})) {
-        this.collection.where({solo: true})[0].playBeat(this.relativeBeatIndex);
+      if (this.tracks.any(function(track) {return track.get('solo')})) {
+        this.tracks.where({solo: true})[0].playBeat(this.relativeBeatIndex);
       } else {
-        this.collection.each(function(track) {
+        this.tracks.each(function(track) {
           track.playBeat(this.relativeBeatIndex);
         }, this);
       }
