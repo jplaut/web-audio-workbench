@@ -38,14 +38,14 @@ var Track = Backbone.Model.extend({
       source.buffer = this.get('sample');
       var effectsChain = this.effects.addEffects(source, i);
       effectsChain.connect(app.audioOut);
-      source.noteOn(0.005);
+      source.start(0.005);
       this.notesplaying.push(source);
     }
   },
   stopPlayback: function(app, isPlaying) {
     if (!isPlaying) {
       _(this.notesplaying).each(function(note) {
-        note.noteOff();
+        note.stop();
       });
 
       this.notesplaying = [];

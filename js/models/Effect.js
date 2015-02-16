@@ -28,21 +28,21 @@ var Effect = Backbone.Model.extend({
   addEffect: function(source, i) {
     if (!this.get('enabled')) return source;
 
-    var effectObj; 
+    var effectObj;
 
     if (this.get('type') == 'panner') {
       var effectObj = globals.audioContext.createPanner();
       effectObj.setPosition(this.params.position.values[i], 0, -0.5);
     } else if (this.get('type').match(/convolver_/)) {
-      var dry_source = globals.audioContext.createGainNode(),
-          wet_source = globals.audioContext.createGainNode(),
-          effectObj = globals.audioContext.createGainNode(),
+      var dry_source = globals.audioContext.createGain(),
+          wet_source = globals.audioContext.createGain(),
+          effectObj = globals.audioContext.createGain(),
           convolver = globals.audioContext.createConvolver();
 
       convolver.buffer = this.buffer;
       dry_source.gain.value = 1 - this.params.wet_dry.values[i];
       wet_source.gain.value = this.params.wet_dry.values[i];
-      
+
       source.connect(convolver);
       convolver.connect(wet_source);
       source.connect(dry_source);
@@ -54,7 +54,7 @@ var Effect = Backbone.Model.extend({
           effectObj = globals.audioContext.createDynamicsCompressor();
           break;
         case 'gain':
-          effectObj = globals.audioContext.createGainNode();
+          effectObj = globals.audioContext.createGain();
           break;
         default:
           effectObj = globals.audioContext.createBiquadFilter();
