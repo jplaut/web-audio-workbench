@@ -32,7 +32,7 @@ var globals = {
       request.onload = function() {
         context.decodeAudioData(request.response, callback);
       }
-      
+
       request.send();
     }
   },
@@ -391,4 +391,4 @@ var globals = {
   }
 }
 
-globals.audioContext = new webkitAudioContext();
+globals.audioContext = new AudioContext();
