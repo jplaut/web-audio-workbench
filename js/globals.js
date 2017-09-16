@@ -100,7 +100,7 @@ var globals = {
     },
     filter_lowpass: {
       label: "Lowpass",
-      type: 0,
+      type: 'lowpass',
       params: {
         frequency: {
           label: 'Frequency',
@@ -118,7 +118,7 @@ var globals = {
     },
     filter_highpass: {
       label: "Highpass",
-      type: 1,
+      type: 'highpass',
       params: {
         frequency: {
           label: 'Frequency',
@@ -136,7 +136,7 @@ var globals = {
     },
     filter_bandpass: {
       label: "Bandpass",
-      type: 2,
+      type: 'bandpass',
       params: {
         frequency: {
           label: 'Frequency',
@@ -154,7 +154,7 @@ var globals = {
     },
     filter_lowshelf: {
       label: "Lowshelf",
-      type: 3,
+      type: 'lowshelf',
       params: {
         frequency: {
           label: 'Frequency',
@@ -172,7 +172,7 @@ var globals = {
     },
     filter_highshelf: {
       label: "Highshelf",
-      type: 4,
+      type: 'highshelf',
       params: {
         frequency: {
           label: 'Frequency',
@@ -190,7 +190,7 @@ var globals = {
     },
     filter_peaking: {
       label: "Peaking",
-      type: 5,
+      type: 'peaking',
       params: {
         frequency: {
           label: 'Frequency',
@@ -214,7 +214,7 @@ var globals = {
     },
     filter_notch: {
       label: "Notch",
-      type: 6,
+      type: 'notch',
       params: {
         frequency: {
           label: 'Frequency',
@@ -232,7 +232,7 @@ var globals = {
     },
     filter_allpass: {
       label: "Allpass",
-      type: 7,
+      type: 'allpass',
       params: {
         frequency: {
           label: 'Frequency',
@@ -391,4 +391,5 @@ var globals = {
   }
 }
 
-globals.audioContext = new AudioContext();
+var context = window.AudioContext || window.webkitAudioContext;
+globals.audioContext = new context();
