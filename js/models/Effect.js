@@ -62,7 +62,11 @@ var Effect = Backbone.Model.extend({
           break;
       }
       _(this.params).each(function(val, key) {
-        effectObj[key].value = val.values[i];
+        if (val.values.length === 0) {
+          effectObj[key].value = val.defaultValue;
+        } else {
+          effectObj[key].value = val.values[i];
+        }
       });
     }
 
