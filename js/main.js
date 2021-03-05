@@ -9,12 +9,10 @@
 */
 
 $(function() {
-  if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
-    var appView = new AppView({
-      model: app
-    });
+  var appView = new AppView({
+    model: app
+  });
 
-    $(document.body).append(appView.render().el);
-    appView.handleWindowResize();
-  }
+  $(document.body).append(appView.render().el);
+  appView.handleWindowResize();
 });

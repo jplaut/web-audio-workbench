@@ -95,6 +95,9 @@ var TrackControlsView = Backbone.View.extend({
     }
   },
   setSample: function(e) {
+    globals.audioContext.resume().then(() => {
+      console.log('Playback resumed successfully');
+    });
     var supportedTypes = [".wav", ".mp3", ".aac", ".ogg"];
     if (!e.currentTarget.files[0].name.match(new RegExp("\\" + supportedTypes.join("|\\") + "$"))) {
       alert("File must be one of the following formats: \n" + supportedTypes.join("\n"));
